@@ -9,32 +9,41 @@ import javax.swing.JLabel;
 
 
 public class GUIHome {
+	private JFrame frame;
+	private JButton button;
 
 	public GUIHome() {
 		// TODO Auto-generated constructor stub
-		JFrame frame = new JFrame();
-		JButton button = new JButton("Start");
+		frame = new JFrame();
+		button = new JButton("Start");
 		button.setBounds(350, 450, 80, 25);
-		button.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				GUIChooseUserType choose = new GUIChooseUserType();
-				frame.dispose();
-			}
-			
-		});
+		addStartButtonFunction();
 		frame.add(button);
-		
-		ImageIcon icon = new ImageIcon("Welcome.jpg");
-		JLabel label = new JLabel();
-		label.setIcon(icon);
-		frame.getContentPane().add(label);
-		
-		frame.setSize(800,600);
+		addBackgroundPic();
+		frame.setSize(800,550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
 	
+	public void addStartButtonFunction() {
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				GUIChooseUserType choose = new GUIChooseUserType();
+				closeFrame();
+			}
+		});
+	}
+	
+	public void addBackgroundPic() {
+		ImageIcon icon = new ImageIcon("Welcome.jpg");
+		JLabel label = new JLabel();
+		label.setIcon(icon);
+		frame.getContentPane().add(label);
+	}
+	
+	public void closeFrame() {
+		frame.dispose();
+	}
 }

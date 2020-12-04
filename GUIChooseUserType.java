@@ -1,4 +1,4 @@
-import java.awt.Dimension;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -6,48 +6,64 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+
 
 
 public class GUIChooseUserType {
+	private JFrame frame;
+	private JButton userButton;
+	private JButton managerButton;
 
 	public GUIChooseUserType() {
-		JFrame frame = new JFrame();
-		JPanel panel = new JPanel();
-		frame.setSize(500,500);
+		frame = new JFrame();	
+		userButton = new JButton("I am User");
+		userButton.setBounds(100, 80, 160, 25);		
+		addUserButtonFunction();
+		frame.add(userButton);	
+		
+		managerButton = new JButton("I am Manager");
+		managerButton.setBounds(300, 80, 160, 25);
+		addManagerButtonFunction();
+		frame.add(managerButton);
+		
+		addBackgroundPic();
+		
+		frame.setSize(800,550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		frame.add(panel);
-		
-		panel.setLayout(null);
-		
-		JButton button = new JButton("I am User");
-		button.setBounds(100, 80, 160, 25);
-		
-		button.addActionListener(new ActionListener() {
+			
+	}
+	
+	public void addUserButtonFunction() {
+		userButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				GUILogin login = new GUILogin(UserType.CUSTOMER);
-				frame.dispose();
+				closeFrame();
 			}	
 		});
-		panel.add(button);	
-		
-		JButton button2 = new JButton("I am Manager");
-		button2.setBounds(300, 80, 160, 25);
-		button2.addActionListener(new ActionListener() {
+	}
+	
+	public void addManagerButtonFunction() {
+		managerButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				GUILogin login = new GUILogin(UserType.ADMIN);
-				frame.dispose();
+				closeFrame();
 			}		
 		});
-		panel.add(button2);
-		
-		
-		
-		frame.setVisible(true);	
+	}
+	
+	public void addBackgroundPic() {
+		ImageIcon icon = new ImageIcon("Welcome.jpg");
+		JLabel label = new JLabel();
+		label.setIcon(icon);
+		frame.getContentPane().add(label);
+	}
+	
+	public void closeFrame() {
+		frame.dispose();
 	}
 }
