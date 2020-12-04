@@ -6,10 +6,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.Timer;
 
 public class GUILogin {
+	private Timer timer = null;
 
-	public GUILogin() {
+	public GUILogin(UserType userType) {
 		// TODO Auto-generated constructor stub
 		JFrame frame = new JFrame();
 		JPanel panel = new JPanel();
@@ -51,16 +53,44 @@ public class GUILogin {
 				String userName = userText.getText();
 				String password = pswText.getText();
 				//TODO: search database to see if userName and password match any record.
-				if(userName.equals("Ling") && password.equals("abc")) {
-					success.setText("Login Successful!");
-				} else {
-					success.setText("Invalid username or password.");
+				if(userType.equals(UserType.CUSTOMER)) {//search customer
+					timer = new Timer(1000, new ActionListener() {//after 1 sec, go to Customer Menu
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub
+							GUICustomerHome customerHome = new GUICustomerHome();
+							timer.stop();
+							frame.dispose();
+						}
+					});
+					if(userName.equals("Ling") && password.equals("abc")) {
+						success.setText("Customer Login Successful!");
+						timer.start();
+						
+					} else {
+						success.setText("Invalid username or password.");
+					}
+				} else if(userType.equals(UserType.ADMIN)) { //search manager
+					timer = new Timer(1000, new ActionListener() {//after 1 sec, go to Customer Menu
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub
+							GUIAdminHome adminHome = new GUIAdminHome();
+							timer.stop();
+							frame.dispose();
+						}
+					});
+					if(userName.equals("Manager") && password.equals("abc")) {
+						success.setText("Admin Login Successful!");
+						timer.start();
+					} else {
+						success.setText("Invalid username or password.");
+					}
 				}
 			}
 			
 		});
-		panel.add(button);
-		
+		panel.add(button);	
 		frame.setVisible(true);		
 	}
 }

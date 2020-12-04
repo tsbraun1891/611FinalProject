@@ -20,7 +20,7 @@ public class GUIHome {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				GUILogin login = new GUILogin();
+				GUIChooseUserType choose = new GUIChooseUserType();
 				frame.dispose();
 			}
 			
@@ -32,7 +32,7 @@ public class GUIHome {
 		label.setIcon(icon);
 		frame.getContentPane().add(label);
 		
-		frame.setSize(500,500);
+		frame.setSize(800,600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
