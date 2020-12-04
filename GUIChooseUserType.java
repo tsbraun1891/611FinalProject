@@ -1,4 +1,5 @@
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -17,12 +18,13 @@ public class GUIChooseUserType {
 	public GUIChooseUserType() {
 		frame = new JFrame();	
 		userButton = new JButton("I am User");
-		userButton.setBounds(100, 80, 160, 25);		
+		userButton.setBounds(200, 270, 160, 25);		
 		addUserButtonFunction();
-		frame.add(userButton);	
+		frame.add(userButton);
+		
 		
 		managerButton = new JButton("I am Manager");
-		managerButton.setBounds(300, 80, 160, 25);
+		managerButton.setBounds(450, 270, 160, 25);
 		addManagerButtonFunction();
 		frame.add(managerButton);
 		

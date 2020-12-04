@@ -24,28 +24,28 @@ public class GUILogin {
 		frame = new JFrame();
 		
 		JLabel userLabel = new JLabel("User");
-		userLabel.setBounds(10,20,80,25);
+		userLabel.setBounds(250,200,80,25);
 		frame.add(userLabel);
 		
 		userText = new JTextField();
-		userText.setBounds(100,20,165,25);
+		userText.setBounds(350,200,165,25);
 		frame.add(userText);
 		
 		
 		JLabel pswLabel = new JLabel("Password");
-		pswLabel.setBounds(10,50,80,25);
+		pswLabel.setBounds(250,250,80,25);
 		frame.add(pswLabel);
 		
 		pswText = new JTextField();
-		pswText.setBounds(100,50,165,25);
+		pswText.setBounds(350,250,165,25);
 		frame.add(pswText);
 		
 		success  = new JLabel("");
-		success.setBounds(10,110,300,25);
+		success.setBounds(250,350,300,25);
 		frame.add(success);
 		
 		loginButton = new JButton("Login");
-		loginButton.setBounds(10, 80, 80, 25);
+		loginButton.setBounds(250,300, 80, 25);
 		addLoginButtonFunction();
 		frame.add(loginButton);	
 		
