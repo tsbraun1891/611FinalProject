@@ -37,4 +37,17 @@ public class Currency {
     public double convertFromCurrency(double amount) {
         return amount / this.getExchangeRate();
     }
+
+    /**
+     * Converts the given amount from this currency to the other given currency
+     * @param amount
+     * @param newCurrency
+     * @return the amount after the conversion
+     */
+    public double convertFromCurrencyToOther(double amount, Currency newCurrency) {
+        amount = this.convertFromCurrency(amount);
+        amount = newCurrency.convertToCurrency(amount);
+
+        return amount;
+    }
 }

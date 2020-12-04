@@ -1,5 +1,5 @@
 public class Savings extends Account {
-    double threshold, rate;
+    private double threshold, rate;
     
     /**
      * Create a new savings account
@@ -23,22 +23,34 @@ public class Savings extends Account {
         return this.threshold;
     }
 
+    public void setInterestRate(double newRate) {
+        this.rate = newRate;
+    }
+
+    public void setThreshold(double newThreshold) {
+        this.threshold = newThreshold;
+    }
+
     /**
      * Function to call at the end of every month. Interest is generated at
      * the end of every month.
+     * @return the balance after a month passes
      */
-    public void passOneMonth() {
+    public double passOneMonth() {
         if(this.balance >= this.threshold) {
             this.balance += this.balance * this.rate;
         }
+
+        return this.balance;
     }
 
     /**
      * Change all of the funds in this account to the new currency type and convert
      * according to the given exchange rate
      * @param newCurrency - the new currency type
+     * @return the new balance after changing the currency
      */
-    public void setCurrency(Currency newCurrency) {
+    public double setCurrency(Currency newCurrency) {
         this.balance = currency.convertFromCurrency(this.balance);
         this.threshold = currency.convertFromCurrency(this.threshold);
 
@@ -46,5 +58,7 @@ public class Savings extends Account {
 
         this.balance = currency.convertToCurrency(this.balance);
         this.threshold = currency.convertToCurrency(this.threshold);
+
+        return this.balance;
     }
 }

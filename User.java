@@ -1,20 +1,20 @@
 
-public class User {
+public class User extends BalanceHolder {
 
 	protected int userId;
 	protected String firstName;
 	protected String lastName;
 	protected String userName;
 	protected String password;
-	protected double balance;
+    
 
-	public User(int userId, String fistName, String lastName, String username, String password, double balance) {
+	public User(int userId, String fistName, String lastName, String username, String password, double balance, Currency currency) {
+        super(balance, currency);
 		setUserId(userId);
 		setFirstName(fistName);
 		setLastName(lastName);
 		setUserName(username);
 		setPassword(password);
-		setBalance(balance);
 	}
 	
 	//getter and setter for user
@@ -58,7 +58,6 @@ public class User {
 	}
 	public double getBalance() {
 		return this.balance;
-	}
-	
+    }
 	
 }

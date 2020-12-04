@@ -1,8 +1,7 @@
 
-public abstract class Account {
+public abstract class Account extends BalanceHolder {
     protected User owner;
-    protected Currency currency;
-    protected double balance;
+    
 
     /**
      * Create a new account
@@ -11,18 +10,12 @@ public abstract class Account {
      * @param balance - the current amount of that currency in this account
      */
     public Account(User owner, Currency currency, double balance) {
-        this.owner = owner;
-        this.currency = currency;
+        super(balance, currency);
+
         this.balance = balance;
     }
 
-    public Currency getCurrencyType() {
-        return currency;
-    }
-
-    public double getBalance() {
-        return balance;
-    }
+    
 
     public User getOwner() {
         return owner;
@@ -37,14 +30,13 @@ public abstract class Account {
     }
 
     /**
-     * Change all of the funds in this account to the new currency type and convert
-     * according to the given exchange rate
-     * @param newCurrency - the new currency type
+     * Withdraws the given amount and gives it to the owner of the account
+     * @param amountToWithdraw - amount to withdraw (in the current currency type)
+     * @return the new balance of the account
      */
-    public void setCurrency(Currency newCurrency) {
-        this.balance = currency.convertFromCurrency(this.balance);
-        this.currency = newCurrency;
-        this.balance = currency.convertToCurrency(this.balance);
+    public double withdrawFromAccount(double amountToWithdraw) {
+        this.subtractFromBalance(amountToWithdraw);
+        this.owner.addToBalance(amountToWithdraw);
+        return this.balance;
     }
-
 }
