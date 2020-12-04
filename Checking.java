@@ -1,13 +1,5 @@
 public class Checking extends Account {
-<<<<<<< Updated upstream
     private double fee;
-=======
-
-	public Checking(User owner, Currency currency, double balance) {
-		super(owner, currency, balance);
-		// TODO Auto-generated constructor stub
-	}
->>>>>>> Stashed changes
     
     /**
      * Create a new account
