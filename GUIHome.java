@@ -16,7 +16,7 @@ public class GUIHome {
 		// TODO Auto-generated constructor stub
 		frame = new JFrame();
 		button = new JButton("Start");
-		button.setBounds(350, 450, 80, 25);
+		button.setBounds(365, 450, 80, 25);
 		addStartButtonFunction();
 		frame.add(button);
 		addBackgroundPic();
