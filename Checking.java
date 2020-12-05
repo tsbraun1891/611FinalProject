@@ -1,13 +1,5 @@
 public class Checking extends Account {
-<<<<<<< Updated upstream
     private double fee;
-=======
-
-	public Checking(User owner, Currency currency, double balance) {
-		super(owner, currency, balance);
-		// TODO Auto-generated constructor stub
-	}
->>>>>>> Stashed changes
     
     /**
      * Create a new account
@@ -21,11 +13,11 @@ public class Checking extends Account {
         this.fee = feeRate; 
     }
 
-    public double getFee() {
+    public double getFeeRate() {
         return this.fee;
     }
 
-    public void setFee(double newFeeRate) {
+    public void setFeeRate(double newFeeRate) {
         this.fee = newFeeRate;
     }
 
