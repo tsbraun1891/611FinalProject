@@ -1,49 +1,70 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.Timer;
 
 public class GUILogin {
+	private UserType userType;
+	private Timer timer = null;
+	private JFrame frame;
+	private JLabel success;
+	private JButton loginButton;
+	private JTextField userText;
+	private JTextField pswText;
 
-	public GUILogin() {
+	public GUILogin(UserType userType) {
 		// TODO Auto-generated constructor stub
-		JFrame frame = new JFrame();
-		JPanel panel = new JPanel();
-		frame.setSize(500,500);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
-		frame.add(panel);
-		
-		panel.setLayout(null);
+		this.userType = userType;
+		frame = new JFrame();
 		
 		JLabel userLabel = new JLabel("User");
-		userLabel.setBounds(10,20,80,25);
-		panel.add(userLabel);
+		userLabel.setBounds(250,200,80,25);
+		frame.add(userLabel);
 		
-		JTextField userText = new JTextField();
-		userText.setBounds(100,20,165,25);
-		panel.add(userText);
+		userText = new JTextField();
+		userText.setBounds(350,200,165,25);
+		frame.add(userText);
 		
 		
 		JLabel pswLabel = new JLabel("Password");
-		pswLabel.setBounds(10,50,80,25);
-		panel.add(pswLabel);
+		pswLabel.setBounds(250,250,80,25);
+		frame.add(pswLabel);
 		
-		JTextField pswText = new JTextField();
-		pswText.setBounds(100,50,165,25);
-		panel.add(pswText);
+		pswText = new JTextField();
+		pswText.setBounds(350,250,165,25);
+		frame.add(pswText);
 		
-		JLabel success  = new JLabel("");
-		success.setBounds(10,110,300,25);
-		panel.add(success);
+		success  = new JLabel("");
+		success.setBounds(250,350,300,25);
+		frame.add(success);
 		
-		JButton button = new JButton("Login");
-		button.setBounds(10, 80, 80, 25);
-		button.addActionListener(new ActionListener() {
+		loginButton = new JButton("Login");
+		loginButton.setBounds(250,300, 80, 25);
+		addLoginButtonFunction();
+		frame.add(loginButton);	
+		
+		addBackgroundPic();
+		
+		frame.setSize(800,550);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);	
+	}
+	
+	public void addBackgroundPic() {
+		ImageIcon icon = new ImageIcon("bg.jpg");
+		JLabel label = new JLabel();
+		label.setIcon(icon);
+		frame.getContentPane().add(label);
+	}
+	
+	public void addLoginButtonFunction() {
+		loginButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -51,16 +72,46 @@ public class GUILogin {
 				String userName = userText.getText();
 				String password = pswText.getText();
 				//TODO: search database to see if userName and password match any record.
-				if(userName.equals("Ling") && password.equals("abc")) {
-					success.setText("Login Successful!");
-				} else {
-					success.setText("Invalid username or password.");
+				if(userType.equals(UserType.CUSTOMER)) {//search customer
+					timer = new Timer(1000, new ActionListener() {//after 1 sec, go to Customer Menu
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub
+							GUICustomerHome customerHome = new GUICustomerHome();
+							timer.stop();
+							closeFrame();
+						}
+					});
+					if(userName.equals("Ling") && password.equals("abc")) {
+						success.setText("Customer Login Successful!");
+						timer.start();
+						
+					} else {
+						success.setText("Invalid username or password.");
+					}
+				} else if(userType.equals(UserType.ADMIN)) { //search manager
+					timer = new Timer(1000, new ActionListener() {//after 1 sec, go to Customer Menu
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub
+							GUIAdminHome adminHome = new GUIAdminHome();
+							timer.stop();
+							closeFrame();
+						}
+					});
+					if(userName.equals("Manager") && password.equals("abc")) {
+						success.setText("Admin Login Successful!");
+						timer.start();
+					} else {
+						success.setText("Invalid username or password.");
+					}
 				}
 			}
 			
 		});
-		panel.add(button);
-		
-		frame.setVisible(true);		
+	}
+	
+	public void closeFrame() {
+		frame.dispose();
 	}
 }
