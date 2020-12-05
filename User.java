@@ -1,5 +1,5 @@
 
-public class User extends BalanceHolder {
+public class User extends BalanceHandler {
 
 	protected int userId;
 	protected String firstName;
@@ -52,12 +52,5 @@ public class User extends BalanceHolder {
 	public String getPassword() {
 		return this.password;
 	}
-	
-	public void setBalance(double balance) {
-		this.balance = balance;
-	}
-	public double getBalance() {
-		return this.balance;
-    }
 	
 }

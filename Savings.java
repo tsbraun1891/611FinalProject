@@ -9,8 +9,8 @@ public class Savings extends Account {
      * @param interestThreshold - the amount of money the account needs to have in order to start generating interest (in the given currency type)
      * @param interestRate - the rate of interest that this account can generate
      */
-    public Savings(User owner, Currency currency, double balance, double interestThreshold, double interestRate) {
-        super(owner, currency, balance);
+    public Savings(User owner, Currency currency, double balance, double feeRate, double interestThreshold, double interestRate) {
+        super(owner, currency, balance, feeRate);
         this.threshold = interestThreshold;
         this.rate = interestRate;
     }

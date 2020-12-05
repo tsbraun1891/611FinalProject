@@ -1,8 +1,8 @@
-public abstract class BalanceHolder {
+public abstract class BalanceHandler {
     protected Currency currency;
     protected double balance;
 
-    public BalanceHolder(double startingBalance, Currency currency) {
+    public BalanceHandler(double startingBalance, Currency currency) {
         this.currency = currency;
         this.balance = startingBalance;
     }
@@ -73,9 +73,9 @@ public abstract class BalanceHolder {
      * @param currencyType - the currency type that this amount is given in
      * @return new balance amount
      */
-    public double subtractFromBalance(double additionalFunds, Currency currencyType) {
-        additionalFunds = currencyType.convertFromCurrencyToOther(additionalFunds, this.currency);
-        this.setBalance(this.getBalance() - additionalFunds);
+    public double subtractFromBalance(double amountToSubtract, Currency currencyType) {
+        amountToSubtract = currencyType.convertFromCurrencyToOther(amountToSubtract, this.currency);
+        this.setBalance(this.getBalance() - amountToSubtract);
 
         return this.getBalance();
     }
