@@ -52,4 +52,33 @@ public class Customer extends User{
         }
     }
 	
+	//get total balance of customer
+	public double getTotalBalance() {
+		return getSavingBalance()+ getCheckingBalance()+ getSecuritiesBalance();
+	}
+	
+	private double getSavingBalance() {
+		double balance = 0;
+		for(Savings c: savings) {
+			balance += c.getBalance();
+		}
+		return balance;
+	}
+	
+	private double getCheckingBalance() {
+		double balance = 0;
+		for(Checking c: checking) {
+			balance += c.getBalance();
+		}
+		return balance;
+	}
+	
+	private double getSecuritiesBalance() {
+		double balance = 0;
+		for(Securities c: securities) {
+			balance += c.getBalance();
+		}
+		return balance;
+	}
+	
 }

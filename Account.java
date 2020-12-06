@@ -132,4 +132,8 @@ public abstract class Account extends BalanceHandler {
     public void transfer(Account o, double amount) {
         transaction.transfer(o,amount);
     }
+    
+    public double getBalance() {
+    	return this.balance;
+    }
 }
