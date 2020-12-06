@@ -4,6 +4,7 @@ public abstract class Account extends BalanceHandler {
     protected boolean isOpen;
     protected double fee;
     
+    protected Transaction transaction;
 
     /**
      * Create a new account
@@ -125,5 +126,10 @@ public abstract class Account extends BalanceHandler {
         }
 
         return false;
+    }
+    
+    
+    public void transfer(Account o, double amount) {
+        transaction.transfer(o,amount);
     }
 }
