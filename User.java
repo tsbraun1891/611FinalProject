@@ -8,10 +8,10 @@ public class User extends BalanceHandler {
 	protected String password;
     
 
-	public User(int userId, String fistName, String lastName, String username, String password, double balance, Currency currency) {
+	public User(int userId, String firstName, String lastName, String username, String password, double balance, Currency currency) {
         super(balance, currency);
 		setUserId(userId);
-		setFirstName(fistName);
+		setFirstName(firstName);
 		setLastName(lastName);
 		setUserName(username);
 		setPassword(password);
