@@ -87,7 +87,7 @@ public class GUICustomerHome {
 
 	private void addRequestLoanButtonFunction() {
 		// TODO Auto-generated method stub
-		withdrawalButton.addActionListener(new ActionListener() {
+		requestLoanButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
