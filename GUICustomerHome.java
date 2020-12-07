@@ -13,16 +13,16 @@ public class GUICustomerHome {
 	private JButton openAcctButton;
 	private JButton transferButton;
 	private JButton requestLoanButton;
-	private JButton viewTxnButton;//Txn - shortform for transaction
+	private JButton viewAcctButton;//Txn - shortform for transaction
 	private JButton quitButton;
 	
 	public GUICustomerHome() {
 		frame = new JFrame();
 		
-		viewTxnButton = new JButton("View Balance/Transaction");
-		viewTxnButton.setBounds(300, 150, 200, 25);		
-		addViewTxnButtonFunction();
-		frame.add(viewTxnButton);
+		viewAcctButton = new JButton("View Account");
+		viewAcctButton.setBounds(300, 150, 200, 25);		
+		addViewAcctButtonFunction();
+		frame.add(viewAcctButton);
 		
 		depositButton = new JButton("Deposit");
 		depositButton.setBounds(300, 180, 200, 25);
@@ -134,13 +134,13 @@ public class GUICustomerHome {
 		});
 	}
 
-	private void addViewTxnButtonFunction() {
+	private void addViewAcctButtonFunction() {
 		// TODO Auto-generated method stub
-		viewTxnButton.addActionListener(new ActionListener() {
+		viewAcctButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				GUIViewTransaction viewTxn = new GUIViewTransaction();
+				GUIViewAcct viewAcct = new GUIViewAcct();
 				closeFrame();
 			}		
 		});
