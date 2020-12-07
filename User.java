@@ -1,5 +1,5 @@
 
-public class User extends BalanceHolder {
+public class User extends BalanceHandler {
 
 	protected int userId;
 	protected String firstName;
@@ -8,10 +8,10 @@ public class User extends BalanceHolder {
 	protected String password;
     
 
-	public User(int userId, String fistName, String lastName, String username, String password, double balance, Currency currency) {
+	public User(int userId, String firstName, String lastName, String username, String password, double balance, Currency currency) {
         super(balance, currency);
 		setUserId(userId);
-		setFirstName(fistName);
+		setFirstName(firstName);
 		setLastName(lastName);
 		setUserName(username);
 		setPassword(password);
@@ -52,12 +52,5 @@ public class User extends BalanceHolder {
 	public String getPassword() {
 		return this.password;
 	}
-	
-	public void setBalance(double balance) {
-		this.balance = balance;
-	}
-	public double getBalance() {
-		return this.balance;
-    }
 	
 }

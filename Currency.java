@@ -1,5 +1,5 @@
 public class Currency {
-    protected String name, desc;
+    protected String name, desc, symbol;
     protected double exchangeRate;
 
     /**
@@ -8,9 +8,10 @@ public class Currency {
      * @param desc - A 3 letter abbreviation of the name
      * @param exchangeRate - The exchange rate between this amount and a standard used 
      */
-    public Currency(String name, String desc, double exchangeRate) {
+    public Currency(String name, String desc, String symbol, double exchangeRate) {
         this.name = name;
         this.desc = desc;
+        this.symbol = symbol;
         this.exchangeRate = exchangeRate;
     }
 
@@ -22,7 +23,11 @@ public class Currency {
         return this.desc;
     }
 
-    private double getExchangeRate() {
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public double getExchangeRate() {
         return this.exchangeRate;
     }
 
