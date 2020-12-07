@@ -15,6 +15,7 @@ public class GUILogin {
 	private JFrame frame;
 	private JLabel success;
 	private JButton loginButton;
+	private JButton registerButton;
 	private JTextField userText;
 	private JTextField pswText;
 
@@ -48,6 +49,8 @@ public class GUILogin {
 		loginButton.setBounds(250,300, 80, 25);
 		addLoginButtonFunction();
 		frame.add(loginButton);	
+		
+		addRegisterButton();
 		
 		addBackgroundPic();
 		
@@ -109,6 +112,24 @@ public class GUILogin {
 			}
 			
 		});
+	}
+	
+	public void addRegisterButton() {
+		if(userType.equals(UserType.CUSTOMER)) {
+			registerButton = new JButton("Register");
+			registerButton.setBounds(400,300, 80, 25);
+			registerButton.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					GUIRegisterUserAccount register = new GUIRegisterUserAccount();
+					closeFrame();
+				}
+				
+			});
+			frame.add(registerButton);	
+		}
 	}
 	
 	public void closeFrame() {

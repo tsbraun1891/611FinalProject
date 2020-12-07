@@ -1,5 +1,4 @@
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -17,7 +16,7 @@ public class GUIChooseUserType {
 
 	public GUIChooseUserType() {
 		frame = new JFrame();	
-		userButton = new JButton("I am User");
+		userButton = new JButton("I am Customer");
 		userButton.setBounds(200, 270, 160, 25);		
 		addUserButtonFunction();
 		frame.add(userButton);
