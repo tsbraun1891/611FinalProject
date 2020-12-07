@@ -18,9 +18,10 @@ public class GUIViewAcct {
 	public GUIViewAcct() {
 		frame = new JFrame();
 		
+		//if customer.getCheckingAccount != null {
 		JLabel checking = new JLabel("Checking Acct:");//+ account.getBalance()
 		checking.setBounds(100, 150, 160, 25);
-		//if customer.getCheckingAccount != null {
+
 		frame.add(checking);
 	
 		viewCheckingTxnButton = new JButton("View Transaction");
@@ -35,9 +36,9 @@ public class GUIViewAcct {
 		
 		//}
 		
+		//if customer.getSavingAccount != null
 		JLabel saving = new JLabel("Saving Acct:");//+ account.getBalance()
 		saving.setBounds(100, 200, 160, 25);
-		//if customer.getSavingAccount != null
 		frame.add(saving);
 		
 		viewSavingTxnButton = new JButton("View Transaction");
@@ -74,7 +75,7 @@ public class GUIViewAcct {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				GUIViewTransactionHistory history = new GUIViewTransactionHistory();
+				GUIViewTransactionHistory history = new GUIViewTransactionHistory(AccountType.CHECKING);
 				closeFrame();
 			}		
 		});
@@ -86,7 +87,7 @@ public class GUIViewAcct {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				GUIConvertCurrency convert = new GUIConvertCurrency();
+				GUIConvertCurrency convert = new GUIConvertCurrency(AccountType.CHECKING);
 				closeFrame();
 			}		
 		});
@@ -98,7 +99,7 @@ public class GUIViewAcct {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				GUIViewTransactionHistory history = new GUIViewTransactionHistory();
+				GUIViewTransactionHistory history = new GUIViewTransactionHistory(AccountType.SAVING);
 				closeFrame();
 			}		
 		});
@@ -110,7 +111,7 @@ public class GUIViewAcct {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				GUIConvertCurrency convert = new GUIConvertCurrency();
+				GUIConvertCurrency convert = new GUIConvertCurrency(AccountType.SAVING);
 				closeFrame();
 			}		
 		});
