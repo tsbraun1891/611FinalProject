@@ -15,8 +15,9 @@ public class GUICustomerHome {
 	private JButton requestLoanButton;
 	private JButton viewAcctButton;//Txn - shortform for transaction
 	private JButton quitButton;
+	private JButton backButton;
 	
-	public GUICustomerHome() {
+	public GUICustomerHome(){
 		frame = new JFrame();
 		
 		viewAcctButton = new JButton("View Account");
@@ -49,6 +50,11 @@ public class GUICustomerHome {
 		addOpenAcctButtonFunction();
 		frame.add(openAcctButton);
 		
+		backButton = new JButton("Back");
+		backButton.setBounds(10, 500, 80, 25);
+		addBackButtonFunction();
+		frame.add(backButton);
+		
 		quitButton = new JButton("Quit");
 		quitButton.setBounds(710, 500, 80, 25);
 		addQuitButtonFunction();
@@ -69,6 +75,17 @@ public class GUICustomerHome {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				GUIQuit quit = new GUIQuit();
+				closeFrame();
+			}		
+		});
+	}
+	
+	private void addBackButtonFunction() {
+		backButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				GUILogin login = new GUILogin(UserType.CUSTOMER);
 				closeFrame();
 			}		
 		});
