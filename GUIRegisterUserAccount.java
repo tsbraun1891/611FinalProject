@@ -14,7 +14,11 @@ public class GUIRegisterUserAccount {
 	private Timer timer = null;
 	private JLabel success;
 	private JButton registerButton;
+	private JButton quitButton;
+	private JButton backButton;
 	private JTextField userText;
+	private JTextField fNameText;
+	private JTextField lNameText;
 	private JTextField pswText;
 	
 	public GUIRegisterUserAccount() {//TODO: link create new account. 
@@ -41,19 +45,47 @@ public class GUIRegisterUserAccount {
 		pswText.setBounds(350,250,165,25);
 		frame.add(pswText);
 		
+		JLabel fNameLabel = new JLabel("First Name");
+		fNameLabel.setBounds(250,300,80,25);
+		frame.add(fNameLabel);
+		
+		fNameText = new JTextField();
+		fNameText.setBounds(350,300,165,25);
+		frame.add(fNameText);
+		
+		JLabel lNameLabel = new JLabel("Last Name");
+		lNameLabel.setBounds(250,350,80,25);
+		frame.add(lNameLabel);
+		
+		lNameText = new JTextField();
+		lNameText.setBounds(350,350,165,25);
+		frame.add(lNameText);
+		
 		success  = new JLabel("");
-		success.setBounds(250,350,300,25);
+		success.setBounds(250,420,300,25);
 		frame.add(success);
 		
 		registerButton = new JButton("Register");
-		registerButton.setBounds(250,300, 80, 25);
+		registerButton.setBounds(250,400, 80, 25);
 		addRegisterButtonFunction();
 		frame.add(registerButton);	
+		
+
+		backButton = new JButton("Back");
+		backButton.setBounds(10, 500, 80, 25);
+		addBackButtonFunction();
+		frame.add(backButton);
+		
+		quitButton = new JButton("Quit");
+		quitButton.setBounds(710, 500, 80, 25);
+		addQuitButtonFunction();
+		frame.add(quitButton);
 		
 		addBackgroundPic();
 		
 		frame.setSize(800,550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
 	
@@ -83,6 +115,29 @@ public class GUIRegisterUserAccount {
 				}
 			}
 			
+		});
+	}
+	
+	private void addBackButtonFunction() {
+		backButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				GUILogin in = new GUILogin(UserType.CUSTOMER);
+				closeFrame();
+			}		
+		});
+	}
+	
+	private void addQuitButtonFunction() {
+		// TODO Auto-generated method stub
+		quitButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				GUIQuit quit = new GUIQuit();
+				closeFrame();
+			}		
 		});
 	}
 	
