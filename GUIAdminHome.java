@@ -10,6 +10,7 @@ public class GUIAdminHome {
 	private JFrame frame;
 	private JButton dailyReportButton;
 	private JButton checkCustomerButton;
+	private JButton backButton;
 	private JButton quitButton;
 	
 	public GUIAdminHome() {
@@ -19,10 +20,15 @@ public class GUIAdminHome {
 		addDailyReportButtonFunction();
 		frame.add(dailyReportButton);
 		
-		checkCustomerButton = new JButton("Check Customer");//????????????????????
+		checkCustomerButton = new JButton("Check Customer");
 		checkCustomerButton.setBounds(300, 240, 200, 25);
 		addCheckCustomerButtonFunction();
 		frame.add(checkCustomerButton);
+		
+		backButton = new JButton("Back");
+		backButton.setBounds(10, 500, 80, 25);
+		addBackButtonFunction();
+		frame.add(backButton);
 		
 		quitButton = new JButton("Quit");
 		quitButton.setBounds(710, 500, 80, 25);
@@ -33,9 +39,21 @@ public class GUIAdminHome {
 		
 		frame.setSize(800,550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
 
+	private void addBackButtonFunction() {
+		backButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				GUILogin in = new GUILogin(UserType.ADMIN);
+				closeFrame();
+			}		
+		});
+	}
+	
 	private void addQuitButtonFunction() {
 		// TODO Auto-generated method stub
 		quitButton.addActionListener(new ActionListener() {

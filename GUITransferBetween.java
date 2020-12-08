@@ -10,31 +10,33 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-public class GUIWithdrawal {
+public class GUITransferBetween {
 	private JFrame frame;
 	private JButton submitButton;
 	private JButton quitButton;
 	private JButton backButton;
 	private JLabel success;
 	private JComboBox combo;
-	private JTextField withdrawalAmountText;
+	private JComboBox combo2;
+	private JTextField transferAmountText;
+	private JTextField transferToText;
 	
-	public GUIWithdrawal() {
-		frame = new JFrame();
+	public GUITransferBetween() {
+		frame = new JFrame();	
 		
-		JLabel withdrawalAmount = new JLabel("Withdrawal Amount");
-		withdrawalAmount.setBounds(250,200,160,25);
-		frame.add(withdrawalAmount);
+		JLabel transferAmount = new JLabel("Transfer Amount");
+		transferAmount.setBounds(250,200,160,25);
+		frame.add(transferAmount);
 		
-		withdrawalAmountText = new JTextField();
-		withdrawalAmountText.setBounds(400,200,165,25);
-		frame.add(withdrawalAmountText);
+		transferAmountText = new JTextField();
+		transferAmountText.setBounds(400,200,165,25);
+		frame.add(transferAmountText);
 		
 		success  = new JLabel("");
-		success.setBounds(250,350,300,25);
+		success.setBounds(250,375,300,25);
 		frame.add(success);
 		
-		JLabel withdrawalFrom = new JLabel("Withdrawal From");
+		JLabel withdrawalFrom = new JLabel("Transfer From");//++wallet
 		withdrawalFrom.setBounds(250,250,160,25);
 		frame.add(withdrawalFrom);
 		
@@ -50,9 +52,24 @@ public class GUIWithdrawal {
 		accountPane.setBounds(400, 250,150, 30);
 		frame.add(accountPane);
 		
+		JLabel transferTo = new JLabel("Transfer To");
+		transferTo.setBounds(250,300,160,25);
+		frame.add(transferTo);
+		
+		DefaultComboBoxModel accounts2 = new DefaultComboBoxModel();
+		accounts2.addElement("account1");
+		accounts2.addElement("account2");
+		accounts2.addElement("account3");
+		
+		combo2 = new JComboBox(accounts2);
+		combo2.setSelectedIndex(0);
+		
+		JScrollPane accountPane2 = new JScrollPane(combo2);
+		accountPane2.setBounds(400,300,150,30);
+		frame.add(accountPane2);
 		
 		submitButton = new JButton("Submit");
-		submitButton.setBounds(250,300, 80, 25);
+		submitButton.setBounds(250,350, 80, 25);
 		addSubmitButtonFunction();
 		frame.add(submitButton);
 		
@@ -74,7 +91,6 @@ public class GUIWithdrawal {
 		frame.setVisible(true);
 	}
 	
-	
 	private void addSubmitButtonFunction() {
 		// TODO Auto-generated method stub	
 		submitButton.addActionListener(new ActionListener() {
@@ -82,9 +98,9 @@ public class GUIWithdrawal {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				try {
-					double amount = Double.parseDouble(withdrawalAmountText.getText());
-					String data = "";
+				try { //TODO: check if account 1 == account 2, if so, cant transfer to same account
+					double amount = Double.parseDouble(transferAmountText.getText());
+					String data = "";//TODO: if transferToText is found
 		            if (combo.getSelectedIndex() != -1) {                     
 		               data = "Accounts Selected: " 
 		                  + combo.getItemAt
@@ -98,12 +114,13 @@ public class GUIWithdrawal {
 			
 		});
 	}
+
 	private void addBackButtonFunction() {
 		backButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				GUICustomerHome home = new GUICustomerHome();
+				GUITransfer t = new GUITransfer();
 				closeFrame();
 			}		
 		});
@@ -132,4 +149,3 @@ public class GUIWithdrawal {
 		frame.dispose();
 	}
 }
-

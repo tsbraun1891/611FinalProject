@@ -13,6 +13,7 @@ public class GUIChooseUserType {
 	private JFrame frame;
 	private JButton userButton;
 	private JButton managerButton;
+	private JButton quitButton;
 
 	public GUIChooseUserType() {
 		frame = new JFrame();	
@@ -27,10 +28,16 @@ public class GUIChooseUserType {
 		addManagerButtonFunction();
 		frame.add(managerButton);
 		
+		quitButton = new JButton("Quit");
+		quitButton.setBounds(710, 500, 80, 25);
+		addQuitButtonFunction();
+		frame.add(quitButton);
+		
 		addBackgroundPic();
 		
 		frame.setSize(800,550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 			
 	}
@@ -62,6 +69,18 @@ public class GUIChooseUserType {
 		JLabel label = new JLabel();
 		label.setIcon(icon);
 		frame.getContentPane().add(label);
+	}
+	
+	private void addQuitButtonFunction() {
+		// TODO Auto-generated method stub
+		quitButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				GUIQuit quit = new GUIQuit();
+				closeFrame();
+			}		
+		});
 	}
 	
 	public void closeFrame() {

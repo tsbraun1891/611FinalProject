@@ -18,6 +18,8 @@ public class GUILogin {
 	private JButton registerButton;
 	private JTextField userText;
 	private JTextField pswText;
+	private JButton backButton;
+	private JButton quitButton;
 
 	public GUILogin(UserType userType) {
 		// TODO Auto-generated constructor stub
@@ -25,7 +27,13 @@ public class GUILogin {
 		timer = null;
 		frame = new JFrame();
 		
-		JLabel userLabel = new JLabel("User");
+		if(userType.equals(UserType.ADMIN)) {
+			frame.setTitle("Admin Login");
+		} else if (userType.equals(UserType.CUSTOMER)) {
+			frame.setTitle("Customer Login");
+		}
+		
+		JLabel userLabel = new JLabel("Username");
 		userLabel.setBounds(250,200,80,25);
 		frame.add(userLabel);
 		
@@ -53,10 +61,21 @@ public class GUILogin {
 		
 		addRegisterButton();
 		
+		backButton = new JButton("Back");
+		backButton.setBounds(10, 500, 80, 25);
+		addBackButtonFunction();
+		frame.add(backButton);
+		
+		quitButton = new JButton("Quit");
+		quitButton.setBounds(710, 500, 80, 25);
+		addQuitButtonFunction();
+		frame.add(quitButton);
+		
 		addBackgroundPic();
 		
 		frame.setSize(800,550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);	
 	}
 	
@@ -131,6 +150,29 @@ public class GUILogin {
 			});
 			frame.add(registerButton);	
 		}
+	}
+	
+	private void addBackButtonFunction() {
+		backButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				GUIChooseUserType type = new GUIChooseUserType();
+				closeFrame();
+			}		
+		});
+	}
+	
+	private void addQuitButtonFunction() {
+		// TODO Auto-generated method stub
+		quitButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				GUIQuit quit = new GUIQuit();
+				closeFrame();
+			}		
+		});
 	}
 	
 	public void closeFrame() {

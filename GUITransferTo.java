@@ -10,25 +10,26 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-public class GUIWithdrawal {
+public class GUITransferTo {
 	private JFrame frame;
 	private JButton submitButton;
 	private JButton quitButton;
 	private JButton backButton;
 	private JLabel success;
 	private JComboBox combo;
-	private JTextField withdrawalAmountText;
+	private JTextField transferAmountText;
+	private JTextField transferToText;
 	
-	public GUIWithdrawal() {
-		frame = new JFrame();
+	public GUITransferTo() {
+		frame  = new JFrame();
 		
-		JLabel withdrawalAmount = new JLabel("Withdrawal Amount");
-		withdrawalAmount.setBounds(250,200,160,25);
-		frame.add(withdrawalAmount);
+		JLabel transferAmount = new JLabel("Transfer Amount");
+		transferAmount.setBounds(250,200,160,25);
+		frame.add(transferAmount);
 		
-		withdrawalAmountText = new JTextField();
-		withdrawalAmountText.setBounds(400,200,165,25);
-		frame.add(withdrawalAmountText);
+		transferAmountText = new JTextField();
+		transferAmountText.setBounds(400,200,165,25);
+		frame.add(transferAmountText);
 		
 		success  = new JLabel("");
 		success.setBounds(250,350,300,25);
@@ -50,9 +51,21 @@ public class GUIWithdrawal {
 		accountPane.setBounds(400, 250,150, 30);
 		frame.add(accountPane);
 		
+		JLabel transferTo = new JLabel("Send Money To");
+		transferTo.setBounds(250,300,160,25);
+		frame.add(transferTo);
+		
+		transferToText = new JTextField();
+		transferToText.setBounds(400,300,165,25);
+		frame.add(transferToText);
+		
+		JLabel hint = new JLabel("Please provide username of the recipient");
+		hint.setBounds(250,320,300,25);
+		frame.add(hint);
+		
 		
 		submitButton = new JButton("Submit");
-		submitButton.setBounds(250,300, 80, 25);
+		submitButton.setBounds(250,370, 80, 25);
 		addSubmitButtonFunction();
 		frame.add(submitButton);
 		
@@ -74,7 +87,6 @@ public class GUIWithdrawal {
 		frame.setVisible(true);
 	}
 	
-	
 	private void addSubmitButtonFunction() {
 		// TODO Auto-generated method stub	
 		submitButton.addActionListener(new ActionListener() {
@@ -83,8 +95,8 @@ public class GUIWithdrawal {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				try {
-					double amount = Double.parseDouble(withdrawalAmountText.getText());
-					String data = "";
+					double amount = Double.parseDouble(transferAmountText.getText());
+					String data = "";//TODO: if transferToText is found
 		            if (combo.getSelectedIndex() != -1) {                     
 		               data = "Accounts Selected: " 
 		                  + combo.getItemAt
@@ -98,12 +110,13 @@ public class GUIWithdrawal {
 			
 		});
 	}
+
 	private void addBackButtonFunction() {
 		backButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				GUICustomerHome home = new GUICustomerHome();
+				GUITransfer t = new GUITransfer();
 				closeFrame();
 			}		
 		});
@@ -132,4 +145,3 @@ public class GUIWithdrawal {
 		frame.dispose();
 	}
 }
-
