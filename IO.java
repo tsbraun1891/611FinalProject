@@ -13,6 +13,34 @@ public class IO {
     }
 
     /**
+     * Delete a given file
+     * @param fileName - name of the file you want to delete
+     * @return whether or not the file was sucessfully deleted;
+     */
+    private boolean deleteFile(String fileName) {
+        File file = new File(fileName);
+
+        return file.delete();
+    }
+
+    /**
+     * Renames the given file name with the new name
+     * Deletes newFileName if it already exists
+     * @param fileName
+     * @param newFileName
+     * @return whether or not the rename was successful
+     */
+    public boolean renameFile(String fileName, String newFileName) {
+        File oldFile = new File(fileName);
+        File newFile = new File(newFileName);
+
+        if(newFile.exists())
+            this.deleteFile(newFileName);
+
+        return oldFile.renameTo(newFile);
+    }
+
+    /**
      * Writes multiple rows of data out to specified csv file
      * @param fileName - Name of the file to write to
      * @param linesToWrite - ArrayList of rows to write out to the file
@@ -31,40 +59,6 @@ public class IO {
         } catch (Exception e) {
             System.err.println(e);
         }       
-    }
-
-    /**
-     * Appends the given currency to the specified file (file is created if does not exist already)
-     * @param fileName - name of the currency csv file
-     * @param currency - the currency to be written out
-     */
-    public void writeCurrencyToFile(String fileName, Currency currency) {
-        ArrayList<ArrayList<String>> linesToWrite = new ArrayList<>();
-
-        /* If the currency file does not exist, we have to add the headers to our list*/
-        File check = new File(fileName);
-        if(!check.isFile()) {
-            ArrayList<String> headers = new ArrayList<>();
-
-            headers.add("Name");
-            headers.add("Desc");
-            headers.add("Symbol");
-            headers.add("ExchangeRate");
-
-            linesToWrite.add(headers);
-        }
-
-        ArrayList<String> currencyAttributes = new ArrayList<>();
-
-        currencyAttributes.add(currency.getName());
-        currencyAttributes.add(currency.getDesc());
-        currencyAttributes.add(currency.getSymbol());
-        currencyAttributes.add(String.valueOf(currency.getExchangeRate()));
-
-        linesToWrite.add(currencyAttributes);
-
-        /* Then we just turn our currency into a list of strings and call writeFile */
-        this.writeManyToFile(fileName, linesToWrite);
     }
 
     /**
@@ -97,6 +91,110 @@ public class IO {
 
             linesToWrite.add(currencyAttributes);
         }
+
+        /* Then we just turn our currency into a list of strings and call writeFile */
+        this.writeManyToFile(fileName, linesToWrite);
+    }
+
+    /**
+     * Appends the given users to the specified file (file is created if does not exist already)
+     * @param fileName - name of the user csv file
+     * @param users - the users to be written out
+     */
+    public void writeUsersToFile(String fileName, ArrayList<User> users) {
+        ArrayList<ArrayList<String>> linesToWrite = new ArrayList<>();
+
+        /* If the currency file does not exist, we have to add the headers to our list*/
+        File check = new File(fileName);
+        if(!check.isFile()) {
+            ArrayList<String> headers = new ArrayList<>();
+
+            headers.add("Type");
+            headers.add("UserID");
+            headers.add("Firstname");
+            headers.add("LastName");
+            headers.add("Username");
+            headers.add("Password");
+            headers.add("Balance");
+            headers.add("CurrencyDesc");
+
+            linesToWrite.add(headers);
+        }
+
+        for(User user : users) {
+            ArrayList<String> userAttributes = new ArrayList<>();
+            
+            if(user instanceof Admin) {
+                userAttributes.add("Admin");
+            } else {
+                userAttributes.add("Customer");
+            }
+    
+            userAttributes.add("" + user.getUserId());
+            userAttributes.add(user.getFirstName());
+            userAttributes.add(user.getLastName());
+            userAttributes.add(user.getUserName());
+            userAttributes.add(user.getPassword());
+            userAttributes.add(String.valueOf(user.getBalance()));
+            userAttributes.add(user.getCurrencyType().getDesc());
+    
+            linesToWrite.add(userAttributes);
+        }
+        
+
+        /* Then we just turn our currency into a list of strings and call writeFile */
+        this.writeManyToFile(fileName, linesToWrite);
+    }
+
+    /**
+     * Appends the given accounts to the specified file (file is created if does not exist already)
+     * @param fileName - name of the account csv file
+     * @param accounts - the accounts to be written out
+     */
+    public void writeAccountsToFile(String fileName, ArrayList<Account> accounts) {
+        ArrayList<ArrayList<String>> linesToWrite = new ArrayList<>();
+
+        /* If the currency file does not exist, we have to add the headers to our list*/
+        File check = new File(fileName);
+        if(!check.isFile()) {
+            ArrayList<String> headers = new ArrayList<>();
+
+            headers.add("Type");
+            headers.add("Owner");
+            headers.add("CurrencyDesc");
+            headers.add("Balance");
+            headers.add("FeeRate");
+            headers.add("IntThreshold");
+            headers.add("IntRate");
+
+            linesToWrite.add(headers);
+        }
+
+        for(Account account : accounts) {
+            ArrayList<String> accountAttributes = new ArrayList<>();
+
+            double threshold = 0, intRate = 0;
+            
+            if(account instanceof Savings) {
+                accountAttributes.add("Savings");
+
+                Savings s = (Savings) account;
+                threshold = s.getThreshold();
+                intRate = s.getInterestRate();
+            } else {
+                accountAttributes.add("Checking");
+            }
+    
+            accountAttributes.add("" + account.getOwner().getUserId());
+            accountAttributes.add(account.getCurrencyType().getDesc());
+            accountAttributes.add(String.valueOf(account.getBalance()));
+            accountAttributes.add(String.valueOf(account.getFeeRate()));
+            accountAttributes.add(String.valueOf(threshold));
+            accountAttributes.add(String.valueOf(intRate));
+    
+            linesToWrite.add(accountAttributes);
+        }
+        
 
         /* Then we just turn our currency into a list of strings and call writeFile */
         this.writeManyToFile(fileName, linesToWrite);
@@ -174,6 +272,43 @@ public class IO {
                 rhet.add(new Admin(Integer.parseInt(attributes[1]), attributes[2], attributes[3], attributes[4], attributes[5], Double.parseDouble(attributes[6]), userCurrency));
             } else {
                 rhet.add(new Customer(Integer.parseInt(attributes[1]), attributes[2], attributes[3], attributes[4], attributes[5], Double.parseDouble(attributes[6]), userCurrency));
+            }
+
+        }
+
+        return rhet;
+    }
+
+    /**
+     * Tries to read in accounts from the given csv file
+     * @param fileName - name of the account csv file
+     * @return the list of accounts read in from the file
+     */
+    public ArrayList<Account> readAccounts(String fileName) {
+        ArrayList<Account> rhet = new ArrayList<>();
+
+        ArrayList<String> output = readFile(fileName);
+        
+        /* We skip the first line since that is the labels line */
+        for(int i = 1; i < output.size(); i++) {
+            String[] attributes = output.get(i).split(",");
+
+            Currency accountCurrency = null;
+            for(Currency c : this.bank.currencies) {
+                if(c.getDesc().equals(attributes[2])) 
+                    accountCurrency = c;
+            }
+
+            User accountOwner = null;
+            for(User user : this.bank.users) {
+                if(user.getUserId() == Integer.parseInt(attributes[1]))
+                    accountOwner = user;
+            }
+
+            if(attributes[0].equals("Savings")) {
+                rhet.add(new Savings(accountOwner, accountCurrency, Double.parseDouble(attributes[3]), Double.parseDouble(attributes[4]), Double.parseDouble(attributes[4]), Double.parseDouble(attributes[5])));
+            } else {
+                rhet.add(new Checking(accountOwner, accountCurrency, Double.parseDouble(attributes[3]), Double.parseDouble(attributes[4])));
             }
 
         }

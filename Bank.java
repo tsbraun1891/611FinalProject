@@ -7,6 +7,9 @@ public class Bank {
     ArrayList<Account> accounts;
 
     private final String userFile = "./data/Users.csv";
+    private final String oldUserFile = "./data/Users_old.csv";
+    private final String accountFile = "./data/Accounts.csv";
+    private final String oldaccountFile = "./data/Accounts_old.csv";
     
     public Bank() {
         bankIO = new IO(this);
@@ -14,7 +17,7 @@ public class Bank {
 
 
         users = bankIO.readUsers(userFile);
-        accounts = new ArrayList<>();
+        accounts = bankIO.readAccounts(accountFile);
     }
 
     /**
@@ -26,9 +29,61 @@ public class Bank {
 
         rhet.add(new Currency("US Dollar", "USD", "$", 1.00));
         rhet.add(new Currency("Euro", "EUR", "€", 1.21));
+        rhet.add(new Currency("Yen", "YEN", "¥", .0096));
 
         return rhet;
     }
+
+    /**
+     * Finds all of the accounts for a given user
+     * @param user - the user who's accounts you want to get
+     * @return a list of their accounts
+     */
+    public ArrayList<Account> getAllAccounts(User user) {
+        ArrayList<Account> rhet = new ArrayList<>();
+
+        for(Account account : accounts) {
+            if(account.getOwner().equals(user)) {
+                rhet.add(account);
+            }
+        }
+
+        return rhet;
+    }
+
+    /**
+     * Write all of the currently stored data out to the disk
+     * First renames all of the previous data to temp files in case of crash,
+     * then writes out all of the new info
+     * @return
+     */
+    public void saveData() {
+        /* Rename all of the files to have backups in case of crash */
+        bankIO.renameFile(userFile, oldUserFile);
+        bankIO.renameFile(accountFile, oldaccountFile);
+
+
+        /* Now write all of the current data out */
+        bankIO.writeUsersToFile(userFile, users);
+        /* Only save accounts that are open */
+        ArrayList<Account> toWrite = new ArrayList<>();
+        for(Account a : accounts) {
+            if(a.isOpen) {
+                toWrite.add(a);
+            }
+        }
+        bankIO.writeAccountsToFile(accountFile, toWrite);
+    }
+
+    public void addNewUserToSystem(User user) {
+        this.users.add(user);
+
+        ArrayList<User> toWrite = new ArrayList<>();
+        toWrite.add(user);
+
+        bankIO.writeUsersToFile(userFile, toWrite);
+    }
+
 
 
 }

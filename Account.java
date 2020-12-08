@@ -16,11 +16,8 @@ public abstract class Account extends BalanceHandler {
         super(balance, currency);
 
         this.owner = owner;
-        /* isOpen will immediately be set to true when openAccount is called */
-        this.isOpen = false;
+        this.isOpen = true;
         this.fee = feeRate;
-
-        this.openAccount();
     }
 
     public User getOwner() {
@@ -112,7 +109,6 @@ public abstract class Account extends BalanceHandler {
      */
     protected double newFeeTransaction(double transactionAmount, Currency transactionCurrency) {
         transactionAmount = transactionCurrency.convertFromCurrencyToOther(transactionAmount, this.currency);
-        this.subtractFromBalance(transactionAmount * this.fee);
 
         return this.balance;
     }

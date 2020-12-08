@@ -2,9 +2,9 @@ import java.util.ArrayList;
 
 public class Customer extends User{
 
-	private Accounts<Savings> savings;
-	private Accounts<Checking> checking;
-	private Accounts<Securities> securities;
+	private ArrayList<Savings> savings;
+	private ArrayList<Checking> checking;
+	private ArrayList<Securities> securities;
 
 	
 	public Customer(int userId,String firstName, String lastName, String userName, String password, double balance, Currency currency) {

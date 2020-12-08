@@ -52,5 +52,15 @@ public class User extends BalanceHandler {
 	public String getPassword() {
 		return this.password;
 	}
+
+	public boolean equals(Object other) {
+		if(other instanceof User) {
+			User o = (User) other;
+			if(o.getUserId() == this.getUserId()) 
+				return true;
+		}
+
+		return false;
+	}
 	
 }
