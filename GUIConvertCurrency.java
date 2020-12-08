@@ -139,7 +139,7 @@ public class GUIConvertCurrency {
 	}
 	
 	public void addBackgroundPic() {
-		ImageIcon icon = new ImageIcon("bg.jpg");
+		ImageIcon icon = new ImageIcon("image/bg.jpg");
 		JLabel label = new JLabel();
 		label.setIcon(icon);
 		frame.getContentPane().add(label);
