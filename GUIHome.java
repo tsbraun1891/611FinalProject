@@ -37,7 +37,7 @@ public class GUIHome {
 	}
 	
 	public void addBackgroundPic() {
-		ImageIcon icon = new ImageIcon("Welcome.jpg");
+		ImageIcon icon = new ImageIcon("image/Welcome.jpg");
 		JLabel label = new JLabel();
 		label.setIcon(icon);
 		frame.getContentPane().add(label);

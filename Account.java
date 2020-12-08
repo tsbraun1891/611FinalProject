@@ -16,6 +16,7 @@ public abstract class Account extends BalanceHandler {
         super(balance, currency);
 
         this.owner = owner;
+
         this.isOpen = true;
         this.fee = feeRate;
     }
@@ -114,7 +115,7 @@ public abstract class Account extends BalanceHandler {
 
         return this.balance;
     }
-
+    
     public boolean equals(Object other) {
         if(other instanceof Account) {
             Account otherAccount = (Account) other;

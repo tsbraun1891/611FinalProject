@@ -87,7 +87,7 @@ public class GUICustomerHome {
 
 	private void addRequestLoanButtonFunction() {
 		// TODO Auto-generated method stub
-		withdrawalButton.addActionListener(new ActionListener() {
+		requestLoanButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -147,7 +147,7 @@ public class GUICustomerHome {
 	}
 	
 	public void addBackgroundPic() {
-		ImageIcon icon = new ImageIcon("bg.jpg");
+		ImageIcon icon = new ImageIcon("image/bg.jpg");
 		JLabel label = new JLabel();
 		label.setIcon(icon);
 		frame.getContentPane().add(label);

@@ -81,6 +81,7 @@ public class IO {
 
             linesToWrite.add(headers);
         }
+      
         for(Currency currency : currencies) {
             ArrayList<String> currencyAttributes = new ArrayList<>();
 
@@ -140,7 +141,6 @@ public class IO {
     
             linesToWrite.add(userAttributes);
         }
-        
 
         /* Then we just turn our currency into a list of strings and call writeFile */
         this.writeManyToFile(fileName, linesToWrite);
@@ -158,7 +158,6 @@ public class IO {
         File check = new File(fileName);
         if(!check.isFile()) {
             ArrayList<String> headers = new ArrayList<>();
-
             headers.add("Type");
             headers.add("Owner");
             headers.add("CurrencyDesc");
@@ -233,7 +232,6 @@ public class IO {
     
             linesToWrite.add(loanAttributes);
         }
-        
 
         /* Then we just turn our currency into a list of strings and call writeFile */
         this.writeManyToFile(fileName, linesToWrite);

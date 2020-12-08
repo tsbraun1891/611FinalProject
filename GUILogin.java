@@ -11,7 +11,7 @@ import javax.swing.Timer;
 
 public class GUILogin {
 	private UserType userType;
-	private Timer timer = null;
+	private Timer timer;
 	private JFrame frame;
 	private JLabel success;
 	private JButton loginButton;
@@ -22,6 +22,7 @@ public class GUILogin {
 	public GUILogin(UserType userType) {
 		// TODO Auto-generated constructor stub
 		this.userType = userType;
+		timer = null;
 		frame = new JFrame();
 		
 		JLabel userLabel = new JLabel("User");
@@ -60,7 +61,7 @@ public class GUILogin {
 	}
 	
 	public void addBackgroundPic() {
-		ImageIcon icon = new ImageIcon("bg.jpg");
+		ImageIcon icon = new ImageIcon("image/bg.jpg");
 		JLabel label = new JLabel();
 		label.setIcon(icon);
 		frame.getContentPane().add(label);

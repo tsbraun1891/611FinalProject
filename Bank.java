@@ -5,6 +5,7 @@ public class Bank {
     ArrayList<Currency> currencies;
     ArrayList<User> users;
     ArrayList<Account> accounts;
+
     ArrayList<Loan> loans;
 
     private final String userFile = "./data/Users.csv";
@@ -27,6 +28,7 @@ public class Bank {
 
 
         users = bankIO.readUsers(userFile);
+
         accounts = bankIO.readAccounts(accountFile);
         loans = bankIO.readLoans(loanFile);
 

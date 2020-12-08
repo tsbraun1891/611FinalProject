@@ -15,7 +15,7 @@ public class GUIQuit {
 	}
 	
 	public void addBackgroundPic() {
-		ImageIcon icon = new ImageIcon("byebye.jpg");
+		ImageIcon icon = new ImageIcon("image/byebye.jpg");
 		JLabel label = new JLabel();
 		label.setIcon(icon);
 		frame.getContentPane().add(label);
