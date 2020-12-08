@@ -36,7 +36,15 @@ public class Loan extends BalanceHandler {
 	
 	public User getLoaner() {
         return loaner;
-    }
+	}
+	
+	public double getInterestRate() {
+		return this.rate;
+	}
+
+	public void setInterestRate(double newRate) {
+		this.rate = newRate;
+	}
 
     /**
      * Change the loaner of this loan to a different user
@@ -46,9 +54,17 @@ public class Loan extends BalanceHandler {
         this.loaner = newLoaner;
 	}
 
+	// TODO: Add in subtracting from user wallet / checks if they can afford
 	public double payOffLoanAmount(double amount) {
-		this.subtractFromBalance(amount);
-		this.loaner.addToBalance(amount, this.currency);
+		if(!this.paidOff()) {
+			if(this.balance < amount) {
+				this.subtractFromBalance(this.balance);
+				this.loaner.addToBalance(this.balance, this.currency);
+			} else {
+				this.subtractFromBalance(amount);
+				this.loaner.addToBalance(amount, this.currency);
+			}			
+		}		
 
 		return this.balance;
 	}
@@ -60,7 +76,7 @@ public class Loan extends BalanceHandler {
      */
     public double passOneMonth() {
 		if(!this.paidOff()) {
-			this.balance += this.balance * this.rate;
+			this.addToBalance(this.balance * this.rate);
 		}        
 
         return this.balance;
