@@ -42,7 +42,7 @@ public class GUIRequestLoan {
 		currencyGroup = new ButtonGroup();
 		c1 = new JRadioButton("USD");
 		c2 = new JRadioButton("EURO");
-		c3 = new JRadioButton("WHAT");
+		c3 = new JRadioButton("YEN");
 		c1.setBounds(250,250,80,25);
 		c2.setBounds(350,250,80,25);
 		c3.setBounds(450,250,80,25);
@@ -143,7 +143,7 @@ public class GUIRequestLoan {
 						success.setText("Submit Loan Request Successful!");
 						timer.start();
 					} else if(c3.isSelected()) {
-						currencyType = CurrencyType.WHAT;
+						currencyType = CurrencyType.YEN;
 						success.setText("Submit Loan Request Successful!");
 						timer.start();
 					} else {
