@@ -2,9 +2,9 @@ import java.util.ArrayList;
 
 public class Bank {
     IO bankIO;
-    ArrayList<Currency> currencies;
-    ArrayList<User> users;
-    ArrayList<Account> accounts;
+    public ArrayList<Currency> currencies;
+    public ArrayList<User> users;
+    public ArrayList<Account> accounts;
 
     ArrayList<Loan> loans;
 
@@ -14,6 +14,8 @@ public class Bank {
     private final String oldAccountFile = "./data/Accounts_old.csv";
     private final String loanFile = "./data/Loans.csv";
     private final String oldLoanFile = "./data/Loans_old.csv";
+
+    private User currentUser;
 
     /* Opening/closing accounts and making transactions with a checking account incur a 1% fee */
     private final double standardFee = .01;
@@ -73,7 +75,7 @@ public class Bank {
      * its userID is unique
      * @param user
      */
-    public void addNewUserToSystem(User user) {
+    private void addNewUserToSystem(User user) {
         for(User u : users) {
             if(u.getUserId() == user.getUserId()) {
                 user.setUserId( (int) (Math.random() * 10000) );
@@ -87,6 +89,32 @@ public class Bank {
 
         bankIO.writeUsersToFile(userFile, toWrite);
     }
+
+    /**
+     * Create a new User object, add it to our database, and set them as the current user
+     * @param firstName
+     * @param lastName
+     * @param username - unique username of the account
+     * @param password
+     * @param startingBalance - their starting wallet size
+     * @param currency - the currency they are currently working with
+     * @return whether the username was unique or not
+     */
+    public boolean registerNewUser(String firstName, String lastName, String username, String password, double startingBalance, Currency currency) {
+
+        if(this.getUserByUsername(username) != null) {
+            return false;
+        }
+
+        User newUser = new User(0, firstName, lastName, username, password, startingBalance, currency);
+
+        this.addNewUserToSystem(newUser);
+        this.currentUser = newUser;
+
+        return true;
+    }
+
+
 
     /**
      * Create a new account of the given type and subtract the service fee from the account balance
@@ -137,5 +165,82 @@ public class Bank {
         bankIO.writeLoansToFile(loanFile, loans);
 
     }
+
+    /**
+     * Gives back the User object given their username
+     * @param username - the username you are searching for
+     * @return the user associated with that username (null if username DNE)
+     */
+    public User getUserByUsername(String username) {
+        for(User user : users) {
+            if(user.getUserName().equals(username)) {
+                return user;
+            }
+        }
+
+        /* User does not exist */
+        return null;
+    }
+
+    /**
+     * @return the current active user
+     */
+    public User getCurrentUser() {
+        return this.currentUser;
+    }
+
+    /**
+     * Checks login credentials and sets current user on successful login
+     * @param username
+     * @param password
+     * @return whether or not the login was successful
+     */
+    public boolean login(String username, String password) {
+        User user = this.getUserByUsername(username);
+
+        if(user != null && password.equals(user.getPassword())) {
+            this.currentUser = user;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Adds amount to user's wallet in user's current currency
+     * @param user - the user to add money to
+     * @param amount - how much money to add
+     * @return the new balance of the user's wallet
+     */
+    public double addMoneyToWallet(User user, double amount) {
+        return user.addToBalance(amount);
+    }
+
+    /**
+     * Subtracts amount from user's wallet in user's current currency
+     * @param user - the user to subtract money from
+     * @param amount - how much money to subtract
+     * @return the new balance of the user's wallet
+     */
+    public double takeMoneyFromWallet(User user, double amount) {
+        return user.subtractFromBalance(amount);
+    }
+
+    /**
+     * Represents the user taking their money out of the ATM
+     * @param user
+     */
+    public void cashOut(User user) {
+        user.subtractFromBalance(user.getBalance());
+    }
+
+
+    // TODO: Create transaction ability
+        // Transactions will go from a specified account to a user's wallet
+    // TODO: Edit transaction class
+
+    // TODO: create request loan ability
+
+    // TODO: Pass one month
 
 }
