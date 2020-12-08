@@ -169,7 +169,7 @@ public class Bank {
     /**
      * Gives back the User object given their username
      * @param username - the username you are searching for
-     * @return the user associated with that username
+     * @return the user associated with that username (null if username DNE)
      */
     public User getUserByUsername(String username) {
         for(User user : users) {
@@ -226,8 +226,17 @@ public class Bank {
         return user.subtractFromBalance(amount);
     }
 
+    /**
+     * Represents the user taking their money out of the ATM
+     * @param user
+     */
+    public void cashOut(User user) {
+        user.subtractFromBalance(user.getBalance());
+    }
+
 
     // TODO: Create transaction ability
+        // Transactions will go from a specified account to a user's wallet
     // TODO: Edit transaction class
 
     // TODO: create request loan ability
