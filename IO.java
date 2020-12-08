@@ -201,6 +201,45 @@ public class IO {
     }
 
     /**
+     * Appends the given loans to the specified file (file is created if does not exist already)
+     * @param fileName - name of the loan csv file
+     * @param loans - the loans to be written out
+     */
+    public void writeLoansToFile(String fileName, ArrayList<Loan> loans) {
+        ArrayList<ArrayList<String>> linesToWrite = new ArrayList<>();
+
+        /* If the currency file does not exist, we have to add the headers to our list*/
+        File check = new File(fileName);
+        if(!check.isFile()) {
+            ArrayList<String> headers = new ArrayList<>();
+
+            headers.add("Owner");
+            headers.add("Loaner");
+            headers.add("CurrencyDesc");
+            headers.add("Balance");
+            headers.add("IntRate");
+
+            linesToWrite.add(headers);
+        }
+
+        for(Loan loan : loans) {
+            ArrayList<String> loanAttributes = new ArrayList<>();
+    
+            loanAttributes.add("" + loan.getOwner().getUserId());
+            loanAttributes.add("" + loan.getLoaner().getUserId());
+            loanAttributes.add(loan.getCurrencyType().getDesc());
+            loanAttributes.add(String.valueOf(loan.getBalance()));
+            loanAttributes.add(String.valueOf(loan.getInterestRate()));
+    
+            linesToWrite.add(loanAttributes);
+        }
+        
+
+        /* Then we just turn our currency into a list of strings and call writeFile */
+        this.writeManyToFile(fileName, linesToWrite);
+    }
+
+    /**
      * Reads a file and returns an array of all of the lines in the file
      * @param fileName - name of the file
      * @return string arraylist of all lines of the given file
@@ -311,6 +350,41 @@ public class IO {
                 rhet.add(new Checking(accountOwner, accountCurrency, Double.parseDouble(attributes[3]), Double.parseDouble(attributes[4])));
             }
 
+        }
+
+        return rhet;
+    }
+
+    /**
+     * Tries to read in loans from the given csv file
+     * @param fileName - name of the loan csv file
+     * @return the list of loans read in from the file
+     */
+    public ArrayList<Loan> readLoans(String fileName) {
+        ArrayList<Loan> rhet = new ArrayList<>();
+
+        ArrayList<String> output = readFile(fileName);
+        
+        /* We skip the first line since that is the labels line */
+        for(int i = 1; i < output.size(); i++) {
+            String[] attributes = output.get(i).split(",");
+
+            Currency loanCurrency = null;
+            for(Currency c : this.bank.currencies) {
+                if(c.getDesc().equals(attributes[2])) 
+                loanCurrency = c;
+            }
+
+            User owner = null;
+            User loaner = null;
+            for(User u : this.bank.users) {
+                if(u.getUserId() == Integer.parseInt(attributes[0]))
+                    owner = u;
+                else if(u.getUserId() == Integer.parseInt(attributes[1]))
+                    loaner = u;
+            }
+
+            rhet.add(new Loan(owner, loaner, loanCurrency, Double.parseDouble(attributes[3]), Double.parseDouble(attributes[4])));
         }
 
         return rhet;

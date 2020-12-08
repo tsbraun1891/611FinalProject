@@ -96,7 +96,7 @@ public abstract class Account extends BalanceHandler {
      * @return
      */
     protected double newFeeTransaction(double transactionAmount) {
-        this.subtractFromBalance(transactionAmount * this.fee);
+        this.subtractFromBalance(getServiceFeeAmount(transactionAmount));
 
         return this.balance;
     }
@@ -109,6 +109,8 @@ public abstract class Account extends BalanceHandler {
      */
     protected double newFeeTransaction(double transactionAmount, Currency transactionCurrency) {
         transactionAmount = transactionCurrency.convertFromCurrencyToOther(transactionAmount, this.currency);
+
+        this.subtractFromBalance(getServiceFeeAmount(transactionAmount));
 
         return this.balance;
     }
