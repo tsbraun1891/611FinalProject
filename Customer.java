@@ -5,7 +5,8 @@ public class Customer extends User{
 	private ArrayList<Savings> savings;
 	private ArrayList<Checking> checking;
 	private ArrayList<Securities> securities;
-
+	private ArrayList<Loan> loan = new ArrayList<>();
+	private ArrayList<LoanPending> pendingLoan = new ArrayList<>();
 	
 	public Customer(int userId,String firstName, String lastName, String userName, String password, double balance, Currency currency) {
 		super(userId, firstName, lastName, userName, password, balance, currency);
@@ -16,11 +17,12 @@ public class Customer extends User{
         account.withdrawFromAccount(amount);
     }
 
+	//not sure
     public void deposit(double amount, Account account) {
-        //account.deposit(amount);
+        account.newFeeTransaction(amount);
     }
 
-	
+	//Create accounts
 	public void createCheckingAccount(User user, Currency currency, double balance, double rate) {
 		Checking newChecking = new Checking(user, currency, balance, rate);
 		checking.add(newChecking);
@@ -31,9 +33,9 @@ public class Customer extends User{
 		savings.add(newSaving);
 	}
 	
-	public void createLoan(User owner, User loaner, Currency currency, double balance, double interestRate) {
-		Loan newLoan = new Loan(owner, loaner, currency, balance, interestRate);
-		//loan.add(newLoan);
+	public void RequestLoan(User owner, User loaner, Currency currency, double balance, double interestRate) {
+		LoanPending newLoan = new LoanPending(owner, loaner, currency, balance, interestRate);
+		pendingLoan.add(newLoan);
 	}
 	
 	public void createSecuritiesAccount(User user, Currency currency, double balance, double feeRate, double interestThreshold, double interestRate) {
@@ -41,16 +43,6 @@ public class Customer extends User{
 		securities.add(newSecurities);
 	}
 	
-	private boolean isCustomerAccount(Account account){
-        return savings.contains(account) || checking.contains(account) ||
-                securities.contains(account);
-    }
-	
-	public void transferToAccount(Account from, Account to, double amount){
-        if (isCustomerAccount(from)) {
-        	from.transfer(to, amount);
-        }
-    }
 	
 	//get total balance of customer
 	public double getTotalBalance() {
@@ -80,5 +72,22 @@ public class Customer extends User{
 		}
 		return balance;
 	}
+	
+	//getters for customers all accounts
+	public ArrayList<Checking> getAllCheckingAcc() {
+		return checking;
+	}
+	
+	public ArrayList<Savings> getAllSavingsAcc(){
+		return savings;
+	}
+	
+	public ArrayList<LoanPending> getPendingLoan(){
+		return pendingLoan;
+	}
+	public ArrayList<Loan> getAllLoan(){
+		return loan;
+	}
+	
 	
 }
