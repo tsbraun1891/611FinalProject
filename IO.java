@@ -5,8 +5,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 
-// TODO: Add in approval to the loans
-
 public class IO {
     private Bank bank;
 
@@ -167,6 +165,7 @@ public class IO {
             headers.add("FeeRate");
             headers.add("IntThreshold");
             headers.add("IntRate");
+            headers.add("ID");
 
             linesToWrite.add(headers);
         }
@@ -192,6 +191,7 @@ public class IO {
             accountAttributes.add(String.valueOf(account.getFeeRate()));
             accountAttributes.add(String.valueOf(threshold));
             accountAttributes.add(String.valueOf(intRate));
+            accountAttributes.add(String.valueOf(account.getID()));
     
             linesToWrite.add(accountAttributes);
         }
@@ -219,6 +219,8 @@ public class IO {
             headers.add("CurrencyDesc");
             headers.add("Balance");
             headers.add("IntRate");
+            headers.add("Approved");
+            headers.add("ID");
 
             linesToWrite.add(headers);
         }
@@ -231,8 +233,54 @@ public class IO {
             loanAttributes.add(loan.getCurrencyType().getDesc());
             loanAttributes.add(String.valueOf(loan.getBalance()));
             loanAttributes.add(String.valueOf(loan.getInterestRate()));
+            if(loan.isApproved()) {
+                loanAttributes.add("1");
+            } else {
+                loanAttributes.add("0");
+            }
+            loanAttributes.add(String.valueOf(loan.getID()));
     
             linesToWrite.add(loanAttributes);
+        }
+
+        /* Then we just turn our currency into a list of strings and call writeFile */
+        this.writeManyToFile(fileName, linesToWrite);
+    }
+
+    /**
+     * Appends the given transactions to the specified file (file is created if does not exist already)
+     * @param fileName - name of the transaction csv file
+     * @param loans - the transactions to be written out
+     */
+    public void writeTransactionsToFile(String fileName, ArrayList<Transaction> transactions) {
+        ArrayList<ArrayList<String>> linesToWrite = new ArrayList<>();
+
+        /* If the currency file does not exist, we have to add the headers to our list*/
+        File check = new File(fileName);
+        if(!check.isFile()) {
+            ArrayList<String> headers = new ArrayList<>();
+
+            headers.add("ID");
+            headers.add("SenderID");
+            headers.add("ReceiverID");
+            headers.add("TransactionAmount");
+            headers.add("CurrencyDesc");
+
+            linesToWrite.add(headers);
+        }
+
+        for(Transaction xact : transactions) {
+            ArrayList<String> xactAttributes = new ArrayList<>();
+
+            
+    
+            xactAttributes.add(String.valueOf(xact.getID()));
+            xactAttributes.add(String.valueOf(xact.getSender().getID()));
+            xactAttributes.add(String.valueOf(xact.getReceiver().getUserId()));
+            xactAttributes.add(String.valueOf(xact.getTransactionAmount()));
+            xactAttributes.add(xact.getCurrencyType().getDesc());
+    
+            linesToWrite.add(xactAttributes);
         }
 
         /* Then we just turn our currency into a list of strings and call writeFile */
@@ -345,9 +393,9 @@ public class IO {
             }
 
             if(attributes[0].equals("Savings")) {
-                rhet.add(new Savings(accountOwner, accountCurrency, Double.parseDouble(attributes[3]), Double.parseDouble(attributes[4]), Double.parseDouble(attributes[4]), Double.parseDouble(attributes[5])));
+                rhet.add(new Savings(Integer.parseInt(attributes[7]), accountOwner, accountCurrency, Double.parseDouble(attributes[3]), Double.parseDouble(attributes[4]), Double.parseDouble(attributes[4]), Double.parseDouble(attributes[5])));
             } else {
-                rhet.add(new Checking(accountOwner, accountCurrency, Double.parseDouble(attributes[3]), Double.parseDouble(attributes[4])));
+                rhet.add(new Checking(Integer.parseInt(attributes[7]), accountOwner, accountCurrency, Double.parseDouble(attributes[3]), Double.parseDouble(attributes[4])));
             }
 
         }
@@ -384,7 +432,50 @@ public class IO {
                     loaner = u;
             }
 
-            rhet.add(new Loan(owner, loaner, loanCurrency, Double.parseDouble(attributes[3]), Double.parseDouble(attributes[4])));
+            boolean approved = false;
+            if(attributes[5].equals("1")) {
+                approved = true;
+            }
+
+            rhet.add(new Loan(Integer.parseInt(attributes[6]), owner, loaner, loanCurrency, Double.parseDouble(attributes[3]), Double.parseDouble(attributes[4]), approved));
+        }
+
+        return rhet;
+    }
+
+    /**
+     * Tries to read in transactions from the given csv file
+     * @param fileName - name of the transaction csv file
+     * @return the list of transactions read in from the file
+     */
+    public ArrayList<Transaction> readTransactions(String fileName) {
+        ArrayList<Transaction> rhet = new ArrayList<>();
+
+        ArrayList<String> output = readFile(fileName);
+        
+        /* We skip the first line since that is the labels line */
+        for(int i = 1; i < output.size(); i++) {
+            String[] attributes = output.get(i).split(",");
+
+            Currency xactCurrency = null;
+            for(Currency c : this.bank.currencies) {
+                if(c.getDesc().equals(attributes[4])) 
+                xactCurrency = c;
+            }
+
+            Account sender = null;
+            for(Account a : this.bank.accounts) {
+                if(a.getID() == Integer.parseInt(attributes[1]))
+                    sender = a;
+            }
+
+            User receiver = null;
+            for(User u : this.bank.users) {
+                if(u.getUserId() == Integer.parseInt(attributes[2]))
+                    receiver = u;
+            }
+
+            rhet.add(new Transaction(Integer.parseInt(attributes[0]), sender, receiver, Double.parseDouble(attributes[3]), xactCurrency));
         }
 
         return rhet;

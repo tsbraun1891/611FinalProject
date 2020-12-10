@@ -14,6 +14,6 @@ public class Customer extends User{
 
 	public ArrayList<Loan> getLoans() {
 		return this.loans;
-	}
+	}	
 	
 }
