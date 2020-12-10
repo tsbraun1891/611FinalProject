@@ -132,7 +132,4 @@ public abstract class Account extends BalanceHandler {
         transaction.transfer(o,amount);
     }
     
-    public double getBalance() {
-    	return this.balance;
-    }
 }
