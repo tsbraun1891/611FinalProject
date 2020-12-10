@@ -16,6 +16,8 @@ public class Bank {
     private final String oldLoanFile = "./data/Loans_old.csv";
 
     private User currentUser;
+    /* One bank manager */
+    private Admin admin;
 
     /* Opening/closing accounts and making transactions with a checking account incur a 1% fee */
     private final double standardFee = .01;
@@ -30,6 +32,10 @@ public class Bank {
 
 
         users = bankIO.readUsers(userFile);
+        for(User user : users) {
+            if(user instanceof Admin)
+                admin = (Admin) user;
+        }
 
         accounts = bankIO.readAccounts(accountFile);
         loans = bankIO.readLoans(loanFile);
@@ -187,6 +193,10 @@ public class Bank {
      */
     public User getCurrentUser() {
         return this.currentUser;
+    }
+
+    public Admin getAdmin() {
+        return this.admin;
     }
 
     /**
