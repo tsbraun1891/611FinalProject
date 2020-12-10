@@ -1,5 +1,6 @@
 public class Loan extends BalanceHandler {
-	private User owner, loaner;
+	protected User owner;
+	protected User loaner;
 	private double rate;
 
 	/**
@@ -16,6 +17,10 @@ public class Loan extends BalanceHandler {
 		this.owner = owner;
 		this.loaner = loaner;
 		this.rate = interestRate;
+	}
+
+	public Loan(LoanPending pendingLoan) {
+		this(pendingLoan.owner, pendingLoan.loaner, pendingLoan.currency, pendingLoan.balance, pendingLoan.getInterestRate());
 	}
 
 	public User getOwner() {
