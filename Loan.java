@@ -1,6 +1,7 @@
 public class Loan extends BalanceHandler {
 	private User owner, loaner;
 	private double rate;
+	private boolean approved, denied;
 
 	/**
      * Create a new loan account
@@ -16,6 +17,19 @@ public class Loan extends BalanceHandler {
 		this.owner = owner;
 		this.loaner = loaner;
 		this.rate = interestRate;
+		this.approved = false;
+		this.denied = false;
+	}
+
+	/* Same as the other constructor except you can specify whether a loan is approved already or not */
+	public Loan(User owner, User loaner, Currency currency, double balance, double interestRate, boolean approved) {
+		super(balance, currency);
+
+		this.owner = owner;
+		this.loaner = loaner;
+		this.rate = interestRate;
+		this.approved = approved;
+		this.denied = false;
 	}
 
 	public User getOwner() {
@@ -44,6 +58,22 @@ public class Loan extends BalanceHandler {
 
 	public void setInterestRate(double newRate) {
 		this.rate = newRate;
+	}
+
+	public boolean isApproved() {
+		return this.approved;
+	}
+
+	public boolean isDenied() {
+		return this.denied;
+	}
+
+	public void approveLoan() {
+		this.approved = true;
+	}
+
+	public void denyLoan() {
+		this.approved = true;
 	}
 
     /**

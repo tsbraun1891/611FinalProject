@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 
+// TODO: Add in approval to the loans
+
 public class IO {
     private Bank bank;
 

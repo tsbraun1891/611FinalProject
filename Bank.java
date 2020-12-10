@@ -25,6 +25,8 @@ public class Bank {
     private final double standardInterestThreshold = 10000;
     /* The interest rate for savings accounts will be .5% */
     private final double standardSavingsInterest = .005;
+    /* Standard Loan rate */
+    private final double standardLoanInterest = .05;
     
     public Bank() {
         bankIO = new IO(this);
@@ -38,11 +40,17 @@ public class Bank {
         }
 
         accounts = bankIO.readAccounts(accountFile);
-        loans = bankIO.readLoans(loanFile);
+        for(Account account : accounts) {
+            account.getOwner().addNewAccount(account);
+        }
 
-        System.out.println(loans.get(0).getOwner().firstName);
-        System.out.println(loans.get(0).getLoaner().firstName);
-        System.out.println(loans.get(0).getBalance());
+        loans = bankIO.readLoans(loanFile);
+        for(Loan loan : loans) {
+            /* Only customers can take out loans */
+            ((Customer) loan.getOwner()).addNewLoan(loan);
+            if(!loan.isApproved())
+                admin.requestLoan(loan);
+        }
     }
 
     /**
@@ -65,15 +73,7 @@ public class Bank {
      * @return a list of their accounts
      */
     public ArrayList<Account> getAllAccounts(User user) {
-        ArrayList<Account> rhet = new ArrayList<>();
-
-        for(Account account : accounts) {
-            if(account.getOwner().equals(user)) {
-                rhet.add(account);
-            }
-        }
-
-        return rhet;
+        return user.getAccounts();
     }
 
     /**
@@ -147,6 +147,7 @@ public class Bank {
         }
 
         /* Now we subtract the opening account fee */
+        owner.addNewAccount(account);
         return account.openAccount();
     }
 
@@ -168,8 +169,14 @@ public class Bank {
         /* Now write all of the current data out */
         bankIO.writeUsersToFile(userFile, users);
         bankIO.writeAccountsToFile(accountFile, accounts);
-        bankIO.writeLoansToFile(loanFile, loans);
 
+        /* Only write non-paid off loans and non-denied loans */
+        ArrayList<Loan> loansToWrite = new ArrayList<>();
+        for(Loan loan : loans) {
+            if(!loan.paidOff() && !loan.isDenied())
+                loansToWrite.add(loan);
+        }
+        bankIO.writeLoansToFile(loanFile, loansToWrite);
     }
 
     /**
@@ -242,6 +249,14 @@ public class Bank {
      */
     public void cashOut(User user) {
         user.subtractFromBalance(user.getBalance());
+    }
+
+    public void requestLoan(Customer owner, Currency currencyType, double amount) {
+        Loan newLoan = new Loan(owner, admin, currencyType, amount, this.standardLoanInterest);
+
+        owner.addNewLoan(newLoan);
+        loans.add(newLoan);
+        admin.requestLoan(newLoan);
     }
 
 
