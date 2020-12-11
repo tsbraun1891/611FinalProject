@@ -5,8 +5,8 @@ public class Bank {
     public ArrayList<Currency> currencies;
     public ArrayList<User> users;
     public ArrayList<Account> accounts;
-
-    ArrayList<Loan> loans;
+    public ArrayList<Transaction> transactions;
+    public ArrayList<Loan> loans;
 
     private final String userFile = "./data/Users.csv";
     private final String oldUserFile = "./data/Users_old.csv";
@@ -14,6 +14,8 @@ public class Bank {
     private final String oldAccountFile = "./data/Accounts_old.csv";
     private final String loanFile = "./data/Loans.csv";
     private final String oldLoanFile = "./data/Loans_old.csv";
+    private final String transactionFile = "./data/Transactions.csv";
+    private final String oldTransactionFile = "./data/Transactions_old.csv";
 
     private User currentUser;
     /* One bank manager */
@@ -25,6 +27,8 @@ public class Bank {
     private final double standardInterestThreshold = 10000;
     /* The interest rate for savings accounts will be .5% */
     private final double standardSavingsInterest = .005;
+    /* Standard Loan rate */
+    private final double standardLoanInterest = .05;
     
     public Bank() {
         bankIO = new IO(this);
@@ -38,11 +42,52 @@ public class Bank {
         }
 
         accounts = bankIO.readAccounts(accountFile);
-        loans = bankIO.readLoans(loanFile);
+        for(Account account : accounts) {
+            account.getOwner().addNewAccount(account);
+        }
 
-        System.out.println(loans.get(0).getOwner().firstName);
-        System.out.println(loans.get(0).getLoaner().firstName);
-        System.out.println(loans.get(0).getBalance());
+        loans = bankIO.readLoans(loanFile);
+        for(Loan loan : loans) {
+            /* Only customers can take out loans */
+            ((Customer) loan.getOwner()).addNewLoan(loan);
+            /* Loans that are read were not denied (since denied loans aren't written),
+            so they are only still pending if they are not approved */
+            if(!loan.isApproved())
+                admin.requestLoan(loan);
+        }
+
+        transactions = bankIO.readTransactions(transactionFile);
+
+        Transaction xact = transactions.get(0);
+    }
+
+    /**
+     * Write all of the currently stored data out to the disk
+     * First renames all of the previous data to temp files in case of crash,
+     * then writes out all of the new info
+     * @return
+     */
+    public void saveData() {
+        /* Rename all of the files to have backups in case of crash */
+        bankIO.renameFile(userFile, oldUserFile);
+        bankIO.renameFile(accountFile, oldAccountFile);
+        bankIO.renameFile(loanFile, oldLoanFile);
+        bankIO.renameFile(transactionFile, oldTransactionFile);
+
+
+        /* Now write all of the current data out */
+        bankIO.writeUsersToFile(userFile, users);
+        bankIO.writeAccountsToFile(accountFile, accounts);
+
+        /* Only write non-paid off loans and non-denied loans */
+        ArrayList<Loan> loansToWrite = new ArrayList<>();
+        for(Loan loan : loans) {
+            if(!loan.paidOff() && !loan.isDenied())
+                loansToWrite.add(loan);
+        }
+        bankIO.writeLoansToFile(loanFile, loansToWrite);
+
+        bankIO.writeTransactionsToFile(transactionFile, transactions);
     }
 
     /**
@@ -65,15 +110,7 @@ public class Bank {
      * @return a list of their accounts
      */
     public ArrayList<Account> getAllAccounts(User user) {
-        ArrayList<Account> rhet = new ArrayList<>();
-
-        for(Account account : accounts) {
-            if(account.getOwner().equals(user)) {
-                rhet.add(account);
-            }
-        }
-
-        return rhet;
+        return user.getAccounts();
     }
 
     /**
@@ -132,14 +169,21 @@ public class Bank {
      */
     public boolean createNewAccount(AccountType type, User owner, Currency currencyType, double startingAmount) {
         Account account;
+        int newID = (int) (Math.random() * 1000000);
+
+        for(Account a : accounts) {
+            if(newID == a.getID()) {
+                newID = (int) (Math.random() * 1000000);
+            }
+        }
 
         switch(type) {
         case SAVING:
-            account = new Savings(owner, currencyType, startingAmount, standardFee, standardInterestThreshold, standardSavingsInterest);
+            account = new Savings(newID, owner, currencyType, startingAmount, standardFee, standardInterestThreshold, standardSavingsInterest);
             break;
 
         case CHECKING:
-            account = new Checking(owner, currencyType, startingAmount, standardFee);
+            account = new Checking(newID, owner, currencyType, startingAmount, standardFee);
             break;
 
         default:
@@ -147,30 +191,10 @@ public class Bank {
         }
 
         /* Now we subtract the opening account fee */
+        owner.addNewAccount(account);
         return account.openAccount();
     }
-
-
-
-    /**
-     * Write all of the currently stored data out to the disk
-     * First renames all of the previous data to temp files in case of crash,
-     * then writes out all of the new info
-     * @return
-     */
-    public void saveData() {
-        /* Rename all of the files to have backups in case of crash */
-        bankIO.renameFile(userFile, oldUserFile);
-        bankIO.renameFile(accountFile, oldAccountFile);
-        bankIO.renameFile(loanFile, oldLoanFile);
-
-
-        /* Now write all of the current data out */
-        bankIO.writeUsersToFile(userFile, users);
-        bankIO.writeAccountsToFile(accountFile, accounts);
-        bankIO.writeLoansToFile(loanFile, loans);
-
-    }
+    
 
     /**
      * Gives back the User object given their username
@@ -244,13 +268,87 @@ public class Bank {
         user.subtractFromBalance(user.getBalance());
     }
 
+    public void requestLoan(Customer owner, Currency currencyType, double amount) {
+        int newID = (int) (Math.random() * 1000000);
 
-    // TODO: Create transaction ability
-        // Transactions will go from a specified account to a user's wallet
-    // TODO: Edit transaction class
+        for(Loan l : loans) {
+            if(newID == l.getID()) {
+                newID = (int) (Math.random() * 1000000);
+            }
+        }
 
-    // TODO: create request loan ability
+        Loan newLoan = new Loan(newID, owner, admin, currencyType, amount, this.standardLoanInterest);
 
-    // TODO: Pass one month
+        owner.addNewLoan(newLoan);
+        loans.add(newLoan);
+        admin.requestLoan(newLoan);
+    }
+
+    public void passOneMonth() {
+        for(Account a : accounts) {
+            if(a instanceof Savings)
+                ((Savings) a).passOneMonth();
+        }
+
+        for(Loan l : loans) {
+            if(l.isApproved())
+                l.passOneMonth();
+        }
+    }
+
+    /**
+     * Transfers a given amount of money between a bank account and another user
+     * @param sender - Account sending the money
+     * @param receiver - user receiving the money
+     * @param amount - the amount to send from sender to receiver given in the sender's currency
+     * @return whether the transaction was successful or not
+     */
+    public boolean doTransaction(Account sender, User receiver, double amount) {
+        double startingBalance = sender.getBalance();
+        double res = sender.transferMoneyToUser(receiver, amount);
+        if(startingBalance == res) 
+            return false;
+
+            int newID = (int) (Math.random() * 1000000);
+
+            for(Transaction t : transactions) {
+                if(newID == t.getID()) {
+                    newID = (int) (Math.random() * 1000000);
+                }
+            }
+
+        transactions.add(new Transaction(newID, sender, receiver, amount, sender.getCurrencyType()));
+        return true;
+    }
+
+    /**
+     * @param account
+     * @return a list of all transactions involving account
+     */
+    public ArrayList<Transaction> getTransactionsForAccount(Account account) {
+        ArrayList<Transaction> rhet = new ArrayList<>();
+
+        for(Transaction t : transactions) {
+            if(t.getSender().equals(account))
+                rhet.add(t);
+        }
+
+        return rhet;
+    }
+
+    /**
+     * @param user
+     * @return a list of all transactions of money sent to this user
+     */
+    public ArrayList<Transaction> getTransactionsForUser(User user) {
+        ArrayList<Transaction> rhet = new ArrayList<>();
+
+        for(Transaction t : transactions) {
+            if(t.getReceiver().equals(user))
+                rhet.add(t);
+        }
+
+        return rhet;
+    }
 
 }

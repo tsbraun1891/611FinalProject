@@ -1,23 +1,33 @@
-public class Admin extends User {
+import java.util.ArrayList;
 
-	private AdminAccount account;
+public class Admin extends User {
+	private ArrayList<Loan> requestedLoans;
 	
 	public Admin(int userId, String fistName, String lastName, String username, String password, double balance, Currency currency) {
 		super(userId, fistName, lastName, username, password, balance, currency);
+
+		requestedLoans = new ArrayList<>();
 	}
-    
+
+	public void approveLoan(Loan loan) {
+		if(this.getBalance() >= loan.getBalance()) {
+			loan.approveLoan();
+			this.subtractFromBalance(loan.getBalance());
+		}
+		
+		requestedLoans.remove(loan);
+	}
+
+	public void denyLoan(Loan loan) {
+		loan.denyLoan();
+		requestedLoans.remove(loan);
+	}
 	
-	public void approveLoan(Customer customer, LoanPending pendingLoan){
-        if (account.getBalance() >= pendingLoan.getBalance()){
-            customer.getAllLoan().add(new Loan(pendingLoan));
-            customer.getPendingLoan().remove(pendingLoan);
-            account.addToBalance(pendingLoan.getBalance());
-        } else {
-        	denyLoan(customer, pendingLoan);
-        }
-    }
-	
-	public void denyLoan(Customer customer, LoanPending pendingLoan) {
-		customer.getPendingLoan().remove(pendingLoan);
+	public void requestLoan(Loan loan) {
+		requestedLoans.add(loan);
+	}
+
+	public ArrayList<Loan> getRequestedLoans() {
+		return this.requestedLoans;
 	}
 }
