@@ -279,6 +279,51 @@ public class Bank {
     public void cashOut(User user) {
         user.subtractFromBalance(user.getBalance());
     }
+    
+    /**
+     * withdraw money from a user's account / wallet
+     * @param user
+     * @param account
+     * @param amount
+     */
+    public boolean withdrawFromAccount(User user, Account account, double amount) {
+    	if(amount<0) {
+    		return false;
+    	}
+    	
+    	if(account != null) {
+    		if(amount > account.getBalance()) {
+    			return false;
+    		} 
+    		account.subtractFromBalance(amount);
+    	} else {
+    		if(amount > user.getBalance()) {
+    			return false;
+    		}
+    		user.subtractFromBalance(amount);
+    	}
+    	//TODO: add to transaction history
+    	return true;
+    }
+    /**
+     * deposit money from a user's account/ wallet
+     * @param user
+     * @param account
+     * @param amount
+     * @return
+     */
+    public boolean depositToAccount(User user, Account account, double amount) {
+    	if(amount < 0) {
+    		return false;
+    	}
+    	if(account != null) {
+    		account.addToBalance(amount);
+    	} else {
+    		user.addToBalance(amount);
+    	}
+    	return true;
+    	//TODO: add to transaction history
+    }
 
     public void requestLoan(Customer owner, Currency currencyType, double amount) {
         int newID = (int) (Math.random() * 1000000);
@@ -316,18 +361,19 @@ public class Bank {
      * @return whether the transaction was successful or not
      */
     public boolean doTransaction(Account sender, User receiver, double amount) {
-        double startingBalance = sender.getBalance();
-        double res = sender.transferMoneyToUser(receiver, amount);
-        if(startingBalance <= res) 
-            return false;
+    	if(amount > sender.getBalance()) {
+    		return false;
+    	}
+        
+        sender.transferMoneyToUser(receiver, amount);
+        
+        int newID = (int) (Math.random() * 1000000);
 
-            int newID = (int) (Math.random() * 1000000);
-
-            for(Transaction t : transactions) {
-                if(newID == t.getID()) {
-                    newID = (int) (Math.random() * 1000000);
-                }
+        for(Transaction t : transactions) {
+            if(newID == t.getID()) {
+            	newID = (int) (Math.random() * 1000000);
             }
+        }
 
         transactions.add(new Transaction(newID, sender, receiver, amount, sender.getCurrencyType()));
         return true;

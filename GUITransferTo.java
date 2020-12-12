@@ -97,12 +97,11 @@ public class GUITransferTo {
 				try {
 					double amount = Double.parseDouble(transferAmountText.getText());
 					User recipient = Bank.getInstance().getUserByUsername(recipientText.getText());
-		            if ((combo.getSelectedIndex() != -1) && amount > 0 && recipient != null) {                     
-		               //data = "Accounts Selected: " 
-		                  //+ combo.getItemAt
-		                  //(combo.getSelectedIndex());     
-		            	Bank.getInstance().doTransaction(Bank.getInstance().getCurrentUser().getAccounts().get(combo.getSelectedIndex()), recipient , amount);
-		               	success.setText("Transfer Success!");
+		            if ((combo.getSelectedIndex() != -1) && amount > 0 && recipient != null) {                         
+		            	if(Bank.getInstance().doTransaction(Bank.getInstance().getCurrentUser().getAccounts().get(combo.getSelectedIndex()), recipient , amount))
+		            		success.setText("Transfer Success!");
+		            	else 
+		            		success.setText("No enough money in this account");
 		            } else if((combo.getSelectedIndex() == -1)) {
 		            	success.setText("You don't have an account yet. Please open a new account.");
 					} else {
