@@ -41,12 +41,11 @@ public class GUITransferBetween {
 		frame.add(withdrawalFrom);
 		
 		DefaultComboBoxModel accounts = new DefaultComboBoxModel();
-		accounts.addElement("account1");
-		accounts.addElement("account2");
-		accounts.addElement("account3");
+		for(Account account: Bank.getInstance().getCurrentUser().getAccounts()) {
+			accounts.addElement(account.toString());
+		}
 		
 		combo = new JComboBox(accounts);
-		combo.setSelectedIndex(0);
 		
 		JScrollPane accountPane= new JScrollPane(combo);
 		accountPane.setBounds(400, 250,150, 30);
@@ -57,12 +56,10 @@ public class GUITransferBetween {
 		frame.add(transferTo);
 		
 		DefaultComboBoxModel accounts2 = new DefaultComboBoxModel();
-		accounts2.addElement("account1");
-		accounts2.addElement("account2");
-		accounts2.addElement("account3");
-		
+		for(Account account: Bank.getInstance().getCurrentUser().getAccounts()) {
+			accounts2.addElement(account.toString());
+		}
 		combo2 = new JComboBox(accounts2);
-		combo2.setSelectedIndex(0);
 		
 		JScrollPane accountPane2 = new JScrollPane(combo2);
 		accountPane2.setBounds(400,300,150,30);

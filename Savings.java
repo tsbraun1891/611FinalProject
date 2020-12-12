@@ -61,4 +61,12 @@ public class Savings extends Account {
 
         return this.balance;
     }
+    
+    public String toString() {
+    	String s = "Saving - ";
+        String rhet = String.valueOf(this.accountID);
+        rhet = rhet.substring(rhet.length()-4, rhet.length());
+
+        return s+rhet;
+    }
 }

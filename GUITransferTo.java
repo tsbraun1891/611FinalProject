@@ -18,7 +18,7 @@ public class GUITransferTo {
 	private JLabel success;
 	private JComboBox combo;
 	private JTextField transferAmountText;
-	private JTextField transferToText;
+	private JTextField recipientText;
 	
 	public GUITransferTo() {
 		frame  = new JFrame();
@@ -32,7 +32,7 @@ public class GUITransferTo {
 		frame.add(transferAmountText);
 		
 		success  = new JLabel("");
-		success.setBounds(250,350,300,25);
+		success.setBounds(250,390,400,25);
 		frame.add(success);
 		
 		JLabel withdrawalFrom = new JLabel("Withdrawal From");
@@ -40,26 +40,26 @@ public class GUITransferTo {
 		frame.add(withdrawalFrom);
 		
 		DefaultComboBoxModel accounts = new DefaultComboBoxModel();
-		accounts.addElement("account1");
-		accounts.addElement("account2");
-		accounts.addElement("account3");
+		for(Account account: Bank.getInstance().getCurrentUser().getAccounts()) {
+			accounts.addElement(account.toString());
+		}
 		
 		combo = new JComboBox(accounts);
-		combo.setSelectedIndex(0);
+		
 		
 		JScrollPane accountPane= new JScrollPane(combo);
-		accountPane.setBounds(400, 250,150, 30);
+		accountPane.setBounds(400, 250,150, 35);
 		frame.add(accountPane);
 		
 		JLabel transferTo = new JLabel("Send Money To");
 		transferTo.setBounds(250,300,160,25);
 		frame.add(transferTo);
 		
-		transferToText = new JTextField();
-		transferToText.setBounds(400,300,165,25);
-		frame.add(transferToText);
+		recipientText = new JTextField();
+		recipientText.setBounds(400,300,165,25);
+		frame.add(recipientText);
 		
-		JLabel hint = new JLabel("Please provide username of the recipient");
+		JLabel hint = new JLabel("Please provide the username of the recipient");
 		hint.setBounds(250,320,300,25);
 		frame.add(hint);
 		
@@ -96,13 +96,18 @@ public class GUITransferTo {
 				// TODO Auto-generated method stub
 				try {
 					double amount = Double.parseDouble(transferAmountText.getText());
-					String data = "";//TODO: if transferToText is found
-		            if (combo.getSelectedIndex() != -1) {                     
-		               data = "Accounts Selected: " 
-		                  + combo.getItemAt
-		                  (combo.getSelectedIndex());             
-		            }              
-		            success.setText(data);
+					User recipient = Bank.getInstance().getUserByUsername(recipientText.getText());
+		            if ((combo.getSelectedIndex() != -1) && amount > 0 && recipient != null) {                     
+		               //data = "Accounts Selected: " 
+		                  //+ combo.getItemAt
+		                  //(combo.getSelectedIndex());     
+		            	Bank.getInstance().doTransaction(Bank.getInstance().getCurrentUser().getAccounts().get(combo.getSelectedIndex()), recipient , amount);
+		               	success.setText("Transfer Success!");
+		            } else if((combo.getSelectedIndex() == -1)) {
+		            	success.setText("You don't have an account yet. Please open a new account.");
+					} else {
+		            	success.setText("Please provide valid info");
+		            }
 				} catch(Exception exception) {
 					success.setText("Invalid Deposit Amount");
 				}

@@ -39,12 +39,10 @@ public class GUIDeposit {
 		frame.add(depositTo);
 		
 		DefaultComboBoxModel accounts = new DefaultComboBoxModel();
-		accounts.addElement("account1");
-		accounts.addElement("account2");
-		accounts.addElement("account3");
-		
+		for(Account account: Bank.getInstance().getCurrentUser().getAccounts()) {
+			accounts.addElement(account.toString());
+		}	
 		combo = new JComboBox(accounts);
-		combo.setSelectedIndex(0);
 		
 		JScrollPane accountPane= new JScrollPane(combo);
 		accountPane.setBounds(400, 250,150, 30);
