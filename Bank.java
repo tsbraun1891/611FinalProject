@@ -362,5 +362,8 @@ public class Bank {
 
         return rhet;
     }
-
+    
+    public ArrayList<Currency> getCurrencyTypes(){
+    	return currencies;
+    }
 }

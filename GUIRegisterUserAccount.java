@@ -95,19 +95,18 @@ public class GUIRegisterUserAccount {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				String userName = userText.getText();
-				String password = pswText.getText();
+				
 				timer = new Timer(1200, new ActionListener() {//after 1 sec, go back to Login
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
-						GUILogin login = new GUILogin(UserType.CUSTOMER);
+						GUICustomerHome h = new GUICustomerHome();
 						timer.stop();
 						closeFrame();
 					}
 				});
-				if(userName.equals("new") && password.equals("abc")) {//TODO: search database to see if unique username
-					success.setText("Success! Transfer back to login page...");
+				if(Bank.getInstance().registerNewUser(fNameText.getText(), lNameText.getText(), userText.getText(), pswText.getText(), 0, Bank.getInstance().getCurrencyTypes().get(0))) {//search database to see if unique username
+					success.setText("Success!");
 					timer.start();
 						
 				} else {
