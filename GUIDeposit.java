@@ -46,7 +46,7 @@ public class GUIDeposit {
 		combo = new JComboBox(accounts);
 		
 		JScrollPane accountPane= new JScrollPane(combo);
-		accountPane.setBounds(400, 250,150, 30);
+		accountPane.setBounds(400, 250,170, 45);
 		frame.add(accountPane);
 		
 		

@@ -48,7 +48,7 @@ public class GUITransferBetween {
 		combo = new JComboBox(accounts);
 		
 		JScrollPane accountPane= new JScrollPane(combo);
-		accountPane.setBounds(400, 250,150, 30);
+		accountPane.setBounds(400, 250,170, 45);
 		frame.add(accountPane);
 		
 		JLabel transferTo = new JLabel("Transfer To");
@@ -62,7 +62,7 @@ public class GUITransferBetween {
 		combo2 = new JComboBox(accounts2);
 		
 		JScrollPane accountPane2 = new JScrollPane(combo2);
-		accountPane2.setBounds(400,300,150,30);
+		accountPane2.setBounds(400,300,170,45);
 		frame.add(accountPane2);
 		
 		submitButton = new JButton("Submit");
