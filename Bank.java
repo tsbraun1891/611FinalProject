@@ -16,10 +16,12 @@ public class Bank {
     private final String oldLoanFile = "./data/Loans_old.csv";
     private final String transactionFile = "./data/Transactions.csv";
     private final String oldTransactionFile = "./data/Transactions_old.csv";
-
+    
     private User currentUser;
     /* One bank manager */
     private Admin admin;
+    
+    private static Bank bank = null;
 
     /* Opening/closing accounts and making transactions with a checking account incur a 1% fee */
     private final double standardFee = .01;
@@ -59,6 +61,16 @@ public class Bank {
         transactions = bankIO.readTransactions(transactionFile);
 
         Transaction xact = transactions.get(0);
+    }
+    
+    /**
+     * singleton Bank instance
+     * @return
+     */
+    public static Bank getInstance() {
+        if (bank == null)
+            bank = new Bank();
+        return bank;
     }
 
     /**
