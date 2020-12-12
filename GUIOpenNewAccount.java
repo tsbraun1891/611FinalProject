@@ -23,7 +23,7 @@ public class GUIOpenNewAccount {
 	private JLabel success;
 	private	ButtonGroup currencyGroup;
 	private ButtonGroup accountTypeGroup;
-	private CurrencyType currencyType;
+	private Currency currencyType;;
 	private AccountType accountType;
 	private Timer timer;
 	public GUIOpenNewAccount() {
@@ -174,11 +174,11 @@ public class GUIOpenNewAccount {
 					});
 					
 					if(c1.isSelected()) {//TODO: link 
-						currencyType = CurrencyType.USD;
+						currencyType = Bank.getInstance().getCurrencyTypes().get(0);
 					} else if(c2.isSelected()) {
-						currencyType = CurrencyType.EURO;
+						currencyType = Bank.getInstance().getCurrencyTypes().get(1);
 					} else if(c3.isSelected()) {
-						currencyType = CurrencyType.YEN;
+						currencyType = Bank.getInstance().getCurrencyTypes().get(2);
 					} else {
 						success.setText("Please choose currency type.");
 					}
@@ -191,7 +191,7 @@ public class GUIOpenNewAccount {
 						success.setText("Please choose account type.");
 					}
 					
-					if(currencyType != null && accountType != null) {
+					if(Bank.getInstance().createNewAccount(accountType, Bank.getInstance().getCurrentUser(), currencyType, 0)) {
 						success.setText("Submit Open New Account Request Successful!");
 						timer.start();
 					}

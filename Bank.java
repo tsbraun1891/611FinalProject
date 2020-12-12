@@ -318,7 +318,7 @@ public class Bank {
     public boolean doTransaction(Account sender, User receiver, double amount) {
         double startingBalance = sender.getBalance();
         double res = sender.transferMoneyToUser(receiver, amount);
-        if(startingBalance == res) 
+        if(startingBalance <= res) 
             return false;
 
             int newID = (int) (Math.random() * 1000000);
@@ -366,4 +366,5 @@ public class Bank {
     public ArrayList<Currency> getCurrencyTypes(){
     	return currencies;
     }
+    
 }
