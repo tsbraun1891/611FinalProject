@@ -3,8 +3,7 @@ public abstract class Account extends BalanceHandler {
     protected User owner;
     protected boolean isOpen;
     protected double fee;
-    
-    protected Transaction transaction;
+    protected int accountID;
 
     /**
      * Create a new account
@@ -12,17 +11,21 @@ public abstract class Account extends BalanceHandler {
      * @param currency - the type of the currency stored in this account
      * @param balance - the current amount of that currency in this account
      */
-    public Account(User owner, Currency currency, double balance, double feeRate) {
+    public Account(int accountID, User owner, Currency currency, double balance, double feeRate) {
         super(balance, currency);
 
         this.owner = owner;
-
+        this.accountID = accountID;
         this.isOpen = true;
         this.fee = feeRate;
     }
 
     public User getOwner() {
         return owner;
+    }
+
+    public int getID() {
+        return this.accountID;
     }
 
     /**
@@ -61,7 +64,7 @@ public abstract class Account extends BalanceHandler {
         return this.isOpen;
     }
 
-    public boolean checkClosed() {
+    public boolean checkOpen() {
         return this.isOpen;
     }
 
@@ -81,12 +84,14 @@ public abstract class Account extends BalanceHandler {
      * @return the new balance of the account
      */
     public double withdrawFromAccount(double amountToWithdraw) {
-        /* Charge the fee */
-        this.newFeeTransaction(amountToWithdraw);
+        if(amountToWithdraw + this.getServiceFeeAmount(amountToWithdraw) <= this.balance) {
+            /* Charge the fee */
+            this.newFeeTransaction(amountToWithdraw);
 
-        /* Take the money out of the account and give it to the owner */
-        this.subtractFromBalance(amountToWithdraw);        
-        this.owner.addToBalance(amountToWithdraw);
+            /* Take the money out of the account and give it to the owner */
+            this.subtractFromBalance(amountToWithdraw);        
+            this.owner.addToBalance(amountToWithdraw);
+        }        
 
         return this.balance;
     }
@@ -119,20 +124,34 @@ public abstract class Account extends BalanceHandler {
     public boolean equals(Object other) {
         if(other instanceof Account) {
             Account otherAccount = (Account) other;
-            if(otherAccount.getOwner().equals(this.getOwner()) && otherAccount.getBalance() == this.getBalance() && otherAccount.getFeeRate() == this.getFeeRate()) {
+            if(otherAccount.getID() == this.getID()) {
                 return true;
             }
         }
 
         return false;
     }
-    
-    
-    public void transfer(Account o, double amount) {
-        transaction.transfer(o,amount);
+
+    public String toString() {
+        String rhet = String.valueOf(this.accountID);
+        rhet = rhet.substring(rhet.length()-4, rhet.length());
+
+        return rhet;
+    }
+
+    /**
+     * This function transfers money from this account to another user
+     * @param otherUser - the user you are transferring money to
+     * @param amount - the amount you are transferring
+     * @return the resulting balance of this account
+     */
+    public double transferMoneyToUser(User otherUser, double amount) {
+        if(this.balance >= amount) {
+            otherUser.addToBalance(amount, this.currency);
+            this.subtractFromBalance(amount);
+        }
+
+        return this.balance;
     }
     
-    public double getBalance() {
-    	return this.balance;
-    }
 }

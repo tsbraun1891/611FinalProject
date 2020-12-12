@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class User extends BalanceHandler {
 
@@ -6,6 +7,7 @@ public class User extends BalanceHandler {
 	protected String lastName;
 	protected String userName;
 	protected String password;
+	protected ArrayList<Account> accounts;
     
 
 	public User(int userId, String firstName, String lastName, String username, String password, double balance, Currency currency) {
@@ -15,6 +17,8 @@ public class User extends BalanceHandler {
 		setLastName(lastName);
 		setUserName(username);
 		setPassword(password);
+
+		accounts = new ArrayList<>();
 	}
 	
 	//getter and setter for user
@@ -61,6 +65,18 @@ public class User extends BalanceHandler {
 		}
 
 		return false;
+	}
+
+	private boolean isCustomerAccount(Account account){
+        return accounts.contains(account);
+	}
+
+	public ArrayList<Account> getAccounts() {
+		return this.accounts;
+	}
+
+	public void addNewAccount(Account account) {
+		accounts.add(account);
 	}
 	
 }

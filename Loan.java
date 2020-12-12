@@ -1,6 +1,9 @@
 public class Loan extends BalanceHandler {
-	private User owner, loaner;
+	protected User owner;
+	protected User loaner;
 	private double rate;
+	private boolean approved, denied;
+	private int loanID;
 
 	/**
      * Create a new loan account
@@ -10,12 +13,27 @@ public class Loan extends BalanceHandler {
      * @param balance - the current amount of that currency on this loan
 	 * @param interestRate - the rate of interest that this account can generate
      */
-	public Loan(User owner, User loaner, Currency currency, double balance, double interestRate) {
+	public Loan(int loanID, User owner, User loaner, Currency currency, double balance, double interestRate) {
 		super(balance, currency);
 
 		this.owner = owner;
 		this.loaner = loaner;
 		this.rate = interestRate;
+		this.approved = false;
+		this.denied = false;
+		this.loanID = loanID;
+	}
+
+	/* Same as the other constructor except you can specify whether a loan is approved already or not */
+	public Loan(int loanID, User owner, User loaner, Currency currency, double balance, double interestRate, boolean approved) {
+		super(balance, currency);
+
+		this.loanID = loanID;
+		this.owner = owner;
+		this.loaner = loaner;
+		this.rate = interestRate;
+		this.approved = approved;
+		this.denied = false;
 	}
 
 	public User getOwner() {
@@ -44,6 +62,26 @@ public class Loan extends BalanceHandler {
 
 	public void setInterestRate(double newRate) {
 		this.rate = newRate;
+	}
+
+	public boolean isApproved() {
+		return this.approved;
+	}
+
+	public boolean isDenied() {
+		return this.denied;
+	}
+
+	public void approveLoan() {
+		this.approved = true;
+	}
+
+	public void denyLoan() {
+		this.approved = true;
+	}
+
+	public int getID() {
+		return this.loanID;
 	}
 
     /**
@@ -80,5 +118,16 @@ public class Loan extends BalanceHandler {
 		}        
 
         return this.balance;
+	}
+	
+	public boolean equals(Object other) {
+        if(other instanceof Loan) {
+            Loan otherLoan = (Loan) other;
+            if(otherLoan.getID() == this.getID()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
