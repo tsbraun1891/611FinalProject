@@ -124,6 +124,11 @@ public class GUIRequestLoan {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				try {
+					User user = Bank.getInstance().getCurrentUser();
+					Customer customer = null;
+					if(user instanceof Customer) {
+						customer = (Customer) user;
+					}
 					double loanAmount = Double.parseDouble(loanAmountText.getText());
 					timer = new Timer(1500, new ActionListener() {//after 1 sec, go to Customer Menu
 						@Override
@@ -137,14 +142,17 @@ public class GUIRequestLoan {
 					
 					if(c1.isSelected()) {//TODO: link request loan
 						currencyType = Bank.getInstance().getCurrencyTypes().get(0);
+						Bank.getInstance().requestLoan(customer, currencyType, loanAmount);
 						success.setText("Submit Loan Request Successful!");
 						timer.start();
 					} else if(c2.isSelected()) {
 						currencyType = Bank.getInstance().getCurrencyTypes().get(1);
+						Bank.getInstance().requestLoan(customer, currencyType, loanAmount);
 						success.setText("Submit Loan Request Successful!");
 						timer.start();
 					} else if(c3.isSelected()) {
 						currencyType = Bank.getInstance().getCurrencyTypes().get(2);
+						Bank.getInstance().requestLoan(customer, currencyType, loanAmount);
 						success.setText("Submit Loan Request Successful!");
 						timer.start();
 					} else {
