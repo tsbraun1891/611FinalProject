@@ -12,16 +12,16 @@ public class Checking extends Account {
     }
 
     /**
-     * This function transfers money from this account to another user
+     * This function transfers money from this account to another balance
      * and then charges a fee as this is a checking account
-     * @param otherUser - the user you are transferring money to
+     * @param otherUser - the balance you are transferring money to
      * @param amount - the amount you are transferring
      * @return the resulting balance of this account
      */
-    public double transferMoneyToUser(User otherUser, double amount) {
+    public double transferMoneyToUser(BalanceHandler otherUser, double amount) {
         if(this.balance >= amount) {
             super.newFeeTransaction(amount);
-            super.transferMoneyToUser(otherUser, amount);
+            super.transferMoneyToOther(otherUser, amount);
         }
 
         return this.balance;

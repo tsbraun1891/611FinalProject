@@ -265,20 +265,31 @@ public class IO {
             headers.add("ReceiverID");
             headers.add("TransactionAmount");
             headers.add("CurrencyDesc");
+            headers.add("SenderUser");
+            headers.add("ReceiverUser");
 
             linesToWrite.add(headers);
         }
 
         for(Transaction xact : transactions) {
-            ArrayList<String> xactAttributes = new ArrayList<>();
-
-            
+            ArrayList<String> xactAttributes = new ArrayList<>();            
     
             xactAttributes.add(String.valueOf(xact.getID()));
-            xactAttributes.add(String.valueOf(xact.getSender().getID()));
-            xactAttributes.add(String.valueOf(xact.getReceiver().getUserId()));
+
+            if(xact.isSenderUser())
+                xactAttributes.add(String.valueOf(((User) xact.getSender()).getUserId()));
+            else 
+                xactAttributes.add(String.valueOf(((Account) xact.getSender()).getID()));
+
+            if(xact.isReceiverUser())
+                xactAttributes.add(String.valueOf(((User) xact.getReceiver()).getUserId()));
+            else 
+                xactAttributes.add(String.valueOf(((Account) xact.getReceiver()).getID()));
+
             xactAttributes.add(String.valueOf(xact.getTransactionAmount()));
             xactAttributes.add(xact.getCurrencyType().getDesc());
+            xactAttributes.add(String.valueOf(xact.isSenderUser()));
+            xactAttributes.add(String.valueOf(xact.isReceiverUser()));
     
             linesToWrite.add(xactAttributes);
         }
@@ -356,7 +367,7 @@ public class IO {
             }
 
             if(attributes[0].equals("Admin")) {
-                rhet.add(new Admin(Integer.parseInt(attributes[1]), attributes[2], attributes[3], attributes[4], attributes[5], Double.parseDouble(attributes[6]), userCurrency));
+                rhet.add(new Admin(Integer.parseInt(attributes[1]), attributes[2], attributes[3], attributes[4], attributes[5], Double.parseDouble(attributes[6]), userCurrency, this.bank));
             } else {
                 rhet.add(new Customer(Integer.parseInt(attributes[1]), attributes[2], attributes[3], attributes[4], attributes[5], Double.parseDouble(attributes[6]), userCurrency));
             }
@@ -463,16 +474,31 @@ public class IO {
                 xactCurrency = c;
             }
 
-            Account sender = null;
-            for(Account a : this.bank.accounts) {
-                if(a.getID() == Integer.parseInt(attributes[1]))
-                    sender = a;
-            }
+            BalanceHandler sender = null;
 
-            User receiver = null;
-            for(User u : this.bank.users) {
-                if(u.getUserId() == Integer.parseInt(attributes[2]))
+            if(Boolean.parseBoolean(attributes[5])) {
+                for(User u : this.bank.users) {
+                    if(u.getUserId() == Integer.parseInt(attributes[2]))
+                    sender = u;
+                }
+            } else {
+                for(Account a : this.bank.accounts) {
+                    if(a.getID() == Integer.parseInt(attributes[1]))
+                        sender = a;
+                }
+            }            
+
+            BalanceHandler receiver = null;
+            if(Boolean.parseBoolean(attributes[6])) {
+                for(User u : this.bank.users) {
+                    if(u.getUserId() == Integer.parseInt(attributes[2]))
                     receiver = u;
+                }
+            } else {
+                for(Account a : this.bank.accounts) {
+                    if(a.getID() == Integer.parseInt(attributes[1]))
+                    receiver = a;
+                }
             }
 
             rhet.add(new Transaction(Integer.parseInt(attributes[0]), sender, receiver, Double.parseDouble(attributes[3]), xactCurrency));

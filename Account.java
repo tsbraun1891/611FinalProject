@@ -131,21 +131,6 @@ public abstract class Account extends BalanceHandler {
 
         return false;
     }
-
-    /**
-     * This function transfers money from this account to another user
-     * @param otherUser - the user you are transferring money to
-     * @param amount - the amount you are transferring
-     * @return the resulting balance of this account
-     */
-    public double transferMoneyToUser(User otherUser, double amount) {
-        if(this.balance >= amount) {
-            otherUser.addToBalance(amount, this.currency);
-            this.subtractFromBalance(amount);
-        }
-
-        return this.balance;
-    }
     
     public abstract String toString();
     

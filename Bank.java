@@ -59,6 +59,8 @@ public class Bank {
         }
 
         transactions = bankIO.readTransactions(transactionFile);
+
+        Transaction xact = transactions.get(0);
     }
     
     /**
@@ -141,12 +143,11 @@ public class Bank {
         toWrite.add(user);
 
         bankIO.writeUsersToFile(userFile, toWrite);
-
-        this.saveData();
     }
 
     /**
      * Create a new User object, add it to our database, and set them as the current user
+     * @param newAdmin - whether or not this new user should be an admin
      * @param firstName
      * @param lastName
      * @param username - unique username of the account
@@ -155,13 +156,20 @@ public class Bank {
      * @param currency - the currency they are currently working with
      * @return whether the username was unique or not
      */
-    public boolean registerNewUser(String firstName, String lastName, String username, String password, double startingBalance, Currency currency) {
+    public boolean registerNewUser(boolean newAdmin, String firstName, String lastName, String username, String password, double startingBalance, Currency currency) {
 
         if(this.getUserByUsername(username) != null) {
             return false;
         }
 
-        User newUser = new User(0, firstName, lastName, username, password, startingBalance, currency);
+        User newUser;
+
+        if(newAdmin) {
+            newUser = new Admin(0, firstName, lastName, username, password, startingBalance, currency, this);
+        } else {
+            newUser = new Customer(0, firstName, lastName, username, password, startingBalance, currency);
+        }
+        
 
         this.addNewUserToSystem(newUser);
         this.currentUser = newUser;
@@ -317,7 +325,13 @@ public class Bank {
             user.addToBalance(amount, account.getCurrencyType());
         }
         
-        //TODO: add to transaction history
+        int newID = (int) (Math.random() * 1000000);
+        for(Transaction xact : transactions) {
+            if(newID == xact.getID())
+                newID = (int) (Math.random() * 1000000);
+        }
+
+        this.transactions.add(new Transaction(newID, user, account, amount, account.getCurrencyType()));
         
         this.saveData();
 
@@ -342,8 +356,15 @@ public class Bank {
         
         this.saveData();
 
+        int newID = (int) (Math.random() * 1000000);
+        for(Transaction xact : transactions) {
+            if(newID == xact.getID())
+                newID = (int) (Math.random() * 1000000);
+        }
+
+        this.transactions.add(new Transaction(newID, user, account, amount, user.getCurrencyType()));
+
     	return true;
-    	//TODO: add to transaction history
     }
     
     /**
@@ -365,8 +386,15 @@ public class Bank {
         
         this.saveData();
 
+        int newID = (int) (Math.random() * 1000000);
+        for(Transaction xact : transactions) {
+            if(newID == xact.getID())
+                newID = (int) (Math.random() * 1000000);
+        }
+
+        this.transactions.add(new Transaction(newID, sender, receiver, amount, sender.getCurrencyType()));
+
     	return true;
-    	//TODO: add to transaction history??
     }
 
 
@@ -399,6 +427,8 @@ public class Bank {
                 l.passOneMonth();
         }
 
+        this.transactions = new ArrayList<>();
+
         this.saveData();
     }
 
@@ -411,6 +441,8 @@ public class Bank {
 
         for(Transaction t : transactions) {
             if(t.getSender().equals(account))
+                rhet.add(t);
+            else if(t.getReceiver().equals(account))
                 rhet.add(t);
         }
 
@@ -425,7 +457,9 @@ public class Bank {
         ArrayList<Transaction> rhet = new ArrayList<>();
 
         for(Transaction t : transactions) {
-            if(t.getReceiver().equals(user))
+            if(t.getSender().equals(user))
+                rhet.add(t);
+            else if(t.getReceiver().equals(user))
                 rhet.add(t);
         }
 

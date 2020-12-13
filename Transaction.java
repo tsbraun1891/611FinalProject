@@ -4,30 +4,44 @@
 
 public class Transaction {
 
-    private Account sender;
-    private User receiver;
+    private BalanceHandler sender, receiver;
     private double transactionAmount;
     private Currency currency;
     private int transactionID;
+
+    /* Since sender and receiver must be either accounts or users, these flags will let
+        you know if they are a user or not */
+    private boolean senderUser, receiverUser;
 	
-	public Transaction(int id, Account sender, User receiver, double amount, Currency currencyType) {
+	public Transaction(int id, BalanceHandler sender, BalanceHandler receiver, double amount, Currency currencyType) {
         this.sender = sender;
         this.receiver = receiver;
         this.transactionAmount = amount;
         this.currency = currencyType;
         this.transactionID = id;
+
+        senderUser = sender instanceof User;
+        receiverUser = receiver instanceof User;
     }
 
-    public Account getSender() {
+    public BalanceHandler getSender() {
         return this.sender;
     }
 
-    public User getReceiver() {
+    public BalanceHandler getReceiver() {
         return this.receiver;
     }
 
     public double getTransactionAmount() {
         return this.transactionAmount;
+    }
+
+    public boolean isReceiverUser() {
+        return this.receiverUser;
+    }
+
+    public boolean isSenderUser() {
+        return this.senderUser;
     }
 
     /**
