@@ -99,13 +99,15 @@ public class GUITransferBetween {
 				// TODO Auto-generated method stub
 				try { 
 					double amount = Double.parseDouble(transferAmountText.getText());
-					Account sender = null;
-					Account receiver = null;
+					BalanceHandler sender = null;
+					BalanceHandler receiver = null;
 					
 					if ((combo.getSelectedIndex() != -1)) {//choose sender
 						if(combo.getSelectedIndex() != 0) {
 							sender = Bank.getInstance().getCurrentUser().getAccounts().get(combo.getSelectedIndex()-1);	
-						} 
+						} else {
+							sender = Bank.getInstance().getCurrentUser();
+						}
 					} else {
 						success.setText("Choose an account/wallet");
 					}
@@ -113,16 +115,15 @@ public class GUITransferBetween {
 					if ((combo2.getSelectedIndex() != -1)) {//choose receiver
 						if(combo2.getSelectedIndex() != 0) {
 							receiver = Bank.getInstance().getCurrentUser().getAccounts().get(combo2.getSelectedIndex()-1);	
+						} else {
+							receiver = Bank.getInstance().getCurrentUser();
 						}
 					} else {
 						success.setText("Choose an account/wallet");
 					}
 					
-					if((sender == null && receiver == null)) {
-						success.setText("You can't transfer to same account.");
-					} else if(sender != null && receiver != null) {
-						if(sender.equals(receiver))
-							success.setText("You can't transfer to same account.");	
+					if(sender.equals(receiver)) {
+						success.setText("You can't transfer to same account");
 					} else {
 						User user = Bank.getInstance().getCurrentUser();
 						if(Bank.getInstance().transferBetweenAccount(user, sender, receiver, amount)) {
@@ -133,7 +134,7 @@ public class GUITransferBetween {
 					}
 					
 				} catch(Exception exception) {
-					success.setText("Invalid Transfer Amount");
+					success.setText("provide valid info please");
 					//exception.printStackTrace();
 				}
 			}

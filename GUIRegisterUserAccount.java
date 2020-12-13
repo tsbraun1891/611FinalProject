@@ -30,10 +30,8 @@ public class GUIRegisterUserAccount {
 	
 	public GUIRegisterUserAccount() {//TODO: link create new account. 
 		frame = new JFrame();
-		
-		JLabel title = new JLabel("Create New Account");
-		title.setBounds(250, 50, 160, 25);
-		frame.add(title);
+	
+		frame.setTitle("Create New Account");
 		
 		JLabel userLabel = new JLabel("Username");
 		userLabel.setBounds(250,100,80,25);
@@ -42,7 +40,6 @@ public class GUIRegisterUserAccount {
 		userText = new JTextField();
 		userText.setBounds(350,100,165,25);
 		frame.add(userText);
-		
 		
 		JLabel pswLabel = new JLabel("Password");
 		pswLabel.setBounds(250,150,80,25);
@@ -69,8 +66,12 @@ public class GUIRegisterUserAccount {
 		frame.add(lNameText);
 		
 		JLabel title2 = new JLabel("Choose currency type for your wallet");
-		title2.setBounds(250,250,80,25);
-		frame.add(lNameLabel);
+		title2.setBounds(250,300,300,25);
+		frame.add(title2);
+		
+		JLabel title3 = new JLabel("You can change it anytime after registration");
+		title3.setBounds(250,320,300,25);
+		frame.add(title3);
 		
 		currencyGroup = new ButtonGroup();
 		c1 = new JRadioButton("USD");
