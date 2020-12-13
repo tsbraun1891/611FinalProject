@@ -126,7 +126,7 @@ public class GUITransferBetween {
 						success.setText("You can't transfer to same account");
 					} else {
 						User user = Bank.getInstance().getCurrentUser();
-						if(Bank.getInstance().transferBetweenAccount(user, sender, receiver, amount)) {
+						if(Bank.getInstance().transferMoney(sender, receiver, amount)) {
 							success.setText("Transfer Between Account Success!");
 						} else {
 							success.setText("Please enter a valid amount of money");

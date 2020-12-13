@@ -18,10 +18,10 @@ public class Checking extends Account {
      * @param amount - the amount you are transferring
      * @return the resulting balance of this account
      */
-    public double transferMoneyToUser(BalanceHandler otherUser, double amount) {
+    public double transferMoneyToOther(BalanceHandler other, double amount) {
         if(this.balance >= amount) {
             super.newFeeTransaction(amount);
-            super.transferMoneyToOther(otherUser, amount);
+            super.transferMoneyToOther(other, amount);
         }
 
         return this.balance;
