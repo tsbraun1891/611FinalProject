@@ -105,7 +105,7 @@ public class GUILogin {
 							closeFrame();
 						}
 					});
-					if(userName.equals("Ling") && password.equals("abc")) {
+					if(Bank.getInstance().login(userName, password)) {
 						success.setText("Customer Login Successful!");
 						timer.start();
 						
@@ -122,9 +122,13 @@ public class GUILogin {
 							closeFrame();
 						}
 					});
-					if(userName.equals("Manager") && password.equals("abc")) {
-						success.setText("Admin Login Successful!");
-						timer.start();
+					if(Bank.getInstance().login(userName, password)) {
+						if(Bank.getInstance().getAdmin().getUserName().equals(userName) && Bank.getInstance().getAdmin().getPassword().equals(password)) {
+							success.setText("Admin Login Successful!");
+							timer.start();
+						} else {
+							success.setText("You don't have Admin access");
+						}
 					} else {
 						success.setText("Invalid username or password.");
 					}

@@ -132,13 +132,6 @@ public abstract class Account extends BalanceHandler {
         return false;
     }
 
-    public String toString() {
-        String rhet = String.valueOf(this.accountID);
-        rhet = rhet.substring(rhet.length()-4, rhet.length());
-
-        return rhet;
-    }
-
     /**
      * This function transfers money from this account to another user
      * @param otherUser - the user you are transferring money to
@@ -153,5 +146,7 @@ public abstract class Account extends BalanceHandler {
 
         return this.balance;
     }
+    
+    public abstract String toString();
     
 }

@@ -22,7 +22,7 @@ public class GUIRequestLoan {
 	private JLabel success;
 	private	ButtonGroup currencyGroup;
 	private JTextField loanAmountText;
-	private CurrencyType currencyType;
+	private Currency currencyType;
 	private Timer timer;
 	
 	public GUIRequestLoan() {
@@ -136,15 +136,15 @@ public class GUIRequestLoan {
 					});
 					
 					if(c1.isSelected()) {//TODO: link request loan
-						currencyType = CurrencyType.USD;
+						currencyType = Bank.getInstance().getCurrencyTypes().get(0);
 						success.setText("Submit Loan Request Successful!");
 						timer.start();
 					} else if(c2.isSelected()) {
-						currencyType = CurrencyType.EURO;
+						currencyType = Bank.getInstance().getCurrencyTypes().get(1);
 						success.setText("Submit Loan Request Successful!");
 						timer.start();
 					} else if(c3.isSelected()) {
-						currencyType = CurrencyType.YEN;
+						currencyType = Bank.getInstance().getCurrencyTypes().get(2);
 						success.setText("Submit Loan Request Successful!");
 						timer.start();
 					} else {
