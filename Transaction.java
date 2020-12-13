@@ -1,3 +1,6 @@
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 /**
  * The transaction class keeps track of information about recent transactions
  */
@@ -8,6 +11,7 @@ public class Transaction {
     private double transactionAmount;
     private Currency currency;
     private int transactionID;
+    private String date;
 
     /* Since sender and receiver must be either accounts or users, these flags will let
         you know if they are a user or not */
@@ -22,8 +26,23 @@ public class Transaction {
 
         senderUser = sender instanceof User;
         receiverUser = receiver instanceof User;
+        
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String date = sdf.format(cal.getTime());
+        setDate(date);
     }
 
+	
+	//setters and getters
+    private void setDate(String date) {
+    	this.date = date;
+	}
+    
+    public String getDate() {
+    	return date;
+    }
+    
     public BalanceHandler getSender() {
         return this.sender;
     }

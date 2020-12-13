@@ -1,4 +1,6 @@
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class Bank {
     IO bankIO;
@@ -468,6 +470,23 @@ public class Bank {
     
     public ArrayList<Currency> getCurrencyTypes(){
     	return currencies;
+    }
+    
+    /**
+     * @return a list of all transactions that accrued daily
+     */
+    public ArrayList<Transaction> getDailyReport(){
+    	ArrayList<Transaction> trans = new ArrayList<>();
+    	
+    	Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String date = sdf.format(cal.getTime());
+        for(Transaction t: transactions) {
+        	if(t.getDate().equals(date)) {
+        		trans.add(t);
+        	}
+        }
+        return trans;
     }
     
 }
