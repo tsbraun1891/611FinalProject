@@ -19,7 +19,7 @@ public class GUITransferBetween {
 	private JComboBox combo;
 	private JComboBox combo2;
 	private JTextField transferAmountText;
-	private JTextField transferToText;
+	
 	
 	public GUITransferBetween() {
 		frame = new JFrame();	
@@ -41,6 +41,7 @@ public class GUITransferBetween {
 		frame.add(withdrawalFrom);
 		
 		DefaultComboBoxModel accounts = new DefaultComboBoxModel();
+		accounts.addElement("Your wallet");
 		for(Account account: Bank.getInstance().getCurrentUser().getAccounts()) {
 			accounts.addElement(account.toString());
 		}
@@ -56,6 +57,7 @@ public class GUITransferBetween {
 		frame.add(transferTo);
 		
 		DefaultComboBoxModel accounts2 = new DefaultComboBoxModel();
+		accounts2.addElement("Your wallet");
 		for(Account account: Bank.getInstance().getCurrentUser().getAccounts()) {
 			accounts2.addElement(account.toString());
 		}
@@ -95,17 +97,44 @@ public class GUITransferBetween {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				try { //TODO: check if account 1 == account 2, if so, cant transfer to same account
+				try { 
 					double amount = Double.parseDouble(transferAmountText.getText());
-					String data = "";//TODO: if transferToText is found
-		            if (combo.getSelectedIndex() != -1) {                     
-		               data = "Accounts Selected: " 
-		                  + combo.getItemAt
-		                  (combo.getSelectedIndex());             
-		            }              
-		            success.setText(data);
+					Account sender = null;
+					Account receiver = null;
+					
+					if ((combo.getSelectedIndex() != -1)) {//choose sender
+						if(combo.getSelectedIndex() != 0) {
+							sender = Bank.getInstance().getCurrentUser().getAccounts().get(combo.getSelectedIndex()-1);	
+						} 
+					} else {
+						success.setText("Choose an account/wallet");
+					}
+					
+					if ((combo2.getSelectedIndex() != -1)) {//choose receiver
+						if(combo2.getSelectedIndex() != 0) {
+							receiver = Bank.getInstance().getCurrentUser().getAccounts().get(combo2.getSelectedIndex()-1);	
+						}
+					} else {
+						success.setText("Choose an account/wallet");
+					}
+					
+					if((sender == null && receiver == null)) {
+						success.setText("You can't transfer to same account.");
+					} else if(sender != null && receiver != null) {
+						if(sender.equals(receiver))
+							success.setText("You can't transfer to same account.");	
+					} else {
+						User user = Bank.getInstance().getCurrentUser();
+						if(Bank.getInstance().transferBetweenAccount(user, sender, receiver, amount)) {
+							success.setText("Transfer Between Account Success!");
+						} else {
+							success.setText("Please enter a valid amount of money");
+						}
+					}
+					
 				} catch(Exception exception) {
-					success.setText("Invalid Deposit Amount");
+					success.setText("Invalid Transfer Amount");
+					//exception.printStackTrace();
 				}
 			}
 			

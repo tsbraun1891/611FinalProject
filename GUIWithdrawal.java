@@ -86,7 +86,7 @@ public class GUIWithdrawal {
 					double amount = Double.parseDouble(withdrawalAmountText.getText());
 					if ((combo.getSelectedIndex() != -1)) {
 						if(combo.getSelectedIndex() != 0) {
-							Account chosen = Bank.getInstance().getCurrentUser().getAccounts().get(combo.getSelectedIndex()+1);
+							Account chosen = Bank.getInstance().getCurrentUser().getAccounts().get(combo.getSelectedIndex()-1);
 							if(Bank.getInstance().withdrawFromAccount(Bank.getInstance().getCurrentUser(), chosen, amount)) {
 								success.setText("Withdrawal Success!");
 							} else {

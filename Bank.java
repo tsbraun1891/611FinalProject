@@ -281,7 +281,7 @@ public class Bank {
     }
     
     /**
-     * withdraw money from a user's account / wallet
+     * withdraw money from a user's accounts / wallet
      * @param user
      * @param account
      * @param amount
@@ -306,7 +306,7 @@ public class Bank {
     	return true;
     }
     /**
-     * deposit money from a user's account/ wallet
+     * deposit money from a user's accounts/ wallet
      * @param user
      * @param account
      * @param amount
@@ -323,6 +323,41 @@ public class Bank {
     	}
     	return true;
     	//TODO: add to transaction history
+    }
+    
+    /**
+     * transfer between a user's accounts and their wallet
+     * @param user
+     * @param sender
+     * @param receiver
+     * @param amount
+     * @return
+     */
+    public boolean transferBetweenAccount(User user, Account sender, Account receiver, double amount ) {
+    	if(amount < 0) {
+    		return false;
+    	}
+    	BalanceHandler handlerSender = null;
+    	BalanceHandler handlerReceiver = null;
+    	if(sender == null) {
+    		handlerSender = user;
+    	} else {
+    		handlerSender = sender;
+    	}
+    	
+    	if(receiver == null) {
+    		handlerReceiver = user;
+    	} else {
+    		handlerReceiver = receiver;
+    	}
+    
+    	if(amount> handlerSender.getBalance()) {
+    		return false;
+    	}
+    	handlerSender.subtractFromBalance(amount);
+    	handlerReceiver.addToBalance(amount);
+    	return true;
+    	//TODO: add to transaction history??
     }
 
     public void requestLoan(Customer owner, Currency currencyType, double amount) {

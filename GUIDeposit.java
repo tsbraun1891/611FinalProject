@@ -85,17 +85,17 @@ public class GUIDeposit {
 					double amount = Double.parseDouble(depositAmountText.getText());
 					if ((combo.getSelectedIndex() != -1)) {
 						if(combo.getSelectedIndex() != 0) {
-							Account chosen = Bank.getInstance().getCurrentUser().getAccounts().get(combo.getSelectedIndex()+1);
+							Account chosen = Bank.getInstance().getCurrentUser().getAccounts().get(combo.getSelectedIndex()-1);
 							if(Bank.getInstance().depositToAccount(Bank.getInstance().getCurrentUser(), chosen, amount)) {
 								success.setText("Deposit Success!");
 							} else {
-								success.setText("Please enter a valid amount number");
+								success.setText("Please enter a valid amount of money");
 							}
 						} else {//put it in wallet
 							if(Bank.getInstance().depositToAccount(Bank.getInstance().getCurrentUser(), null, amount)) {
 								success.setText("Deposit Success!");
 							} else {
-								success.setText("Please enter a valid amount number");
+								success.setText("Please enter a valid amount of money");
 							}
 						}
 					} else {
@@ -103,6 +103,8 @@ public class GUIDeposit {
 					}
 				} catch(Exception exception) {
 					success.setText("Invalid Deposit Amount");
+					//exception.printStackTrace();
+
 				}
 			}
 			
