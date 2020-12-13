@@ -1,10 +1,12 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
@@ -20,46 +22,70 @@ public class GUIRegisterUserAccount {
 	private JTextField fNameText;
 	private JTextField lNameText;
 	private JTextField pswText;
+	private JRadioButton c1;
+	private JRadioButton c2;
+	private JRadioButton c3;
+	private	ButtonGroup currencyGroup;
+	private Currency currencyType;
 	
 	public GUIRegisterUserAccount() {//TODO: link create new account. 
 		frame = new JFrame();
 		
 		JLabel title = new JLabel("Create New Account");
-		title.setBounds(250, 150, 160, 25);
+		title.setBounds(250, 50, 160, 25);
 		frame.add(title);
 		
 		JLabel userLabel = new JLabel("Username");
-		userLabel.setBounds(250,200,80,25);
+		userLabel.setBounds(250,100,80,25);
 		frame.add(userLabel);
 		
 		userText = new JTextField();
-		userText.setBounds(350,200,165,25);
+		userText.setBounds(350,100,165,25);
 		frame.add(userText);
 		
 		
 		JLabel pswLabel = new JLabel("Password");
-		pswLabel.setBounds(250,250,80,25);
+		pswLabel.setBounds(250,150,80,25);
 		frame.add(pswLabel);
 		
 		pswText = new JTextField();
-		pswText.setBounds(350,250,165,25);
+		pswText.setBounds(350,150,165,25);
 		frame.add(pswText);
 		
 		JLabel fNameLabel = new JLabel("First Name");
-		fNameLabel.setBounds(250,300,80,25);
+		fNameLabel.setBounds(250,200,80,25);
 		frame.add(fNameLabel);
 		
 		fNameText = new JTextField();
-		fNameText.setBounds(350,300,165,25);
+		fNameText.setBounds(350,200,165,25);
 		frame.add(fNameText);
 		
 		JLabel lNameLabel = new JLabel("Last Name");
-		lNameLabel.setBounds(250,350,80,25);
+		lNameLabel.setBounds(250,250,80,25);
 		frame.add(lNameLabel);
 		
 		lNameText = new JTextField();
-		lNameText.setBounds(350,350,165,25);
+		lNameText.setBounds(350,250,165,25);
 		frame.add(lNameText);
+		
+		JLabel title2 = new JLabel("Choose currency type for your wallet");
+		title2.setBounds(250,250,80,25);
+		frame.add(lNameLabel);
+		
+		currencyGroup = new ButtonGroup();
+		c1 = new JRadioButton("USD");
+		c2 = new JRadioButton("EURO");
+		c3 = new JRadioButton("YEN");
+		c1.setBounds(250,350,80,25);
+		c2.setBounds(350,350,80,25);
+		c3.setBounds(450,350,80,25);
+		currencyGroup.add(c1);
+		currencyGroup.add(c2);
+		currencyGroup.add(c3);
+		addCurrencyGroupFunction();
+		frame.add(c1);
+		frame.add(c2);
+		frame.add(c3);
 		
 		success  = new JLabel("");
 		success.setBounds(250,420,300,25);
@@ -105,7 +131,17 @@ public class GUIRegisterUserAccount {
 						closeFrame();
 					}
 				});
-				if(Bank.getInstance().registerNewUser(fNameText.getText(), lNameText.getText(), userText.getText(), pswText.getText(), 0, Bank.getInstance().getCurrencyTypes().get(0))) {//search database to see if unique username
+				
+				if(c1.isSelected()) {//TODO: link request loan
+					currencyType = Bank.getInstance().getCurrencyTypes().get(0);
+				} else if(c2.isSelected()) {
+					currencyType = Bank.getInstance().getCurrencyTypes().get(1);
+				} else if(c3.isSelected()) {
+					currencyType = Bank.getInstance().getCurrencyTypes().get(2);
+				} else {
+					success.setText("Please choose currency type.");
+				}
+				if(Bank.getInstance().registerNewUser(fNameText.getText(), lNameText.getText(), userText.getText(), pswText.getText(), 0, currencyType)) {//search database to see if unique username
 					success.setText("Success!");
 					timer.start();
 						
@@ -114,6 +150,41 @@ public class GUIRegisterUserAccount {
 				}
 			}
 			
+		});
+	}
+	
+	private void addCurrencyGroupFunction() {
+		c1.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				c1.setSelected(true);
+			}
+			
+		
+		});
+		
+		c2.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				c2.setSelected(true);
+			}
+			
+		
+		});
+		
+		c3.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				c3.setSelected(true);
+			}
+			
+		
 		});
 	}
 	
