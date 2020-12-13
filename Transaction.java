@@ -1,5 +1,8 @@
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -40,6 +43,7 @@ public abstract class Transaction {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String date = sdf.format(cal.getTime());
         setDate(date);
+<<<<<<< Updated upstream
     }
 /*
 	public Transaction(int id, BalanceHandler sender, BalanceHandler receiver, double amount, Currency currencyType, String date) {
@@ -58,6 +62,19 @@ public abstract class Transaction {
     }
 
 	public BalanceHandler getSender() {
+=======
+    }
+
+	//setters and getters
+	private void setDate(String date) {
+    	this.date = date;
+	}
+    
+    public String getDate() {
+    	return date;
+    }
+    public BalanceHandler getSender() {
+>>>>>>> Stashed changes
         return this.sender;
     }
 

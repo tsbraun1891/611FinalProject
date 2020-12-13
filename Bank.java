@@ -301,6 +301,10 @@ public class Bank {
     	return currencies;
     }
     
+<<<<<<< Updated upstream
+=======
+    
+>>>>>>> Stashed changes
     /**
      * @return a list of all transactions that accrued daily
      */
@@ -318,5 +322,8 @@ public class Bank {
         return trans;
     }
     
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 }
