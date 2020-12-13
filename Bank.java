@@ -323,8 +323,7 @@ public class Bank {
                 return false;
             }
 
-            account.subtractFromBalance(amount);
-            user.addToBalance(amount, account.getCurrencyType());
+            account.withdrawFromAccount(amount);
         }
         
         int newID = (int) (Math.random() * 1000000);
