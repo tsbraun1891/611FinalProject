@@ -267,6 +267,7 @@ public class IO {
             headers.add("CurrencyDesc");
             headers.add("SenderUser");
             headers.add("ReceiverUser");
+            headers.add("Date");
 
             linesToWrite.add(headers);
         }
@@ -290,6 +291,7 @@ public class IO {
             xactAttributes.add(xact.getCurrencyType().getDesc());
             xactAttributes.add(String.valueOf(xact.isSenderUser()));
             xactAttributes.add(String.valueOf(xact.isReceiverUser()));
+            xactAttributes.add(xact.getDate());
     
             linesToWrite.add(xactAttributes);
         }
@@ -501,7 +503,7 @@ public class IO {
                 }
             }
 
-            rhet.add(new Transaction(Integer.parseInt(attributes[0]), sender, receiver, Double.parseDouble(attributes[3]), xactCurrency));
+            rhet.add(new Transaction(Integer.parseInt(attributes[0]), sender, receiver, Double.parseDouble(attributes[3]), xactCurrency, attributes[7]));
         }
 
         return rhet;

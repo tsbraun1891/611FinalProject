@@ -16,7 +16,7 @@ public class Transaction {
     /* Since sender and receiver must be either accounts or users, these flags will let
         you know if they are a user or not */
     private boolean senderUser, receiverUser;
-	
+
 	public Transaction(int id, BalanceHandler sender, BalanceHandler receiver, double amount, Currency currencyType) {
         this.sender = sender;
         this.receiver = receiver;
@@ -33,6 +33,18 @@ public class Transaction {
         setDate(date);
     }
 
+    public Transaction(int id, BalanceHandler sender, BalanceHandler receiver, double amount, Currency currencyType, String date) {
+        this.sender = sender;
+        this.receiver = receiver;
+        this.transactionAmount = amount;
+        this.currency = currencyType;
+        this.transactionID = id;
+
+        senderUser = sender instanceof User;
+        receiverUser = receiver instanceof User;
+        
+        setDate(date);
+    }
 	
 	//setters and getters
     private void setDate(String date) {
