@@ -5,7 +5,7 @@ public class Main {
 		// TODO Auto-generated method stub
 		GUIHome h = new GUIHome();
 
-		Bank b = new Bank();
+		Bank b = Bank.getInstance();
 
 		b.saveData();
 	}

@@ -79,4 +79,19 @@ public abstract class BalanceHandler {
 
         return this.getBalance();
     }
+
+    /**
+     * This function transfers money from this balance to another balance
+     * @param other - the balance you are transferring money to
+     * @param amount - the amount you are transferring (in your currency)
+     * @return the resulting amount of this balance
+     */
+    public double transferMoneyToOther(BalanceHandler other, double amount) {
+        if(this.balance >= amount) {
+            other.addToBalance(amount, this.currency);
+            this.subtractFromBalance(amount);
+        }
+
+        return this.balance;
+    }
 }

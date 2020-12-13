@@ -1,2 +1,2 @@
-ID,SenderID,ReceiverID,TransactionAmount,CurrencyDesc
-3250545,2134123,222,500.0,USD
+ID,SenderID,ReceiverID,TransactionAmount,CurrencyDesc,SenderUser,ReceiverUser
+3250545,2134123,222,500.0,USD,false,true

@@ -16,7 +16,7 @@ public class Bank {
     private final String oldLoanFile = "./data/Loans_old.csv";
     private final String transactionFile = "./data/Transactions.csv";
     private final String oldTransactionFile = "./data/Transactions_old.csv";
-    
+
     private User currentUser;
     /* One bank manager */
     private Admin admin;
@@ -32,7 +32,7 @@ public class Bank {
     /* Standard Loan rate */
     private final double standardLoanInterest = .05;
     
-    public Bank() {
+    private Bank() {
         bankIO = new IO(this);
         currencies = this.setCurrencies();
 
@@ -147,6 +147,7 @@ public class Bank {
 
     /**
      * Create a new User object, add it to our database, and set them as the current user
+     * @param newAdmin - whether or not this new user should be an admin
      * @param firstName
      * @param lastName
      * @param username - unique username of the account
@@ -155,13 +156,20 @@ public class Bank {
      * @param currency - the currency they are currently working with
      * @return whether the username was unique or not
      */
-    public boolean registerNewUser(String firstName, String lastName, String username, String password, double startingBalance, Currency currency) {
+    public boolean registerNewUser(boolean newAdmin, String firstName, String lastName, String username, String password, double startingBalance, Currency currency) {
 
         if(this.getUserByUsername(username) != null) {
             return false;
         }
 
-        User newUser = new User(0, firstName, lastName, username, password, startingBalance, currency);
+        User newUser;
+
+        if(newAdmin) {
+            newUser = new Admin(0, firstName, lastName, username, password, startingBalance, currency, this);
+        } else {
+            newUser = new Customer(0, firstName, lastName, username, password, startingBalance, currency);
+        }
+        
 
         this.addNewUserToSystem(newUser);
         this.currentUser = newUser;
@@ -180,31 +188,39 @@ public class Bank {
      * @return whether the account was successfully created or not
      */
     public boolean createNewAccount(AccountType type, User owner, Currency currencyType, double startingAmount) {
-        Account account;
-        int newID = (int) (Math.random() * 1000000);
+        if(startingAmount <= owner.getBalance()) {
+            Account account;
+            int newID = (int) (Math.random() * 1000000);
 
-        for(Account a : accounts) {
-            if(newID == a.getID()) {
-                newID = (int) (Math.random() * 1000000);
+            for(Account a : accounts) {
+                if(newID == a.getID()) {
+                    newID = (int) (Math.random() * 1000000);
+                }
             }
-        }
 
-        switch(type) {
-        case SAVING:
-            account = new Savings(newID, owner, currencyType, startingAmount, standardFee, standardInterestThreshold, standardSavingsInterest);
-            break;
+            switch(type) {
+            case SAVING:
+                account = new Savings(newID, owner, currencyType, startingAmount, standardFee, standardInterestThreshold, standardSavingsInterest);
+                break;
 
-        case CHECKING:
-            account = new Checking(newID, owner, currencyType, startingAmount, standardFee);
-            break;
+            case CHECKING:
+                account = new Checking(newID, owner, currencyType, startingAmount, standardFee);
+                break;
 
-        default:
+            default:
+                return false;
+            }
+
+            /* Now we subtract the opening account fee */
+            owner.addNewAccount(account);
+
+            this.saveData();
+
+            return account.openAccount();
+        } else {
             return false;
         }
-
-        /* Now we subtract the opening account fee */
-        owner.addNewAccount(account);
-        return account.openAccount();
+        
     }
     
 
@@ -259,7 +275,10 @@ public class Bank {
      * @return the new balance of the user's wallet
      */
     public double addMoneyToWallet(User user, double amount) {
-        return user.addToBalance(amount);
+        user.addToBalance(amount);
+        this.saveData();
+
+        return user.getBalance();
     }
 
     /**
@@ -269,7 +288,10 @@ public class Bank {
      * @return the new balance of the user's wallet
      */
     public double takeMoneyFromWallet(User user, double amount) {
-        return user.subtractFromBalance(amount);
+        user.subtractFromBalance(amount);
+        this.saveData();
+
+        return user.getBalance();
     }
 
     /**
@@ -278,62 +300,81 @@ public class Bank {
      */
     public void cashOut(User user) {
         user.subtractFromBalance(user.getBalance());
+
+        this.saveData();
     }
     
     /**
-     * withdraw money from a user's accounts / wallet
-     * @param user
-     * @param account
-     * @param amount
+     * Withdraws money from a specified account into the owner's wallet
+     * @param user - the user withdrawing the money
+     * @param account - the account being withdrawn from
+     * @param amount - the amount of money to withdraw (given in account currency)
+     * @return whether the user was able to withdraw or not
      */
     public boolean withdrawFromAccount(User user, Account account, double amount) {
     	if(amount<0) {
     		return false;
-    	}
-    	
-    	if(account != null) {
-    		if(amount > account.getBalance()) {
-    			return false;
-    		} 
-    		account.subtractFromBalance(amount);
-    	} else {
-    		if(amount > user.getBalance()) {
-    			return false;
-    		}
-    		user.subtractFromBalance(amount);
-    	}
-    	//TODO: add to transaction history
+        }
+        
+        if(account.getOwner().equals(user)) {
+            if(amount > account.getBalance()) {
+                return false;
+            }
+
+            account.subtractFromBalance(amount);
+            user.addToBalance(amount, account.getCurrencyType());
+        }
+        
+        int newID = (int) (Math.random() * 1000000);
+        for(Transaction xact : transactions) {
+            if(newID == xact.getID())
+                newID = (int) (Math.random() * 1000000);
+        }
+
+        this.transactions.add(new Transaction(newID, user, account, amount, account.getCurrencyType()));
+        
+        this.saveData();
+
     	return true;
     }
     /**
-     * deposit money from a user's accounts/ wallet
-     * @param user
-     * @param account
-     * @param amount
+     * deposit money from a user's wallet to an account
+     * @param user - the user making the deposit
+     * @param account - the account being deposited to
+     * @param amount - how much money to deposit (given in user's currency type)
      * @return
      */
     public boolean depositToAccount(User user, Account account, double amount) {
     	if(amount < 0) {
     		return false;
     	}
-    	if(account != null) {
-    		account.addToBalance(amount);
-    	} else {
-    		user.addToBalance(amount);
-    	}
+        
+        if(amount <= user.getBalance()) {
+            account.addToBalance(amount, user.getCurrencyType());
+            user.subtractFromBalance(amount);
+        }
+        
+        this.saveData();
+
+        int newID = (int) (Math.random() * 1000000);
+        for(Transaction xact : transactions) {
+            if(newID == xact.getID())
+                newID = (int) (Math.random() * 1000000);
+        }
+
+        this.transactions.add(new Transaction(newID, user, account, amount, user.getCurrencyType()));
+
     	return true;
-    	//TODO: add to transaction history
     }
     
     /**
-     * transfer between a user's accounts and their wallet
-     * @param user
-     * @param sender
-     * @param receiver
-     * @param amount
-     * @return
+     * transfer money between two users, two accounts, or one of each
+     * @param sender - The object sending the money
+     * @param receiver - The object receiving the money
+     * @param amount - how much money to send (in sender's currency)
+     * @return whether the transaction went through or not
      */
-    public boolean transferBetweenAccount(User user, BalanceHandler sender, BalanceHandler receiver, double amount ) {
+    public boolean transferMoney(BalanceHandler sender, BalanceHandler receiver, double amount ) {
     	if(amount < 0) {
     		return false;
     	}
@@ -341,11 +382,21 @@ public class Bank {
     	if(amount> sender.getBalance()) {
     		return false;
     	}
-    	sender.subtractFromBalance(amount);
-    	receiver.addToBalance(amount);
+    	sender.transferMoneyToOther(receiver, amount);
+        
+        this.saveData();
+
+        int newID = (int) (Math.random() * 1000000);
+        for(Transaction xact : transactions) {
+            if(newID == xact.getID())
+                newID = (int) (Math.random() * 1000000);
+        }
+
+        this.transactions.add(new Transaction(newID, sender, receiver, amount, sender.getCurrencyType()));
+
     	return true;
-    	//TODO: add to transaction history??
     }
+
 
     public void requestLoan(Customer owner, Currency currencyType, double amount) {
         int newID = (int) (Math.random() * 1000000);
@@ -361,6 +412,8 @@ public class Bank {
         owner.addNewLoan(newLoan);
         loans.add(newLoan);
         admin.requestLoan(newLoan);
+
+        this.saveData();
     }
 
     public void passOneMonth() {
@@ -373,32 +426,10 @@ public class Bank {
             if(l.isApproved())
                 l.passOneMonth();
         }
-    }
 
-    /**
-     * Transfers a given amount of money between a bank account and another user
-     * @param sender - Account sending the money
-     * @param receiver - user receiving the money
-     * @param amount - the amount to send from sender to receiver given in the sender's currency
-     * @return whether the transaction was successful or not
-     */
-    public boolean doTransaction(Account sender, User receiver, double amount) {
-    	if(amount > sender.getBalance()) {
-    		return false;
-    	}
-        
-        sender.transferMoneyToUser(receiver, amount);
-        
-        int newID = (int) (Math.random() * 1000000);
+        this.transactions = new ArrayList<>();
 
-        for(Transaction t : transactions) {
-            if(newID == t.getID()) {
-            	newID = (int) (Math.random() * 1000000);
-            }
-        }
-
-        transactions.add(new Transaction(newID, sender, receiver, amount, sender.getCurrencyType()));
-        return true;
+        this.saveData();
     }
 
     /**
@@ -410,6 +441,8 @@ public class Bank {
 
         for(Transaction t : transactions) {
             if(t.getSender().equals(account))
+                rhet.add(t);
+            else if(t.getReceiver().equals(account))
                 rhet.add(t);
         }
 
@@ -424,7 +457,9 @@ public class Bank {
         ArrayList<Transaction> rhet = new ArrayList<>();
 
         for(Transaction t : transactions) {
-            if(t.getReceiver().equals(user))
+            if(t.getSender().equals(user))
+                rhet.add(t);
+            else if(t.getReceiver().equals(user))
                 rhet.add(t);
         }
 

@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class User extends BalanceHandler {
+public abstract class User extends BalanceHandler {
 
 	protected int userId;
 	protected String firstName;

@@ -142,7 +142,7 @@ public class GUIRegisterUserAccount {
 				} else {
 					success.setText("Please choose currency type.");
 				}
-				if(Bank.getInstance().registerNewUser(fNameText.getText(), lNameText.getText(), userText.getText(), pswText.getText(), 0, currencyType)) {//search database to see if unique username
+				if(Bank.getInstance().registerNewUser(false, fNameText.getText(), lNameText.getText(), userText.getText(), pswText.getText(), 0, currencyType)) {//search database to see if unique username
 					success.setText("Success!");
 					timer.start();
 						
