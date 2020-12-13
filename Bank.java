@@ -17,6 +17,9 @@ public class Bank {
     private final String transactionFile = "./data/Transactions.csv";
     private final String oldTransactionFile = "./data/Transactions_old.csv";
 
+    /* singleton instance of the bank class */
+    private static Bank singleInstance = null;
+
     private User currentUser;
     /* One bank manager */
     private Admin admin;
@@ -30,7 +33,7 @@ public class Bank {
     /* Standard Loan rate */
     private final double standardLoanInterest = .05;
     
-    public Bank() {
+    private Bank() {
         bankIO = new IO(this);
         currencies = this.setCurrencies();
 
@@ -59,6 +62,13 @@ public class Bank {
         transactions = bankIO.readTransactions(transactionFile);
 
         Transaction xact = transactions.get(0);
+    }
+
+    public Bank getInstance() {
+        if(singleInstance == null)
+            singleInstance = new Bank();
+
+        return singleInstance;
     }
 
     /**
