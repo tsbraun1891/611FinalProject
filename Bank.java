@@ -98,8 +98,8 @@ public class Bank {
         ArrayList<Currency> rhet = new ArrayList<>();
 
         rhet.add(new Currency("US Dollar", "USD", "$", 1.00));
-        rhet.add(new Currency("Euro", "EUR", "€", 1.21));
-        rhet.add(new Currency("Yen", "YEN", "¥", .0096));
+        rhet.add(new Currency("Euro", "EUR", "€", 0.83));
+        rhet.add(new Currency("Yen", "YEN", "¥", 104.01));
 
         return rhet;
     }
