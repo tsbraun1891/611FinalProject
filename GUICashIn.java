@@ -1,54 +1,38 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-public class GUIWithdrawal {
+public class GUICashIn {
 	private JFrame frame;
 	private JButton submitButton;
 	private JButton quitButton;
 	private JButton backButton;
 	private JLabel success;
-	private JComboBox combo;
-	private JTextField withdrawalAmountText;
+	private JTextField amountText;
 	
-	public GUIWithdrawal() {
+	public GUICashIn() {
 		frame = new JFrame();
 		
-		JLabel withdrawalAmount = new JLabel("Withdrawal Amount");
-		withdrawalAmount.setBounds(250,200,160,25);
-		frame.add(withdrawalAmount);
+		JLabel title0 = new JLabel("Cashing in...");
+		title0.setBounds(250,150,160,25);
+		frame.add(title0);
 		
-		withdrawalAmountText = new JTextField();
-		withdrawalAmountText.setBounds(400,200,165,25);
-		frame.add(withdrawalAmountText);
+		JLabel title = new JLabel("Please Insert Cash");
+		title.setBounds(250,200,160,25);
+		frame.add(title);
 		
+		amountText = new JTextField();
+		amountText.setBounds(400,200,165,25);
+		frame.add(amountText);
+
 		success  = new JLabel("");
 		success.setBounds(250,350,300,25);
 		frame.add(success);
-		
-		JLabel withdrawalFrom = new JLabel("Withdrawal From");
-		withdrawalFrom.setBounds(250,250,160,25);
-		frame.add(withdrawalFrom);
-		
-		DefaultComboBoxModel accounts = new DefaultComboBoxModel();
-		for(Account account: Bank.getInstance().getCurrentUser().getAccounts()) {
-			accounts.addElement(account.toString());
-		}		
-		combo = new JComboBox(accounts);
-
-		
-		JScrollPane accountPane= new JScrollPane(combo);
-		accountPane.setBounds(400, 250,170, 45);
-		frame.add(accountPane);
-		
 		
 		submitButton = new JButton("Submit");
 		submitButton.setBounds(250,300, 80, 25);
@@ -73,33 +57,28 @@ public class GUIWithdrawal {
 		frame.setVisible(true);
 	}
 	
-	
-	private void addSubmitButtonFunction() {
-		// TODO Auto-generated method stub	
+	public void addSubmitButtonFunction() {
 		submitButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				try {
-					double amount = Double.parseDouble(withdrawalAmountText.getText());
-					if ((combo.getSelectedIndex() != -1)) {					
-						Account chosen = Bank.getInstance().getCurrentUser().getAccounts().get(combo.getSelectedIndex());
-						if(Bank.getInstance().withdrawFromAccount(Bank.getInstance().getCurrentUser(), chosen, amount)) {
-							success.setText("Withdrawal Success!");
-						} else {
-							success.setText("Please enter a valid amount number");
-						}				
+					double fundAmount = Double.parseDouble(amountText.getText());	
+					if(fundAmount >= 0) {
+						Bank.getInstance().addMoneyToWallet(Bank.getInstance().getCurrentUser(), fundAmount);
+						success.setText("Success! Add fund "+fundAmount+" to wallet! ");
 					} else {
-						success.setText("Choose an account/wallet");
-					}	            
-				} catch(Exception exception) {
-					success.setText("Invalid Deposit Amount");
+						success.setText("please enter valid fund amount. can't be negative. ");
+					}
+				}catch(Exception ex) {
+					success.setText("please enter valid fund amount. can only be consisted with number.");
 				}
 			}
 			
 		});
 	}
+	
 	private void addBackButtonFunction() {
 		backButton.addActionListener(new ActionListener() {
 			@Override
@@ -134,4 +113,3 @@ public class GUIWithdrawal {
 		frame.dispose();
 	}
 }
-
