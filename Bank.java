@@ -333,29 +333,16 @@ public class Bank {
      * @param amount
      * @return
      */
-    public boolean transferBetweenAccount(User user, Account sender, Account receiver, double amount ) {
+    public boolean transferBetweenAccount(User user, BalanceHandler sender, BalanceHandler receiver, double amount ) {
     	if(amount < 0) {
     		return false;
     	}
-    	BalanceHandler handlerSender = null;
-    	BalanceHandler handlerReceiver = null;
-    	if(sender == null) {
-    		handlerSender = user;
-    	} else {
-    		handlerSender = sender;
-    	}
-    	
-    	if(receiver == null) {
-    		handlerReceiver = user;
-    	} else {
-    		handlerReceiver = receiver;
-    	}
     
-    	if(amount> handlerSender.getBalance()) {
+    	if(amount> sender.getBalance()) {
     		return false;
     	}
-    	handlerSender.subtractFromBalance(amount);
-    	handlerReceiver.addToBalance(amount);
+    	sender.subtractFromBalance(amount);
+    	receiver.addToBalance(amount);
     	return true;
     	//TODO: add to transaction history??
     }
