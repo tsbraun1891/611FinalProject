@@ -1,4 +1,6 @@
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class Bank {
     IO bankIO;
@@ -243,4 +245,78 @@ public class Bank {
 
     // TODO: Pass one month
 
+<<<<<<< Updated upstream
+=======
+    public void passOneMonth() {
+        for(Account a : accounts) {
+            if(a instanceof Savings)
+                ((Savings) a).passOneMonth();
+        }
+
+        for(Loan l : loans) {
+            if(l.isApproved())
+                l.passOneMonth();
+        }
+
+        this.transactions = new ArrayList<>();
+
+        this.saveData();
+    }
+
+    /**
+     * @param account
+     * @return a list of all transactions involving account
+     */
+    public ArrayList<Transaction> getTransactionsForAccount(Account account) {
+        ArrayList<Transaction> rhet = new ArrayList<>();
+
+        for(Transaction t : transactions) {
+            if(t.getSender().equals(account))
+                rhet.add(t);
+            else if(t.getReceiver().equals(account))
+                rhet.add(t);
+        }
+
+        return rhet;
+    }
+
+    /**
+     * @param user
+     * @return a list of all transactions of money sent to this user
+     */
+    public ArrayList<Transaction> getTransactionsForUser(User user) {
+        ArrayList<Transaction> rhet = new ArrayList<>();
+
+        for(Transaction t : transactions) {
+            if(t.getSender().equals(user))
+                rhet.add(t);
+            else if(t.getReceiver().equals(user))
+                rhet.add(t);
+        }
+
+        return rhet;
+    }
+    
+    public ArrayList<Currency> getCurrencyTypes(){
+    	return currencies;
+    }
+    
+    /**
+     * @return a list of all transactions that accrued daily
+     */
+    public ArrayList<Transaction> getDailyReport(){
+    	ArrayList<Transaction> trans = new ArrayList<>();
+    	
+    	Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String date = sdf.format(cal.getTime());
+        for(Transaction t: transactions) {
+        	if(t.getDate().equals(date)) {
+        		trans.add(t);
+        	}
+        }
+        return trans;
+    }
+    
+>>>>>>> Stashed changes
 }
