@@ -13,23 +13,26 @@ public class GUIConvertCurrency {
 	private JLabel newBalance;
 	private JButton convertToUSDButton;
 	private JButton convertToEUROButton;
-	private JButton convertToWHATButton;
+	private JButton convertToYenButton;
 	private JButton quitButton;
 	private JButton backButton;
+	private BalanceHandler handler;
 	
-	public GUIConvertCurrency(AccountType acctType) {
+	public GUIConvertCurrency(BalanceHandler bh) {
 		frame = new JFrame();
-		this.acctType = acctType;
 		
-		if(acctType.equals(AccountType.CHECKING)) {
-			JLabel checking = new JLabel("Checking Acct:");//+ account.getBalance()
-			checking.setBounds(200, 150, 160, 25);
-			frame.add(checking);
-		} else if(acctType.equals(AccountType.SAVING)) {
-			JLabel checking = new JLabel("Saving Acct:");//+ account.getBalance()
-			checking.setBounds(200, 150, 160, 25);
-			frame.add(checking);
-		}
+		handler = bh;
+		
+		JLabel title = new JLabel("balance:");
+		title.setBounds(200, 150, 160, 25);
+		frame.add(title);
+		
+		String s = String.valueOf(bh.getBalance());
+		String s1 = bh.getCurrencyType().getSymbol();
+		JLabel balance = new JLabel(s1+s);
+		balance.setBounds(300, 150, 160, 25);
+		frame.add(balance);
+		
 		
 		convertToUSDButton = new JButton("Convert to USD");
 		convertToUSDButton.setBounds(150, 200, 160, 25);		
@@ -41,10 +44,10 @@ public class GUIConvertCurrency {
 		addconvertToEUROButtonFunction();
 		frame.add(convertToEUROButton);
 		
-		convertToWHATButton = new JButton("Convert to WHAT");
-		convertToWHATButton.setBounds(450, 200, 160, 25);		
-		addconvertToWHATButtonFunction();
-		frame.add(convertToWHATButton);
+		convertToYenButton = new JButton("Convert to YEN");
+		convertToYenButton.setBounds(450, 200, 160, 25);		
+		addconvertToYENButtonFunction();
+		frame.add(convertToYenButton);
 		
 		success  = new JLabel("");
 		success.setBounds(200, 250, 160, 25);
@@ -72,14 +75,18 @@ public class GUIConvertCurrency {
 		frame.setVisible(true);
 	}
 	
-	private void addconvertToWHATButtonFunction() {
+	private void addconvertToYENButtonFunction() {
 		// TODO Auto-generated method stub
-		convertToWHATButton.addActionListener(new ActionListener() {
+		convertToYenButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				//ConvertToWhat()
-				printBalanceInNewCurrency();
+				Currency yen = Bank.getInstance().getCurrencyTypes().get(2);
+				double newAmount = handler.setCurrency(yen);
+				success.setText("Success! Now you have ...");
+				String s = String.valueOf(newAmount);
+				String s1 = handler.getCurrencyType().getSymbol();
+				newBalance.setText(s1+s);
 			}		
 		});
 	}
@@ -90,8 +97,12 @@ public class GUIConvertCurrency {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				//ConvertToUSD()
-				printBalanceInNewCurrency();
+				Currency usd = Bank.getInstance().getCurrencyTypes().get(0);
+				double newAmount = handler.setCurrency(usd);
+				success.setText("Success! Now you have ...");
+				String s = String.valueOf(newAmount);
+				String s1 = handler.getCurrencyType().getSymbol();
+				newBalance.setText(s1+s);
 			}		
 		});
 		
@@ -103,18 +114,17 @@ public class GUIConvertCurrency {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				//ConvertToEURO()
-				printBalanceInNewCurrency();
+				Currency euro = Bank.getInstance().getCurrencyTypes().get(1);
+				double newAmount = handler.setCurrency(euro);
+				success.setText("Success! Now you have ...");
+				String s = String.valueOf(newAmount);
+				String s1 = handler.getCurrencyType().getSymbol();
+				newBalance.setText(s1+s);
 			}		
 		});
 		
 	}
-	
-	private void printBalanceInNewCurrency() {
-		// TODO Auto-generated method stub
-		success.setText("Success! Now you have ...");
-		newBalance.setText("Account.getBalance()");	//////////getBalance
-	}
+
 
 	private void addBackButtonFunction() {
 		backButton.addActionListener(new ActionListener() {

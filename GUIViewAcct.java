@@ -1,57 +1,66 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 
 public class GUIViewAcct {
 	private JFrame frame;
-	private JButton viewSavingTxnButton;
-	private JButton viewCheckingTxnButton;
-	private JButton convertCheckingCurrencyButton;
-	private JButton convertSavingCurrencyButton;
+	private JButton viewTransactionButton;
+	private JButton convertCurrencyButton;
+	private JButton viewBalanceButton;
 	private JButton quitButton;
 	private JButton backButton;
+	private JComboBox combo;
+	private JLabel balance;
 	
 	public GUIViewAcct() {
 		frame = new JFrame();
 		
-		//if customer.getCheckingAccount != null {
-		JLabel checking = new JLabel("Checking Acct:");//+ account.getBalance()
-		checking.setBounds(100, 150, 160, 25);
-
-		frame.add(checking);
+		
+		JLabel chooseAccount = new JLabel("Choose Account");
+		chooseAccount.setBounds(250,110,160,25);
+		frame.add(chooseAccount);
+		
+		DefaultComboBoxModel accounts = new DefaultComboBoxModel();
+		accounts.addElement("Your wallet");
+		for(Account account: Bank.getInstance().getCurrentUser().getAccounts()) {
+			accounts.addElement(account.toString());
+		}
+		combo = new JComboBox(accounts);
+		JScrollPane accountPane= new JScrollPane(combo);
+		accountPane.setBounds(400, 100,170, 45);
+		frame.add(accountPane);
 	
-		viewCheckingTxnButton = new JButton("View Transaction");
-		viewCheckingTxnButton.setBounds(350, 150, 160, 25);		
-		addViewCheckingTxnButtonFunction();
-		frame.add(viewCheckingTxnButton);
+		viewBalanceButton = new JButton("View Balance");
+		viewBalanceButton.setBounds(150, 300, 160, 25);		
+		addViewBalanceButtonFunction();
+		frame.add(viewBalanceButton);
+	
+		viewTransactionButton = new JButton("View Transaction");
+		viewTransactionButton.setBounds(350, 300, 160, 25);		
+		addViewTransactionButtonFunction();
+		frame.add(viewTransactionButton);
 		
-		convertCheckingCurrencyButton = new JButton("Convert Currency");
-		convertCheckingCurrencyButton.setBounds(500, 150, 160, 25);		
-		addConvertCheckingCurrencyButtonFunction();
-		frame.add(convertCheckingCurrencyButton);
+		convertCurrencyButton = new JButton("Convert Currency");
+		convertCurrencyButton.setBounds(550, 300, 160, 25);		
+		addConvertCurrencyButtonFunction();
+		frame.add(convertCurrencyButton);
 		
-		//}
+		JLabel title = new JLabel("balance:  ");
+		title.setBounds(250,170,300,25);
+		frame.add(title);
 		
-		//if customer.getSavingAccount != null
-		JLabel saving = new JLabel("Saving Acct:");//+ account.getBalance()
-		saving.setBounds(100, 200, 160, 25);
-		frame.add(saving);
+		balance  = new JLabel("");
+		balance.setBounds(330,170,300,25);
+		frame.add(balance);
 		
-		viewSavingTxnButton = new JButton("View Transaction");
-		viewSavingTxnButton.setBounds(350, 200, 160, 25);		
-		addViewSavingTxnButtonFunction();
-		frame.add(viewSavingTxnButton);
 		
-		convertSavingCurrencyButton = new JButton("Convert Currency");
-		convertSavingCurrencyButton.setBounds(500, 200, 160, 25);		
-		addConvertSavingCurrencyButtonFunction();
-		frame.add(convertSavingCurrencyButton);
-		
-		//}
 		backButton = new JButton("Back");
 		backButton.setBounds(10, 500, 80, 25);
 		addBackButtonFunction();
@@ -70,9 +79,35 @@ public class GUIViewAcct {
 		frame.setVisible(true);
 	}
 
-	private void addViewCheckingTxnButtonFunction() {
+	private void addViewBalanceButtonFunction() {
 		// TODO Auto-generated method stub
-		viewCheckingTxnButton.addActionListener(new ActionListener() {
+		viewBalanceButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if ((combo.getSelectedIndex() != -1)) {
+					if(combo.getSelectedIndex() != 0) {
+						Account chosen = Bank.getInstance().getCurrentUser().getAccounts().get(combo.getSelectedIndex()-1);
+						String s1 = chosen.getCurrencyType().getSymbol();
+						String s = String.valueOf(chosen.getBalance());
+						balance.setText(s1+s);
+					} else {//show wallet's balance
+						User user = Bank.getInstance().getCurrentUser();
+						String s1 = user.getCurrencyType().getSymbol();
+						String s = String.valueOf(user.getBalance());
+						balance.setText(s1+s);
+					}
+				} else {
+					balance.setText("Choose an account/wallet");
+				}
+			}		
+		});
+		
+	}
+
+	private void addViewTransactionButtonFunction() {
+		// TODO Auto-generated method stub
+		viewTransactionButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -82,41 +117,26 @@ public class GUIViewAcct {
 		});
 	}
 
-	private void addConvertCheckingCurrencyButtonFunction() {
+	private void addConvertCurrencyButtonFunction() {
 		// TODO Auto-generated method stub
-		convertCheckingCurrencyButton.addActionListener(new ActionListener() {
+		convertCurrencyButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				GUIConvertCurrency convert = new GUIConvertCurrency(AccountType.CHECKING);
-				closeFrame();
+				if ((combo.getSelectedIndex() != -1)) {
+					if(combo.getSelectedIndex() != 0) {
+						Account chosen = Bank.getInstance().getCurrentUser().getAccounts().get(combo.getSelectedIndex()-1);
+						GUIConvertCurrency convert = new GUIConvertCurrency(chosen);
+					} else {//show wallet's balance
+						GUIConvertCurrency convert = new GUIConvertCurrency(Bank.getInstance().getCurrentUser());
+					}
+				} else {
+					balance.setText("Choose an account/wallet");
+				}
 			}		
 		});
 	}
 
-	private void addViewSavingTxnButtonFunction() {
-		// TODO Auto-generated method stub
-		viewSavingTxnButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				GUIViewTransactionHistory history = new GUIViewTransactionHistory(AccountType.SAVING);
-				closeFrame();
-			}		
-		});
-	}
-
-	private void addConvertSavingCurrencyButtonFunction() {
-		// TODO Auto-generated method stub
-		convertSavingCurrencyButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				GUIConvertCurrency convert = new GUIConvertCurrency(AccountType.SAVING);
-				closeFrame();
-			}		
-		});
-	}
 	
 	private void addBackButtonFunction() {
 		backButton.addActionListener(new ActionListener() {
