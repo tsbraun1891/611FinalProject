@@ -14,6 +14,8 @@ public class GUICustomerHome {
 	private JButton transferButton;
 	private JButton requestLoanButton;
 	private JButton viewAcctButton;//Txn - shortform for transaction
+	private JButton cashInButton;
+	private JButton cashOutButton;
 	private JButton quitButton;
 	private JButton backButton;
 	
@@ -50,6 +52,16 @@ public class GUICustomerHome {
 		addOpenAcctButtonFunction();
 		frame.add(openAcctButton);
 		
+		cashInButton = new JButton("Cash In");
+		cashInButton.setBounds(300, 330, 200, 25);
+		addCashInButtonFunction();
+		frame.add(cashInButton);
+		
+		cashOutButton = new JButton("Cash Out");
+		cashOutButton.setBounds(300, 360, 200, 25);
+		addCashOutButtonFunction();
+		frame.add(cashOutButton);
+		
 		backButton = new JButton("Back");
 		backButton.setBounds(10, 500, 80, 25);
 		addBackButtonFunction();
@@ -68,6 +80,30 @@ public class GUICustomerHome {
 		frame.setVisible(true);
 	}
 	
+	private void addCashOutButtonFunction() {
+		// TODO Auto-generated method stub
+		cashOutButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				GUICashOut out = new GUICashOut();
+				closeFrame();
+			}		
+		});
+	}
+
+	private void addCashInButtonFunction() {
+		// TODO Auto-generated method stub
+		cashInButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				GUICashIn in = new GUICashIn();
+				closeFrame();
+			}		
+		});
+	}
+
 	private void addQuitButtonFunction() {
 		// TODO Auto-generated method stub
 		quitButton.addActionListener(new ActionListener() {

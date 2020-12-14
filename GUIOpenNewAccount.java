@@ -25,13 +25,11 @@ public class GUIOpenNewAccount {
 	private ButtonGroup accountTypeGroup;
 	private Currency currencyType;;
 	private AccountType accountType;
-	private Timer timer;
 	public GUIOpenNewAccount() {
 		frame = new JFrame();
 		
 		currencyType = null; 
 		accountType = null;
-		timer = null;
 		
 		JLabel accountTitle = new JLabel("Choose Account Type");
 		accountTitle.setBounds(250,150,160,25);
@@ -163,16 +161,6 @@ public class GUIOpenNewAccount {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				try {
-					timer = new Timer(1500, new ActionListener() {//after 1 sec, go to Customer Menu
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							// TODO Auto-generated method stub
-							GUICustomerHome customerHome = new GUICustomerHome();
-							timer.stop();
-							closeFrame();
-						}
-					});
-					
 					if(c1.isSelected()) {//TODO: link 
 						currencyType = Bank.getInstance().getCurrencyTypes().get(0);
 					} else if(c2.isSelected()) {
@@ -193,7 +181,6 @@ public class GUIOpenNewAccount {
 					
 					if(Bank.getInstance().createNewAccount(accountType, Bank.getInstance().getCurrentUser(), currencyType, 0)) {
 						success.setText("Submit Open New Account Request Successful!");
-						timer.start();
 					}
 				} catch(Exception exception) {
 					success.setText("Invalid Input");

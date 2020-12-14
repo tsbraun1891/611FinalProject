@@ -98,7 +98,7 @@ public class GUITransferTo {
 					double amount = Double.parseDouble(transferAmountText.getText());
 					User recipient = Bank.getInstance().getUserByUsername(recipientText.getText());
 		            if ((combo.getSelectedIndex() != -1) && amount > 0 && recipient != null) {                         
-		            	if(Bank.getInstance().doTransaction(Bank.getInstance().getCurrentUser().getAccounts().get(combo.getSelectedIndex()), recipient , amount))
+		            	if(Bank.getInstance().transferMoney(Bank.getInstance().getCurrentUser().getAccounts().get(combo.getSelectedIndex()), recipient , amount))
 		            		success.setText("Transfer Success!");
 		            	else 
 		            		success.setText("No enough money in this account");
