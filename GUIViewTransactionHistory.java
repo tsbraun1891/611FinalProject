@@ -40,6 +40,41 @@ public class GUIViewTransactionHistory {
         }
 	}
 	
+	public GUIViewTransactionHistory(User user, boolean ViewAccounts) {
+		prepareUI();
+		ArrayList<Transaction> userHistory = new ArrayList<Transaction>();
+		userHistory = Bank.getInstance().getTransactionsForUser(user);
+		for(int i = 0; i<userHistory.size();i++) {
+        	int id = userHistory.get(i).getID();
+        	int senderId = userHistory.get(i).getSenderID();
+        	int receiverId = userHistory.get(i).getReceiverID();
+        	double amount = userHistory.get(i).getTransactionAmount();
+        	String currencyDesc = userHistory.get(i).getCurrencyType().getDesc();
+        	boolean senderUser = userHistory.get(i).isSenderUser();
+        	boolean receiverUser = userHistory.get(i).isReceiverUser();
+        	String date = userHistory.get(i).getDate();
+        	Object[] rowData = {id, senderId, receiverId, amount, currencyDesc, senderUser, receiverUser, date};
+        	tableModel.addRow(rowData);
+        }
+		//iterate through all accounts of user
+		for(Account account: user.getAccounts()) {
+			ArrayList<Transaction> accountHistory = new ArrayList<Transaction>();
+			accountHistory = Bank.getInstance().getTransactionsForAccount(account);
+			for(int i = 0; i<accountHistory.size();i++) {
+	        	int id = accountHistory.get(i).getID();
+	        	int senderId = accountHistory.get(i).getSenderID();
+	        	int receiverId = accountHistory.get(i).getReceiverID();
+	        	double amount = accountHistory.get(i).getTransactionAmount();
+	        	String currencyDesc = accountHistory.get(i).getCurrencyType().getDesc();
+	        	boolean senderUser = accountHistory.get(i).isSenderUser();
+	        	boolean receiverUser = accountHistory.get(i).isReceiverUser();
+	        	String date = accountHistory.get(i).getDate();
+	        	Object[] rowData = {id, senderId, receiverId, amount, currencyDesc, senderUser, receiverUser, date};
+	        	tableModel.addRow(rowData);
+	        }
+		}
+	}
+	
 	
 	public void prepareUI() {
 		JPanel panel = new JPanel(null);

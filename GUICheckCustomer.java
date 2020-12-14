@@ -92,9 +92,7 @@ public class GUICheckCustomer {
 			public void actionPerformed(ActionEvent e) {
 				User user = Bank.getInstance().getUserByUsername(usernameText.getText());
 				if(user!=null) {
-					Bank.getInstance().getTransactionsForUser(user);
-					
-				
+					GUIViewTransactionHistory view = new GUIViewTransactionHistory(user,true);				
 				} else {
 					success.setText("Username not found.");
 				}
