@@ -92,16 +92,24 @@ public class Loan extends BalanceHandler {
         this.loaner = newLoaner;
 	}
 
-	// TODO: Add in subtracting from user wallet / checks if they can afford
+	/**
+	 * pays off a portion of this loan
+	 * @param amount - amount to pay off (in user's currency)
+	 * @return the resulting loan balance
+	 */
 	public double payOffLoanAmount(double amount) {
-		if(!this.paidOff()) {
-			if(this.balance < amount) {
-				this.subtractFromBalance(this.balance);
-				this.loaner.addToBalance(this.balance, this.currency);
-			} else {
-				this.subtractFromBalance(amount);
-				this.loaner.addToBalance(amount, this.currency);
-			}			
+		if(this.owner.getBalance() >= amount) {
+			if(!this.paidOff()) {
+				if(this.owner.getCurrencyType().convertToCurrency(this.balance) < amount) {
+					this.subtractFromBalance(this.balance);
+					this.owner.subtractFromBalance(this.balance, this.currency);
+					this.loaner.addToBalance(this.balance, this.currency);
+				} else {
+					this.subtractFromBalance(amount, this.owner.getCurrencyType());
+					this.owner.subtractFromBalance(amount);
+					this.loaner.addToBalance(amount, this.owner.getCurrencyType());
+				}			
+			}
 		}		
 
 		return this.balance;
