@@ -130,4 +130,12 @@ public class Loan extends BalanceHandler {
 
         return false;
     }
+	
+	 public String toString() {
+	    	String s = "Loan - ";
+	        String rhet = String.valueOf(this.loanID);
+	        rhet = rhet.substring(rhet.length()-4, rhet.length());
+
+	        return s+rhet;
+	    }
 }
