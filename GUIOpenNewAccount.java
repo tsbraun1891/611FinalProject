@@ -180,7 +180,7 @@ public class GUIOpenNewAccount {
 					}
 					
 					if(Bank.getInstance().createNewAccount(accountType, Bank.getInstance().getCurrentUser(), currencyType, 0)) {
-						success.setText("Submit Open New Account Request Successful!");
+						success.setText("Open New Account Successful!");
 					}
 				} catch(Exception exception) {
 					success.setText("Invalid Input");
