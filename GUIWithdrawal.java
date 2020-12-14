@@ -9,7 +9,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-
+/**
+ * This class represents the window that allows customer to withdraw money from account.
+ * @author ling
+ *
+ */
 public class GUIWithdrawal {
 	private JFrame frame;
 	private JButton submitButton;

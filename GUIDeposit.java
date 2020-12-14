@@ -10,6 +10,12 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+/**
+ * This class represents the window that allows customer to deposit from ATM to a specific balance handler.
+ * @author ling
+ *
+ */
+
 public class GUIDeposit {
 	private JFrame frame;
 	private JButton submitButton;

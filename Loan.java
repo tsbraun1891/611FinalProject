@@ -80,7 +80,7 @@ public class Loan extends BalanceHandler {
 	}
 
 	public void denyLoan() {
-		this.approved = true;
+		this.denied = true;
 	}
 
 	public int getID() {

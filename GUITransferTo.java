@@ -9,7 +9,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-
+/**
+ * This class reprensents the window that allows customer to send money to other customers.
+ * @author ling
+ *
+ */
 public class GUITransferTo {
 	private JFrame frame;
 	private JButton submitButton;

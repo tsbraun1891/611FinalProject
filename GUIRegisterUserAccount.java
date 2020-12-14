@@ -9,7 +9,11 @@ import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.Timer;
-
+/**
+ * This class represents the new customerregister window.
+ * @author ling
+ *
+ */
 public class GUIRegisterUserAccount {
 	
 	private JFrame frame;

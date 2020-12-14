@@ -9,7 +9,11 @@ import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.Timer;
-
+/**
+ * This class represents the window that allow customer to open new account: saving/checking
+ * @author ling
+ *
+ */
 public class GUIOpenNewAccount {
 	private JFrame frame;
 	private JButton submitButton;
@@ -180,7 +184,7 @@ public class GUIOpenNewAccount {
 					}
 					
 					if(Bank.getInstance().createNewAccount(accountType, Bank.getInstance().getCurrentUser(), currencyType, 0)) {
-						success.setText("Submit Open New Account Request Successful!");
+						success.setText("Open New Account Successful!");
 					}
 				} catch(Exception exception) {
 					success.setText("Invalid Input");
