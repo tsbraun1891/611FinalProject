@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 
 public class GUIViewTransactionHistory {
@@ -38,6 +39,7 @@ public class GUIViewTransactionHistory {
         	Object[] rowData = {id, senderId, receiverId, amount, currencyDesc, senderUser, receiverUser, date};
         	tableModel.addRow(rowData);
         }
+        setColWidth();
 	}
 	/**
 	 * Admin checks up specific customer
@@ -77,6 +79,7 @@ public class GUIViewTransactionHistory {
 	        	tableModel.addRow(rowData);
 	        }
 		}
+		setColWidth();
 	}
 	
 	/**
@@ -100,6 +103,7 @@ public class GUIViewTransactionHistory {
         	Object[] rowData = {id, senderId, receiverId, amount, currencyDesc, senderUser, receiverUser, date};
         	tableModel.addRow(rowData);
         }
+        setColWidth(); 
 	}
 	
 	public void prepareUI() {
@@ -116,7 +120,7 @@ public class GUIViewTransactionHistory {
         frame.pack();
 		frame.setVisible(true);
         
-        String[] headerDesc = {"ID", "SenderID", "ReceiverId", "TransactionAmount", "CurrencyDesc", "SenderUser","ReceiverUser","Date"};
+        String[] headerDesc = {"ID", "SenderID", "ReceiverId", "Amount", "CurrencyDesc", "SenderUser","ReceiverUser","Date"};
         tableModel.setColumnIdentifiers(headerDesc);
         table = new JTable(tableModel);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -124,4 +128,16 @@ public class GUIViewTransactionHistory {
         panel.add(transactionScroll, BorderLayout.CENTER);
 	}
 	
+	public void setColWidth() {
+		TableColumnModel model = table.getColumnModel();
+		model.getColumn(0).setPreferredWidth(100);
+		model.getColumn(1).setPreferredWidth(100);
+		model.getColumn(2).setPreferredWidth(100);
+		model.getColumn(3).setPreferredWidth(100);
+		model.getColumn(4).setPreferredWidth(100);
+		model.getColumn(5).setPreferredWidth(100);
+		model.getColumn(6).setPreferredWidth(100);
+		model.getColumn(7).setPreferredWidth(100);
+		
+	}
 }
