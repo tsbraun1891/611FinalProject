@@ -46,34 +46,20 @@ public class GUIViewTransactionHistory {
         	Object[] rowData = {id, senderId, receiverId, amount, currencyDesc, senderUser, receiverUser, date};
         	tableModel.addRow(rowData);
         }
-        setColWidth();
+        setColWidth(table.getColumnModel());
 	}
 	/**
-	 * Admin checks up specific customer
+	 * Admin checks up on specific customer given username. 
 	 * @param user
 	 * @param ViewAccounts
 	 */
-	public GUIViewTransactionHistory(User user, boolean ViewAccounts) {
-		prepareUI();
-		ArrayList<Transaction> userHistory = new ArrayList<Transaction>();
-		userHistory = Bank.getInstance().getTransactionsForUser(user);
-		for(int i = 0; i<userHistory.size();i++) {
-        	int id = userHistory.get(i).getID();
-        	int senderId = userHistory.get(i).getSenderID();
-        	int receiverId = userHistory.get(i).getReceiverID();
-        	double amount = userHistory.get(i).getTransactionAmount();
-        	String currencyDesc = userHistory.get(i).getCurrencyType().getDesc();
-        	boolean senderUser = userHistory.get(i).isSenderUser();
-        	boolean receiverUser = userHistory.get(i).isReceiverUser();
-        	String date = userHistory.get(i).getDate();
-        	Object[] rowData = {id, senderId, receiverId, amount, currencyDesc, senderUser, receiverUser, date};
-        	tableModel.addRow(rowData);
-        }
-		setColWidth();
+	public GUIViewTransactionHistory(User user, boolean ViewBalanceHandler) {		
+		getAccountTable(user);
+		getLoanTable(user);
 	}
 	
 	/**
-	 * 
+	 * This builds a daily report.
 	 */
 	
 	public GUIViewTransactionHistory(boolean dailyReport) {
@@ -93,7 +79,7 @@ public class GUIViewTransactionHistory {
         	Object[] rowData = {id, senderId, receiverId, amount, currencyDesc, senderUser, receiverUser, date};
         	tableModel.addRow(rowData);
         }
-        setColWidth(); 
+        setColWidth(table.getColumnModel()); 
 	}
 	
 	public void prepareUI() {
@@ -118,16 +104,101 @@ public class GUIViewTransactionHistory {
         panel.add(transactionScroll, BorderLayout.CENTER);
 	}
 	
-	public void setColWidth() {
-		TableColumnModel model = table.getColumnModel();
-		model.getColumn(0).setPreferredWidth(100);
-		model.getColumn(1).setPreferredWidth(100);
-		model.getColumn(2).setPreferredWidth(100);
-		model.getColumn(3).setPreferredWidth(100);
-		model.getColumn(4).setPreferredWidth(100);
-		model.getColumn(5).setPreferredWidth(100);
-		model.getColumn(6).setPreferredWidth(100);
-		model.getColumn(7).setPreferredWidth(100);
-		
+	public void setColWidth(TableColumnModel model) {
+		for(int i = 0; i<model.getColumnCount();i++) {
+			model.getColumn(i).setPreferredWidth(100);
+		}
+	}
+	
+	public void getAccountTable(User user) {
+		JFrame frame1 = new JFrame();
+		JPanel panel = new JPanel(null);
+		panel.setLayout(new BorderLayout());
+        panel.setPreferredSize(new Dimension(400, 200));
+		DefaultTableModel tableModel1 = new DefaultTableModel();
+		frame1 = new JFrame();
+		frame1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame1.setLocationRelativeTo(null);
+		frame1.setContentPane(panel);
+        frame1.pack();
+		frame1.setVisible(true);
+        
+        String[] headerDesc = {"Type", "Owner", "CurrencyDesc", "Balance", "FeeRate", "IntThreshold","IntRate","ID"};
+        tableModel1.setColumnIdentifiers(headerDesc);
+        JTable table1 = new JTable(tableModel1);
+        table1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        JScrollPane transactionScroll = new JScrollPane(table1);
+        panel.add(transactionScroll, BorderLayout.CENTER);
+        
+        ArrayList<Account> accounts = new ArrayList<Account>();
+        accounts = user.getAccounts();
+        
+        for(int i = 0; i<accounts.size();i++) {
+        	String type = null;
+        	if(accounts.get(i) instanceof Savings) {
+        		type = "Savings";
+        	} else {
+        		type = "Checking";
+        	}
+        	int owner = accounts.get(i).getOwner().getUserId();
+        	String currencyDesc = accounts.get(i).getCurrencyType().getDesc();
+        	double balance = accounts.get(i).getBalance();
+        	double feeRate = accounts.get(i).getFeeRate();
+        	double intThreshold = 0;
+        	double intRate = 0;
+        	if(accounts.get(i) instanceof Savings) {
+        		Savings saving = (Savings)accounts.get(i);
+        		intThreshold = saving.getThreshold();
+        		intRate = saving.getInterestRate();
+        	} 
+        	int Id = accounts.get(i).getID();
+        	Object[] rowData = {type, owner, currencyDesc, balance, feeRate, intThreshold, intRate, Id};
+        	tableModel1.addRow(rowData);
+        }
+        setColWidth(table1.getColumnModel()); 
+	}
+	
+	public void getLoanTable(User user) {
+		JFrame frame1 = new JFrame();
+		JPanel panel = new JPanel(null);
+		panel.setLayout(new BorderLayout());
+        panel.setPreferredSize(new Dimension(400, 200));
+		DefaultTableModel tableModel1 = new DefaultTableModel();
+		frame1 = new JFrame();
+		frame1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame1.setLocation(200,300);
+		frame1.setContentPane(panel);
+        frame1.pack();
+		frame1.setVisible(true);
+        
+        String[] headerDesc = {"Owner", "Loaner", "CurrencyDesc", "Balance", "IntRate","Approved","ID"};
+        tableModel1.setColumnIdentifiers(headerDesc);
+        JTable table1 = new JTable(tableModel1);
+        table1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        JScrollPane transactionScroll = new JScrollPane(table1);
+        panel.add(transactionScroll, BorderLayout.CENTER);
+        
+        ArrayList<Loan> loans = new ArrayList<Loan>();
+        Customer customer = null;
+        if(user instanceof Customer) {
+        	customer = (Customer) user;
+        }
+        loans = customer.getLoans();
+        
+        for(int i = 0; i<loans.size();i++) {
+        	int owner = loans.get(i).getOwner().getUserId();
+        	int loaner = loans.get(i).getLoaner().getUserId();
+        	String currencyDesc = loans.get(i).getCurrencyType().getDesc();
+        	double balance = loans.get(i).getBalance();
+        	double feeRate = loans.get(i).getInterestRate();
+        	int approved = 0;
+        	if(loans.get(i).isApproved()) {
+        		approved = 1;
+        	}
+        	int Id = loans.get(i).getID();
+        	Object[] rowData = {owner, loaner, currencyDesc, balance, feeRate, approved,Id};
+        	tableModel1.addRow(rowData);
+        }
+        setColWidth(table1.getColumnModel()); 
 	}
 }

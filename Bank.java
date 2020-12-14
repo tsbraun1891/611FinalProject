@@ -348,6 +348,10 @@ public class Bank {
     	if(amount < 0) {
     		return false;
     	}
+    	
+    	if(amount > user.getBalance()) {
+    		return false;
+    	}
         
         if(amount <= user.getBalance()) {
             account.addToBalance(amount, user.getCurrencyType());
