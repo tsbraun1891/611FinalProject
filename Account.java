@@ -91,7 +91,14 @@ public abstract class Account extends BalanceHandler {
             /* Take the money out of the account and give it to the owner */
             this.subtractFromBalance(amountToWithdraw);        
             this.owner.addToBalance(amountToWithdraw);
-        }        
+        } else if(this.balance >= 0) {
+            /* Otherwise just withdraw the rest of the balance */
+            this.newFeeTransaction(this.balance);
+
+            /* Take the remaining balance out of the account and give it to the owner */
+            this.subtractFromBalance(this.balance);        
+            this.owner.addToBalance(this.balance);
+        }      
 
         return this.balance;
     }

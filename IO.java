@@ -415,7 +415,7 @@ public class IO {
             }
 
             if(attributes[0].equals("Savings")) {
-                rhet.add(new Savings(Integer.parseInt(attributes[7]), accountOwner, accountCurrency, Double.parseDouble(attributes[3]), Double.parseDouble(attributes[4]), Double.parseDouble(attributes[4]), Double.parseDouble(attributes[5])));
+                rhet.add(new Savings(Integer.parseInt(attributes[7]), accountOwner, accountCurrency, Double.parseDouble(attributes[3]), Double.parseDouble(attributes[4]), Double.parseDouble(attributes[5]), Double.parseDouble(attributes[6])));
             } else {
                 rhet.add(new Checking(Integer.parseInt(attributes[7]), accountOwner, accountCurrency, Double.parseDouble(attributes[3]), Double.parseDouble(attributes[4])));
             }

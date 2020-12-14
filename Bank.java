@@ -188,7 +188,7 @@ public class Bank {
      * @return whether the account was successfully created or not
      */
     public boolean createNewAccount(AccountType type, User owner, Currency currencyType, double startingAmount) {
-        if(startingAmount <= owner.getBalance()) {
+        if(startingAmount <= owner.getBalance() && startingAmount >= 0) {
             Account account;
             int newID = (int) (Math.random() * 1000000);
 
@@ -356,6 +356,8 @@ public class Bank {
         if(amount <= user.getBalance()) {
             account.addToBalance(amount, user.getCurrencyType());
             user.subtractFromBalance(amount);
+        } else {
+            return false;
         }
 
         int newID = (int) (Math.random() * 1000000);
@@ -383,7 +385,7 @@ public class Bank {
     		return false;
     	}
     
-    	if(amount> sender.getBalance()) {
+    	if(amount > sender.getBalance()) {
     		return false;
     	}
     	sender.transferMoneyToOther(receiver, amount);
