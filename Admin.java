@@ -11,15 +11,18 @@ public class Admin extends User {
 		this.bank = bank;
 	}
 
-	public void approveLoan(Loan loan) {
+	public boolean approveLoan(Loan loan) {
 		if(this.getBalance() >= loan.getBalance()) {
 			loan.approveLoan();
-			this.subtractFromBalance(loan.getBalance());
-		}
-		
-		requestedLoans.remove(loan);
 
-		bank.saveData();
+			requestedLoans.remove(loan);
+
+			bank.saveData();
+
+			return true;
+		}
+
+		return false;		
 	}
 
 	public void denyLoan(Loan loan) {

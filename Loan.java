@@ -76,7 +76,15 @@ public class Loan extends BalanceHandler {
 	}
 
 	public void approveLoan() {
-		this.approved = true;
+		if(!this.approved) {
+			/* Change the flag */
+			this.approved = true;
+
+			/* Add the loan amount to the requester's wallet */
+			this.owner.addToBalance(this.balance, this.currency);
+			this.loaner.subtractFromBalance(this.balance, this.currency);
+		}
+		
 	}
 
 	public void denyLoan() {
