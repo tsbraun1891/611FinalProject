@@ -27,13 +27,11 @@ public class GUIRequestLoan {
 	private	ButtonGroup currencyGroup;
 	private JTextField loanAmountText;
 	private Currency currencyType;
-	private Timer timer;
 	
 	public GUIRequestLoan() {
 		frame = new JFrame();
 		
 		currencyType = null; 
-		timer = null;
 		
 		JLabel loanAmount = new JLabel("Loan Amount");
 		loanAmount.setBounds(250,200,160,25);
@@ -134,31 +132,22 @@ public class GUIRequestLoan {
 						customer = (Customer) user;
 					}
 					double loanAmount = Double.parseDouble(loanAmountText.getText());
-					timer = new Timer(1500, new ActionListener() {//after 1 sec, go to Customer Menu
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							// TODO Auto-generated method stub
-							GUICustomerHome customerHome = new GUICustomerHome();
-							timer.stop();
-							closeFrame();
-						}
-					});
 					
 					if(c1.isSelected()) {//TODO: link request loan
 						currencyType = Bank.getInstance().getCurrencyTypes().get(0);
 						Bank.getInstance().requestLoan(customer, currencyType, loanAmount);
 						success.setText("Submit Loan Request Successful!");
-						timer.start();
+						//timer.start();
 					} else if(c2.isSelected()) {
 						currencyType = Bank.getInstance().getCurrencyTypes().get(1);
 						Bank.getInstance().requestLoan(customer, currencyType, loanAmount);
 						success.setText("Submit Loan Request Successful!");
-						timer.start();
+						//timer.start();
 					} else if(c3.isSelected()) {
 						currencyType = Bank.getInstance().getCurrencyTypes().get(2);
 						Bank.getInstance().requestLoan(customer, currencyType, loanAmount);
 						success.setText("Submit Loan Request Successful!");
-						timer.start();
+						//timer.start();
 					} else {
 						success.setText("Please choose currency type.");
 					}
