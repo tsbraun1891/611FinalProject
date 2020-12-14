@@ -95,8 +95,11 @@ public class GUILoanRequest {
 				// TODO Auto-generated method stub
 				if (combo.getSelectedIndex() != -1) {
 					Loan chosen = Bank.getInstance().getAdmin().getRequestedLoans().get(combo.getSelectedIndex());
-					Bank.getInstance().getAdmin().approveLoan(chosen);
-					success.setText("Approve Loan Success!");
+					if(Bank.getInstance().getAdmin().approveLoan(chosen)) {
+						success.setText("Approve Loan Success!");
+					} else {
+						success.setText("Not enough fund in your wallet to approve this loan.");
+					}
 				} else {
 					success.setText("Choose an loan");
 				}
