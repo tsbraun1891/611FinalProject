@@ -459,7 +459,7 @@ public class IO {
                 approved = true;
             }
 
-            rhet.add(new Loan(Integer.parseInt(attributes[6]), owner, loaner, loanCurrency, Double.parseDouble(attributes[3]), Double.parseDouble(attributes[4]), approved));
+            rhet.add(new Loan(Integer.parseInt(attributes[6]), owner, loaner, loanCurrency, Double.parseDouble(attributes[3]), Double.parseDouble(attributes[4]), this.bank, approved));
         }
 
         return rhet;
