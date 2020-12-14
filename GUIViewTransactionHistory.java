@@ -22,9 +22,12 @@ public class GUIViewTransactionHistory {
 		if(bh instanceof Account) {
 			Account account = (Account)bh;
 			original = Bank.getInstance().getTransactionsForAccount(account);
-		} else if(bh instanceof User) {
+		} if(bh instanceof User) {
 			User user = (User) bh;
-			original = Bank.getInstance().getTransactionsForUser(user);
+			original = Bank.getInstance().getTransactionsForWallet(user);
+		} else if(bh instanceof Loan) {
+			Loan loan = (Loan)bh;
+			original = Bank.getInstance().getTransactionsForLoan(loan);
 		}
         
         for(int i = 0; i<original.size();i++) {
@@ -62,28 +65,6 @@ public class GUIViewTransactionHistory {
         	Object[] rowData = {id, senderId, receiverId, amount, currencyDesc, senderUser, receiverUser, date};
         	tableModel.addRow(rowData);
         }
-		//no need
-		//iterate through all accounts of user
-/*		for(Account account: user.getAccounts()) {
-			ArrayList<Transaction> accountHistory = new ArrayList<Transaction>();
-			accountHistory = Bank.getInstance().getTransactionsForAccount(account);
-			for(int i = 0; i<accountHistory.size();i++) {
-	        	int id = accountHistory.get(i).getID();
-	        	int senderId = accountHistory.get(i).getSenderID();
-	        	int receiverId = accountHistory.get(i).getReceiverID();
-	        	double amount = accountHistory.get(i).getTransactionAmount();
-	        	String currencyDesc = accountHistory.get(i).getCurrencyType().getDesc();
-	        	boolean senderUser = accountHistory.get(i).isSenderUser();
-	        	boolean receiverUser = accountHistory.get(i).isReceiverUser();
-	        	String date = accountHistory.get(i).getDate();
-	        	Object[] rowData = {id, senderId, receiverId, amount, currencyDesc, senderUser, receiverUser, date};
-	        	tableModel.addRow(rowData);
-	        }
-
-		}
-		setColWidth();
-
-		}*/
 		setColWidth();
 	}
 	
