@@ -1,3 +1,4 @@
 ID,SenderID,ReceiverID,TransactionAmount,CurrencyDesc,SenderUser,ReceiverUser,Date
 3250545,2134123,222,500.0,USD,false,true,2020-12-12
 545400,169002,169002,10.0,USD,false,false,2020-12-13
+134895,8135,764420,5000.0,USD,true,false,2020-12-14
