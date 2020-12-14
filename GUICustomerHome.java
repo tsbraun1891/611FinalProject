@@ -18,6 +18,7 @@ public class GUICustomerHome {
 	private JButton cashOutButton;
 	private JButton quitButton;
 	private JButton backButton;
+	private JButton payOffLoanButton;
 	
 	public GUICustomerHome(){
 		frame = new JFrame();
@@ -47,18 +48,23 @@ public class GUICustomerHome {
 		addRequestLoanButtonFunction();
 		frame.add(requestLoanButton);
 		
+		payOffLoanButton = new JButton("Pay Off Loan");
+		payOffLoanButton.setBounds(300, 300, 200, 25);
+		addPayOffLoanButtonFunction();
+		frame.add(payOffLoanButton);
+		
 		openAcctButton = new JButton("Open New Account");
-		openAcctButton.setBounds(300, 300, 200, 25);
+		openAcctButton.setBounds(300, 330, 200, 25);
 		addOpenAcctButtonFunction();
 		frame.add(openAcctButton);
 		
 		cashInButton = new JButton("Cash In");
-		cashInButton.setBounds(300, 330, 200, 25);
+		cashInButton.setBounds(300, 360, 200, 25);
 		addCashInButtonFunction();
 		frame.add(cashInButton);
 		
 		cashOutButton = new JButton("Cash Out");
-		cashOutButton.setBounds(300, 360, 200, 25);
+		cashOutButton.setBounds(300, 390, 200, 25);
 		addCashOutButtonFunction();
 		frame.add(cashOutButton);
 		
@@ -80,6 +86,18 @@ public class GUICustomerHome {
 		frame.setVisible(true);
 	}
 	
+	private void addPayOffLoanButtonFunction() {
+		// TODO Auto-generated method stub
+		payOffLoanButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				GUIPayOffLoan loan = new GUIPayOffLoan();
+				closeFrame();
+			}		
+		});
+	}
+
 	private void addCashOutButtonFunction() {
 		// TODO Auto-generated method stub
 		cashOutButton.addActionListener(new ActionListener() {
