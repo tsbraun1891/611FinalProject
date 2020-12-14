@@ -60,8 +60,9 @@ public class GUIViewTransactionHistory {
         	Object[] rowData = {id, senderId, receiverId, amount, currencyDesc, senderUser, receiverUser, date};
         	tableModel.addRow(rowData);
         }
+		//no need
 		//iterate through all accounts of user
-		for(Account account: user.getAccounts()) {
+/*		for(Account account: user.getAccounts()) {
 			ArrayList<Transaction> accountHistory = new ArrayList<Transaction>();
 			accountHistory = Bank.getInstance().getTransactionsForAccount(account);
 			for(int i = 0; i<accountHistory.size();i++) {
@@ -76,7 +77,7 @@ public class GUIViewTransactionHistory {
 	        	Object[] rowData = {id, senderId, receiverId, amount, currencyDesc, senderUser, receiverUser, date};
 	        	tableModel.addRow(rowData);
 	        }
-		}
+		}*/
 	}
 	
 	/**
