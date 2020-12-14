@@ -454,6 +454,25 @@ public class Bank {
     }
 
     /**
+     * @param laon
+     * @return a list of all transactions involving laon
+     */
+    public ArrayList<Transaction> getTransactionsForLoan(Loan loan) {
+        ArrayList<Transaction> rhet = new ArrayList<>();
+
+        for(Transaction t : transactions) {
+            if(t.getSender().equals(loan))
+                rhet.add(t);
+            else if(t.getReceiver().equals(loan))
+                rhet.add(t);
+        }
+
+        rhet = this.removeDuplicatesFromArray(rhet);
+
+        return rhet;
+    }
+
+    /**
      * @param user
      * @return a list of all transactions involving this user or any of their accounts
      */
@@ -475,6 +494,30 @@ public class Bank {
             rhet.addAll(getTransactionsForAccount(a));
         }
 
+        
+        rhet = this.removeDuplicatesFromArray(rhet);
+
+
+        return rhet;
+    }
+
+    /**
+     * @param user
+     * @return a list of all transactions involving this users wallet
+     */
+    public ArrayList<Transaction> getTransactionsForWallet(User user) {
+        ArrayList<Transaction> rhet = new ArrayList<>();
+
+        for(Transaction t : transactions) {
+            if(t.getSender().equals(user))
+            	if(!rhet.contains(t)) {
+                	rhet.add(t);
+            	}
+            else if(t.getReceiver().equals(user))
+            	if(!rhet.contains(t)) {
+                	rhet.add(t);
+            	}
+        }
         
         rhet = this.removeDuplicatesFromArray(rhet);
 
