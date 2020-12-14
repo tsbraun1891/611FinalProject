@@ -135,8 +135,10 @@ public class GUIViewAcct {
 					if(combo.getSelectedIndex() != 0) {
 						Account chosen = Bank.getInstance().getCurrentUser().getAccounts().get(combo.getSelectedIndex()-1);
 						GUIConvertCurrency convert = new GUIConvertCurrency(chosen);
+						closeFrame();
 					} else {//show wallet's balance
 						GUIConvertCurrency convert = new GUIConvertCurrency(Bank.getInstance().getCurrentUser());
+						closeFrame();
 					}
 				} else {
 					balance.setText("Choose an account/wallet");
