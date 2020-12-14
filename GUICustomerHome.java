@@ -5,7 +5,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
+/**
+ * This class represents the Customer Home Page window.
+ * @author ling
+ *
+ */
 public class GUICustomerHome {
 	private JFrame frame;
 	private JButton depositButton;

@@ -8,7 +8,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
-
+/**
+ * This class represents the window that allows both user type: customer, admin to log in.
+ * @author ling
+ *
+ */
 public class GUILogin {
 	private UserType userType;
 	private Timer timer;

@@ -5,7 +5,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
+/**
+ * This class represents the window that allows customer to change currency type for a specific balance handler.
+ * @author ling
+ *
+ */
 public class GUIConvertCurrency {
 	private AccountType acctType;
 	private JFrame frame;

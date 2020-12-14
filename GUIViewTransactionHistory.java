@@ -8,7 +8,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
+import javax.swing.table.TableColumnModel;
+/**
+ * This class represents the window that prompts a transaction history record given different input.
+ * @author ling
+ *
+ */
 
 public class GUIViewTransactionHistory {
 	private DefaultTableModel tableModel;
@@ -21,9 +26,12 @@ public class GUIViewTransactionHistory {
 		if(bh instanceof Account) {
 			Account account = (Account)bh;
 			original = Bank.getInstance().getTransactionsForAccount(account);
-		} else if(bh instanceof User) {
+		} if(bh instanceof User) {
 			User user = (User) bh;
-			original = Bank.getInstance().getTransactionsForUser(user);
+			original = Bank.getInstance().getTransactionsForWallet(user);
+		} else if(bh instanceof Loan) {
+			Loan loan = (Loan)bh;
+			original = Bank.getInstance().getTransactionsForLoan(loan);
 		}
         
         for(int i = 0; i<original.size();i++) {
@@ -38,6 +46,7 @@ public class GUIViewTransactionHistory {
         	Object[] rowData = {id, senderId, receiverId, amount, currencyDesc, senderUser, receiverUser, date};
         	tableModel.addRow(rowData);
         }
+        setColWidth();
 	}
 	/**
 	 * Admin checks up specific customer
@@ -60,24 +69,7 @@ public class GUIViewTransactionHistory {
         	Object[] rowData = {id, senderId, receiverId, amount, currencyDesc, senderUser, receiverUser, date};
         	tableModel.addRow(rowData);
         }
-		//no need
-		//iterate through all accounts of user
-/*		for(Account account: user.getAccounts()) {
-			ArrayList<Transaction> accountHistory = new ArrayList<Transaction>();
-			accountHistory = Bank.getInstance().getTransactionsForAccount(account);
-			for(int i = 0; i<accountHistory.size();i++) {
-	        	int id = accountHistory.get(i).getID();
-	        	int senderId = accountHistory.get(i).getSenderID();
-	        	int receiverId = accountHistory.get(i).getReceiverID();
-	        	double amount = accountHistory.get(i).getTransactionAmount();
-	        	String currencyDesc = accountHistory.get(i).getCurrencyType().getDesc();
-	        	boolean senderUser = accountHistory.get(i).isSenderUser();
-	        	boolean receiverUser = accountHistory.get(i).isReceiverUser();
-	        	String date = accountHistory.get(i).getDate();
-	        	Object[] rowData = {id, senderId, receiverId, amount, currencyDesc, senderUser, receiverUser, date};
-	        	tableModel.addRow(rowData);
-	        }
-		}*/
+		setColWidth();
 	}
 	
 	/**
@@ -101,6 +93,7 @@ public class GUIViewTransactionHistory {
         	Object[] rowData = {id, senderId, receiverId, amount, currencyDesc, senderUser, receiverUser, date};
         	tableModel.addRow(rowData);
         }
+        setColWidth(); 
 	}
 	
 	public void prepareUI() {
@@ -117,7 +110,7 @@ public class GUIViewTransactionHistory {
         frame.pack();
 		frame.setVisible(true);
         
-        String[] headerDesc = {"ID", "SenderID", "ReceiverId", "TransactionAmount", "CurrencyDesc", "SenderUser","ReceiverUser","Date"};
+        String[] headerDesc = {"ID", "SenderID", "ReceiverId", "Amount", "CurrencyDesc", "SenderUser","ReceiverUser","Date"};
         tableModel.setColumnIdentifiers(headerDesc);
         table = new JTable(tableModel);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -125,4 +118,16 @@ public class GUIViewTransactionHistory {
         panel.add(transactionScroll, BorderLayout.CENTER);
 	}
 	
+	public void setColWidth() {
+		TableColumnModel model = table.getColumnModel();
+		model.getColumn(0).setPreferredWidth(100);
+		model.getColumn(1).setPreferredWidth(100);
+		model.getColumn(2).setPreferredWidth(100);
+		model.getColumn(3).setPreferredWidth(100);
+		model.getColumn(4).setPreferredWidth(100);
+		model.getColumn(5).setPreferredWidth(100);
+		model.getColumn(6).setPreferredWidth(100);
+		model.getColumn(7).setPreferredWidth(100);
+		
+	}
 }

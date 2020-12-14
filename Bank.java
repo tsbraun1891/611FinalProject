@@ -61,8 +61,6 @@ public class Bank {
         }
 
         transactions = bankIO.readTransactions(transactionFile);
-
-        Transaction xact = transactions.get(0);
     }
     
     /**

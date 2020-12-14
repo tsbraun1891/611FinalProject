@@ -6,7 +6,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
+/**
+ * This class represents the two login options: CustomerLogin, AdminLogin.
+ * @author ling
+ *
+ */
 
 
 public class GUIChooseUserType {

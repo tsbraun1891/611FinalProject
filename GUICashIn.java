@@ -7,6 +7,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+/**
+ * This class represents the window that asks the customer to insert cash.
+ * @author ling
+ *
+ */
 public class GUICashIn {
 	private JFrame frame;
 	private JButton submitButton;

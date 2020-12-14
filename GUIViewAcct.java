@@ -8,7 +8,11 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-
+/**
+ * This class represents the window that allows customer to view accounts in details. Customer can view balance, view transaction history, and convert currency type for the account.
+ * @author ling
+ *
+ */
 public class GUIViewAcct {
 	private JFrame frame;
 	private JButton viewTransactionButton;
@@ -18,10 +22,16 @@ public class GUIViewAcct {
 	private JButton backButton;
 	private JComboBox combo;
 	private JLabel balance;
+	private Customer customer;
 	
 	public GUIViewAcct() {
 		frame = new JFrame();
 		
+		customer = null;
+		User user = Bank.getInstance().getCurrentUser();
+		if(user instanceof Customer) {
+			customer = (Customer) user;
+		}
 		
 		JLabel chooseAccount = new JLabel("Choose Account");
 		chooseAccount.setBounds(250,110,160,25);
@@ -30,8 +40,12 @@ public class GUIViewAcct {
 		DefaultComboBoxModel accounts = new DefaultComboBoxModel();
 		accounts.addElement("Your wallet");
 		for(Account account: Bank.getInstance().getCurrentUser().getAccounts()) {
-			accounts.addElement(account.toString());
+			accounts.addElement(account);
 		}
+		for(Loan loan: customer.getLoans()) {
+			accounts.addElement(loan);
+		}
+		
 		combo = new JComboBox(accounts);
 		JScrollPane accountPane= new JScrollPane(combo);
 		accountPane.setBounds(400, 100,170, 45);
@@ -85,18 +99,16 @@ public class GUIViewAcct {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if ((combo.getSelectedIndex() != -1)) {
-					if(combo.getSelectedIndex() != 0) {
-						Account chosen = Bank.getInstance().getCurrentUser().getAccounts().get(combo.getSelectedIndex()-1);
-						String s1 = chosen.getCurrencyType().getSymbol();
-						String s = String.valueOf(chosen.getBalance());
-						balance.setText(s1+s);
-					} else {//show wallet's balance
-						User user = Bank.getInstance().getCurrentUser();
-						String s1 = user.getCurrencyType().getSymbol();
-						String s = String.valueOf(user.getBalance());
-						balance.setText(s1+s);
+				BalanceHandler bh = null;
+				if ((combo.getSelectedIndex() != -1)) {	
+					if(combo.getSelectedIndex()!=0) {
+						bh = (BalanceHandler) combo.getSelectedItem();	
+					} else {
+						bh = Bank.getInstance().getCurrentUser();
 					}
+					String s1 = bh.getCurrencyType().getSymbol();
+					String s = String.valueOf(bh.getBalance());
+					balance.setText(s1+s);
 				} else {
 					balance.setText("Choose an account/wallet");
 				}
@@ -112,14 +124,14 @@ public class GUIViewAcct {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub	
 				if ((combo.getSelectedIndex() != -1)) {
-					if(combo.getSelectedIndex() != 0) {
-						Account chosen = Bank.getInstance().getCurrentUser().getAccounts().get(combo.getSelectedIndex()-1);
-						GUIViewTransactionHistory view = new GUIViewTransactionHistory(chosen);
-					} else {//show wallet's transaction history
+					if(combo.getSelectedIndex()!=0) {
+						BalanceHandler bh = (BalanceHandler) combo.getSelectedItem();
+						GUIViewTransactionHistory view = new GUIViewTransactionHistory(bh);
+					} else {
 						GUIViewTransactionHistory view = new GUIViewTransactionHistory(Bank.getInstance().getCurrentUser());
 					}
 				} else {
-					balance.setText("Choose an account/wallet");
+					balance.setText("Choose an account/wallet/loan");
 				}
 			}		
 		});
@@ -133,15 +145,14 @@ public class GUIViewAcct {
 				// TODO Auto-generated method stub
 				if ((combo.getSelectedIndex() != -1)) {
 					if(combo.getSelectedIndex() != 0) {
-						Account chosen = Bank.getInstance().getCurrentUser().getAccounts().get(combo.getSelectedIndex()-1);
-						GUIConvertCurrency convert = new GUIConvertCurrency(chosen);
-						closeFrame();
-					} else {//show wallet's balance
+						BalanceHandler bh = (BalanceHandler) combo.getSelectedItem();
+						GUIConvertCurrency convert = new GUIConvertCurrency(bh);					
+					} else {
 						GUIConvertCurrency convert = new GUIConvertCurrency(Bank.getInstance().getCurrentUser());
-						closeFrame();
 					}
+					closeFrame();
 				} else {
-					balance.setText("Choose an account/wallet");
+					balance.setText("Choose an account/wallet/loan");
 				}
 			}		
 		});

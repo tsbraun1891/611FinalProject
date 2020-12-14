@@ -9,7 +9,11 @@ import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.Timer;
-
+/**
+ * This class represents the window that allows customer to request loan.
+ * @author ling
+ *
+ */
 public class GUIRequestLoan {
 	
 	private JFrame frame;
