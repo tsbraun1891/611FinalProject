@@ -11,8 +11,10 @@ public class GUIAdminHome {
 	private JButton dailyReportButton;
 	private JButton checkCustomerButton;
 	private JButton loanRequestButton;
+	private JButton advanceOneMonthButton;
 	private JButton backButton;
 	private JButton quitButton;
+	private JLabel success;
 	
 	public GUIAdminHome() {
 		frame = new JFrame();
@@ -31,6 +33,11 @@ public class GUIAdminHome {
 		addLoanRequestFunction();
 		frame.add(loanRequestButton);
 		
+		advanceOneMonthButton = new JButton("Advance One Month");
+		advanceOneMonthButton.setBounds(300, 300, 200, 25);
+		addadvanceOneMonthButtonFunction();
+		frame.add(advanceOneMonthButton);
+		
 		backButton = new JButton("Back");
 		backButton.setBounds(10, 500, 80, 25);
 		addBackButtonFunction();
@@ -41,12 +48,29 @@ public class GUIAdminHome {
 		addQuitButtonFunction();
 		frame.add(quitButton);
 		
+		success  = new JLabel("");
+		success.setBounds(300,330,300,25);
+		frame.add(success);
+		
 		addBackgroundPic();
 		
 		frame.setSize(800,550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+	}
+
+	private void addadvanceOneMonthButtonFunction() {
+		// TODO Auto-generated method stub
+		advanceOneMonthButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				Bank.getInstance().passOneMonth();
+				success.setText("success! One month has passed..");
+			}		
+		});
+		
 	}
 
 	private void addLoanRequestFunction() {
