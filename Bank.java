@@ -355,8 +355,6 @@ public class Bank {
             account.addToBalance(amount, user.getCurrencyType());
             user.subtractFromBalance(amount);
         }
-        
-        this.saveData();
 
         int newID = (int) (Math.random() * 1000000);
         for(Transaction xact : transactions) {
@@ -365,6 +363,8 @@ public class Bank {
         }
 
         this.transactions.add(new Transaction(newID, user, account, amount, user.getCurrencyType()));
+
+        this.saveData();
 
     	return true;
     }
@@ -385,8 +385,6 @@ public class Bank {
     		return false;
     	}
     	sender.transferMoneyToOther(receiver, amount);
-        
-        this.saveData();
 
         int newID = (int) (Math.random() * 1000000);
         for(Transaction xact : transactions) {
@@ -395,6 +393,8 @@ public class Bank {
         }
 
         this.transactions.add(new Transaction(newID, sender, receiver, amount, sender.getCurrencyType()));
+
+        this.saveData();
 
     	return true;
     }
@@ -448,12 +448,14 @@ public class Bank {
                 rhet.add(t);
         }
 
+        rhet = this.removeDuplicatesFromArray(rhet);
+
         return rhet;
     }
 
     /**
      * @param user
-     * @return a list of all transactions of money sent to this user
+     * @return a list of all transactions involving this user or any of their accounts
      */
     public ArrayList<Transaction> getTransactionsForUser(User user) {
         ArrayList<Transaction> rhet = new ArrayList<>();
@@ -467,6 +469,26 @@ public class Bank {
             	if(!rhet.contains(t)) {
                 	rhet.add(t);
             	}
+        }
+
+        for(Account a : user.getAccounts()) {
+            rhet.addAll(getTransactionsForAccount(a));
+        }
+
+        
+        rhet = this.removeDuplicatesFromArray(rhet);
+
+
+        return rhet;
+    }
+
+    private <T> ArrayList<T> removeDuplicatesFromArray(ArrayList<T> array) {
+        ArrayList<T> rhet = new ArrayList<>();
+
+        for(T item : array) {
+            if(!rhet.contains(item)) {
+                rhet.add(item);
+            }
         }
 
         return rhet;
