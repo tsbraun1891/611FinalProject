@@ -51,8 +51,9 @@ public class GUIPayOffLoan {
 		frame.add(withdrawalFrom);
 		
 		DefaultComboBoxModel accounts = new DefaultComboBoxModel();
+		accounts.addElement("Your wallet");
 		for(Account account: Bank.getInstance().getCurrentUser().getAccounts()) {
-			accounts.addElement(account.toString());
+			accounts.addElement(account);
 		}
 		
 		combo = new JComboBox(accounts);
@@ -112,10 +113,14 @@ public class GUIPayOffLoan {
 				// TODO Auto-generated method stub
 				try { 
 					double amount = Double.parseDouble(transferAmountText.getText());
-					Account sender = null;
+					BalanceHandler sender = null;
 					Loan loan = null;
-					if ((combo.getSelectedIndex() != -1)) {//choose sender	
-						sender = Bank.getInstance().getCurrentUser().getAccounts().get(combo.getSelectedIndex());			
+					if ((combo.getSelectedIndex() != -1)) {//choose sender
+						if(combo.getSelectedIndex() != 0) {
+							sender = Bank.getInstance().getCurrentUser().getAccounts().get(combo.getSelectedIndex());
+						} else {
+							sender = Bank.getInstance().getCurrentUser();
+						}
 					} else {
 						success.setText("Choose an account");
 					}
@@ -129,7 +134,7 @@ public class GUIPayOffLoan {
 					
 					if(sender != null && loan != null) {
 						if(amount>0 && amount<sender.getBalance()) {
-							Bank.getInstance().transferMoney(sender, loan, amount);//TODO: payoffLoan.
+							loan.payOffLoanAmount(amount, sender);
 							success.setText("Success! Paid "+sender.getCurrencyType().getSymbol()+ amount+ " to "+ loan.toString());
 							success2.setText(loan.toString()+" current balance:  "+loan.getCurrencyType().getSymbol()+loan.getBalance());
 						}else {

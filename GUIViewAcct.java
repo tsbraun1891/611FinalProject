@@ -99,11 +99,16 @@ public class GUIViewAcct {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if ((combo.getSelectedIndex() != -1)) {		
-					BalanceHandler bh = (BalanceHandler) combo.getSelectedItem();
+				BalanceHandler bh = null;
+				if ((combo.getSelectedIndex() != -1)) {	
+					if(combo.getSelectedIndex()!=0) {
+						bh = (BalanceHandler) combo.getSelectedItem();	
+					} else {
+						bh = Bank.getInstance().getCurrentUser();
+					}
 					String s1 = bh.getCurrencyType().getSymbol();
 					String s = String.valueOf(bh.getBalance());
-					balance.setText(s1+s);	
+					balance.setText(s1+s);
 				} else {
 					balance.setText("Choose an account/wallet");
 				}
@@ -119,8 +124,12 @@ public class GUIViewAcct {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub	
 				if ((combo.getSelectedIndex() != -1)) {
-					BalanceHandler bh = (BalanceHandler) combo.getSelectedItem();
-					GUIViewTransactionHistory view = new GUIViewTransactionHistory(bh);
+					if(combo.getSelectedIndex()!=0) {
+						BalanceHandler bh = (BalanceHandler) combo.getSelectedItem();
+						GUIViewTransactionHistory view = new GUIViewTransactionHistory(bh);
+					} else {
+						GUIViewTransactionHistory view = new GUIViewTransactionHistory(Bank.getInstance().getCurrentUser());
+					}
 				} else {
 					balance.setText("Choose an account/wallet/loan");
 				}
@@ -135,8 +144,12 @@ public class GUIViewAcct {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				if ((combo.getSelectedIndex() != -1)) {
-					BalanceHandler bh = (BalanceHandler) combo.getSelectedItem();
-					GUIConvertCurrency convert = new GUIConvertCurrency(bh);
+					if(combo.getSelectedIndex() != 0) {
+						BalanceHandler bh = (BalanceHandler) combo.getSelectedItem();
+						GUIConvertCurrency convert = new GUIConvertCurrency(bh);					
+					} else {
+						GUIConvertCurrency convert = new GUIConvertCurrency(Bank.getInstance().getCurrentUser());
+					}
 					closeFrame();
 				} else {
 					balance.setText("Choose an account/wallet/loan");
