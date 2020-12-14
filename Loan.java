@@ -4,6 +4,7 @@ public class Loan extends BalanceHandler {
 	private double rate;
 	private boolean approved, denied;
 	private int loanID;
+	private Bank bank;
 
 	/**
      * Create a new loan account
@@ -13,7 +14,7 @@ public class Loan extends BalanceHandler {
      * @param balance - the current amount of that currency on this loan
 	 * @param interestRate - the rate of interest that this account can generate
      */
-	public Loan(int loanID, User owner, User loaner, Currency currency, double balance, double interestRate) {
+	public Loan(int loanID, User owner, User loaner, Currency currency, double balance, double interestRate, Bank b) {
 		super(balance, currency);
 
 		this.owner = owner;
@@ -22,18 +23,20 @@ public class Loan extends BalanceHandler {
 		this.approved = false;
 		this.denied = false;
 		this.loanID = loanID;
+		this.bank = b;
 	}
 
 	/* Same as the other constructor except you can specify whether a loan is approved already or not */
-	public Loan(int loanID, User owner, User loaner, Currency currency, double balance, double interestRate, boolean approved) {
+	public Loan(int loanID, User owner, User loaner, Currency currency, double balance, double interestRate, Bank b, boolean approved) {
 		super(balance, currency);
 
-		this.loanID = loanID;
 		this.owner = owner;
 		this.loaner = loaner;
 		this.rate = interestRate;
 		this.approved = approved;
 		this.denied = false;
+		this.loanID = loanID;
+		this.bank = b;
 	}
 
 	public User getOwner() {
@@ -92,17 +95,51 @@ public class Loan extends BalanceHandler {
         this.loaner = newLoaner;
 	}
 
-	// TODO: Add in subtracting from user wallet / checks if they can afford
-	public double payOffLoanAmount(double amount) {
-		if(!this.paidOff()) {
-			if(this.balance < amount) {
-				this.subtractFromBalance(this.balance);
-				this.loaner.addToBalance(this.balance, this.currency);
-			} else {
-				this.subtractFromBalance(amount);
-				this.loaner.addToBalance(amount, this.currency);
-			}			
+	/**
+	 * pays off a portion of this loan
+	 * @param amount - amount to pay off (in source's currency)
+	 * @param source - where the amount is coming from
+	 * @return the resulting loan balance
+	 */
+	public double payOffLoanAmount(double amount, BalanceHandler source) {
+		if(source.getBalance() >= amount) {
+			double paid;
+			Currency paidCurrency;
+			if(!this.paidOff()) {
+				if(source.getCurrencyType().convertToCurrency(this.balance) < amount) {
+					paid = this.balance;
+					paidCurrency = this.currency;
+				} else {
+					paid = amount;
+					paidCurrency = source.getCurrencyType();
+				}	
+				
+				this.subtractFromBalance(paid, paidCurrency);
+				source.subtractFromBalance(paid, paidCurrency);
+				this.loaner.addToBalance(paid, paidCurrency);
+			
+
+				/* Create transaction from source to this loan */
+				int newID = (int) (Math.random() * 1000000);
+				for(Transaction xact : bank.transactions) {
+					if(newID == xact.getID())
+						newID = (int) (Math.random() * 1000000);
+				}
+
+				bank.transactions.add(new Transaction(newID, source, this, paid, paidCurrency));
+
+				/* Create transaction from loan to loaner */
+				newID = (int) (Math.random() * 1000000);
+				for(Transaction xact : bank.transactions) {
+					if(newID == xact.getID())
+						newID = (int) (Math.random() * 1000000);
+				}
+
+				bank.transactions.add(new Transaction(newID, this, this.loaner, paid, paidCurrency));
+			}
 		}		
+
+		
 
 		return this.balance;
 	}

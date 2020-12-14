@@ -409,7 +409,7 @@ public class Bank {
             }
         }
 
-        Loan newLoan = new Loan(newID, owner, admin, currencyType, amount, this.standardLoanInterest);
+        Loan newLoan = new Loan(newID, owner, admin, currencyType, amount, this.standardLoanInterest, this);
 
         owner.addNewLoan(newLoan);
         loans.add(newLoan);
@@ -474,7 +474,7 @@ public class Bank {
 
     /**
      * @param user
-     * @return a list of all transactions involving this user or any of their accounts
+     * @return a list of all transactions involving this user or any of their accounts or loans
      */
     public ArrayList<Transaction> getTransactionsForUser(User user) {
         ArrayList<Transaction> rhet = new ArrayList<>();
@@ -492,6 +492,12 @@ public class Bank {
 
         for(Account a : user.getAccounts()) {
             rhet.addAll(getTransactionsForAccount(a));
+        }
+
+        for(Loan l : loans) {
+            if(l.getOwner().equals(user)) {
+                rhet.addAll(this.getTransactionsForLoan(l));
+            }
         }
 
         
