@@ -94,20 +94,21 @@ public class Loan extends BalanceHandler {
 
 	/**
 	 * pays off a portion of this loan
-	 * @param amount - amount to pay off (in user's currency)
+	 * @param amount - amount to pay off (in source's currency)
+	 * @param source - where the amount is coming from
 	 * @return the resulting loan balance
 	 */
-	public double payOffLoanAmount(double amount) {
-		if(this.owner.getBalance() >= amount) {
+	public double payOffLoanAmount(double amount, BalanceHandler source) {
+		if(source.getBalance() >= amount) {
 			if(!this.paidOff()) {
-				if(this.owner.getCurrencyType().convertToCurrency(this.balance) < amount) {
+				if(source.getCurrencyType().convertToCurrency(this.balance) < amount) {
 					this.subtractFromBalance(this.balance);
-					this.owner.subtractFromBalance(this.balance, this.currency);
+					source.subtractFromBalance(this.balance, this.currency);
 					this.loaner.addToBalance(this.balance, this.currency);
 				} else {
-					this.subtractFromBalance(amount, this.owner.getCurrencyType());
-					this.owner.subtractFromBalance(amount);
-					this.loaner.addToBalance(amount, this.owner.getCurrencyType());
+					this.subtractFromBalance(amount, source.getCurrencyType());
+					source.subtractFromBalance(amount);
+					this.loaner.addToBalance(amount, source.getCurrencyType());
 				}			
 			}
 		}		
