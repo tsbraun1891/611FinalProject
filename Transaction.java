@@ -67,10 +67,16 @@ public class Transaction {
         return this.transactionAmount;
     }
 
+    /**
+     * @return if the receiver in this transaction was a User or not
+     */
     public boolean isReceiverUser() {
         return this.receiverUser;
     }
 
+    /**
+     * @return if the sender in this transaction was a User or not
+     */
     public boolean isSenderUser() {
         return this.senderUser;
     }
@@ -85,5 +91,41 @@ public class Transaction {
 
     public int getID() {
         return this.transactionID;
+    }
+
+    /**
+     * @return the User/Account ID of the sender
+     */
+    public int getSenderID() {
+
+        /* BalanceHandlers are either users or accounts */
+        if(this.isSenderUser()) {
+            User temp = (User) this.getSender();
+
+            return temp.getUserId();
+        } else {
+            Account temp = (Account) this.getSender();
+
+            return temp.getID();
+        }
+
+    }
+
+    /**
+     * @return the User/Account ID of the receiver
+     */
+    public int getReceiverID() {
+
+        /* BalanceHandlers are either users or accounts */
+        if(this.isReceiverUser()) {
+            User temp = (User) this.getReceiver();
+
+            return temp.getUserId();
+        } else {
+            Account temp = (Account) this.getReceiver();
+
+            return temp.getID();
+        }
+
     }
 }
