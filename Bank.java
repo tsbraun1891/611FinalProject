@@ -215,6 +215,7 @@ public class Bank {
 
             /* Now we subtract the opening account fee */
             owner.addNewAccount(account);
+            accounts.add(account);
 
             this.saveData();
 
