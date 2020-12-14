@@ -25,6 +25,8 @@ public class Admin extends User {
 	public void denyLoan(Loan loan) {
 		loan.denyLoan();
 
+		requestedLoans.remove(loan);
+
 		bank.saveData();
 	}
 	
