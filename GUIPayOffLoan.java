@@ -125,7 +125,7 @@ public class GUIPayOffLoan {
 					
 					if(sender != null && loan != null) {
 						if(amount>0 && amount<sender.getBalance()) {
-							Bank.getInstance().transferMoney(sender, loan, amount);
+							Bank.getInstance().transferMoney(sender, loan, amount);//TODO: payoffLoan.
 							success.setText("Success! Paid "+sender.getCurrencyType().getSymbol()+ amount+ " to "+ loan.toString());
 							success2.setText(loan.toString()+" current balance:  "+loan.getCurrencyType().getSymbol()+loan.getBalance());
 						}else {

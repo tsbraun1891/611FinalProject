@@ -1,6 +1,6 @@
 Type,Owner,CurrencyDesc,Balance,FeeRate,IntThreshold,IntRate,ID
 Savings,111,USD,28227.0,0.03,0.03,0.03,2134123
 Checking,222,YEN,2617.25,0.05,0.0,0.0,24352332
-Checking,0,USD,401.87,0.01,0.0,0.0,169002
+Checking,0,USD,391.77,0.01,0.0,0.0,169002
 Savings,0,EUR,109.55999999999999,0.01,0.01,0.01,13082
 Checking,0,EUR,83.0,0.01,0.0,0.0,549139
