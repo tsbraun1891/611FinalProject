@@ -110,9 +110,17 @@ public class GUIViewAcct {
 		viewTransactionButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				GUIViewTransactionHistory history = new GUIViewTransactionHistory(AccountType.CHECKING);
-				closeFrame();
+				// TODO Auto-generated method stub	
+				if ((combo.getSelectedIndex() != -1)) {
+					if(combo.getSelectedIndex() != 0) {
+						Account chosen = Bank.getInstance().getCurrentUser().getAccounts().get(combo.getSelectedIndex()-1);
+						GUIViewTransactionHistory view = new GUIViewTransactionHistory(chosen);
+					} else {//show wallet's transaction history
+						//GUIViewTransactionHistory view = new GUIViewTransactionHistory(Bank.getInstance().getCurrentUser());
+					}
+				} else {
+					balance.setText("Choose an account/wallet");
+				}
 			}		
 		});
 	}

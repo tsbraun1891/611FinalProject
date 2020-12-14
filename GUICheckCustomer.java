@@ -47,12 +47,12 @@ public class GUICheckCustomer {
 		
 		JLabel title2 = new JLabel("Check all clients: ");
 		title2.setBounds(190,300,200,25);
-		frame.add(title2);
+		//frame.add(title2);
 		
 		getAllCustomerButton = new JButton("Check");
 		getAllCustomerButton.setBounds(490, 300, 100, 25);
 		addGetAllCustomerButtonFunction();
-		frame.add(getAllCustomerButton);
+		//frame.add(getAllCustomerButton);
 		
 		backButton = new JButton("Back");
 		backButton.setBounds(10, 500, 80, 25);
@@ -78,14 +78,7 @@ public class GUICheckCustomer {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				//TODO: if not null
-				//if()) {
-					//success.setText(usernameText.getText()+ " found!");
-					//prompt all clients info
-				//} else {
-					success2.setText("No client in database.");
-				//}
+				//
 				
 			}
 		});
@@ -97,11 +90,11 @@ public class GUICheckCustomer {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				//TODO: if usernameText == database.record
-				if(usernameText.getText().equals("Lin")) {
-					success.setText(usernameText.getText()+ " found!");
-					//prompt client info
+				User user = Bank.getInstance().getUserByUsername(usernameText.getText());
+				if(user!=null) {
+					Bank.getInstance().getTransactionsForUser(user);
+					
+				
 				} else {
 					success.setText("Username not found.");
 				}
