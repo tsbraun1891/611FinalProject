@@ -2,7 +2,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class Bank {
+public class Bank extends ATM{
     IO bankIO;
     public ArrayList<Currency> currencies;
     public ArrayList<User> users;
@@ -130,7 +130,7 @@ public class Bank {
      * its userID is unique
      * @param user
      */
-    private void addNewUserToSystem(User user) {
+    public void addNewUserToSystem(User user) {
         for(User u : users) {
             if(u.getUserId() == user.getUserId()) {
                 user.setUserId( (int) (Math.random() * 10000) );
@@ -566,5 +566,5 @@ public class Bank {
         	}
         }
         return trans;
-    }  
+    }
 }
