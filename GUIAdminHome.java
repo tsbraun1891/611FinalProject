@@ -10,6 +10,7 @@ public class GUIAdminHome {
 	private JFrame frame;
 	private JButton dailyReportButton;
 	private JButton checkCustomerButton;
+	private JButton loanRequestButton;
 	private JButton backButton;
 	private JButton quitButton;
 	
@@ -24,6 +25,11 @@ public class GUIAdminHome {
 		checkCustomerButton.setBounds(300, 240, 200, 25);
 		addCheckCustomerButtonFunction();
 		frame.add(checkCustomerButton);
+		
+		loanRequestButton = new JButton("Loan Request");
+		loanRequestButton.setBounds(300, 270, 200, 25);
+		addLoanRequestFunction();
+		frame.add(loanRequestButton);
 		
 		backButton = new JButton("Back");
 		backButton.setBounds(10, 500, 80, 25);
@@ -41,6 +47,18 @@ public class GUIAdminHome {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+	}
+
+	private void addLoanRequestFunction() {
+		// TODO Auto-generated method stub
+		loanRequestButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				GUILoanRequest loan = new GUILoanRequest();
+				closeFrame();
+			}		
+		});
 	}
 
 	private void addBackButtonFunction() {

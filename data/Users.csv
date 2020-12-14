@@ -1,7 +1,7 @@
 Type,UserID,Firstname,LastName,Username,Password,Balance,CurrencyDesc
 Customer,111,Tanner,Braun,tbraun,tbraun1,1000.0,USD
-Admin,222,Millie,Smith,msmith,smithword,2450.0,USD
-Customer,0,Ling,Xie,Ling,abc,1494.0,USD
+Admin,222,Millie,Smith,msmith,smithword,1439.0,USD
+Customer,0,Ling,Xie,Ling,abc,1365.0,USD
 Customer,6064,1,22,Ling1,abc,0.0,USD
 Customer,9636,Gabe,Klav,gklav,goober,0.0,USD
 Customer,8135,Ling,Xie,testUser,t,109.0,USD
