@@ -8,7 +8,11 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-
+/**
+ * This class represents the window that allows customer to request loan.
+ * @author ling
+ *
+ */
 public class GUILoanRequest {
 	private JFrame frame;
 	private JButton approveButton;

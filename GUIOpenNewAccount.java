@@ -9,7 +9,11 @@ import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.Timer;
-
+/**
+ * This class represents the window that allow customer to open new account: saving/checking
+ * @author ling
+ *
+ */
 public class GUIOpenNewAccount {
 	private JFrame frame;
 	private JButton submitButton;

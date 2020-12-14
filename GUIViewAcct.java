@@ -8,7 +8,11 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-
+/**
+ * This class represents the window that allows customer to view accounts in details. Customer can view balance, view transaction history, and convert currency type for the account.
+ * @author ling
+ *
+ */
 public class GUIViewAcct {
 	private JFrame frame;
 	private JButton viewTransactionButton;

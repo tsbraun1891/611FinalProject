@@ -6,7 +6,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-
+/**
+ * This class represents the window that let the Admin check up on specific customer given username.
+ * @author ling
+ *
+ */
 public class GUICheckCustomer {
 	private JFrame frame;
 	private JButton searchButton;

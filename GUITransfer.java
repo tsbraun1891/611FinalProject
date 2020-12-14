@@ -5,7 +5,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
+/**
+ * This class represents the Transfer home page. Customer can choose to send money to other user, or transfer between accounts.
+ * @author ling
+ *
+ */
 public class GUITransfer {
 	private JFrame frame;
 	private JButton transferToButton;

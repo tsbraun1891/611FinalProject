@@ -9,7 +9,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-
+/**
+ * This class represents the window that allows customer to pay off loan.
+ * @author ling
+ *
+ */
 public class GUIPayOffLoan {
 	private JFrame frame;
 	private JButton submitButton;

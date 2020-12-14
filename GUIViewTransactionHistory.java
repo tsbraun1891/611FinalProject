@@ -9,7 +9,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
-
+/**
+ * This class represents the window that prompts a transaction history record given different input.
+ * @author ling
+ *
+ */
 
 public class GUIViewTransactionHistory {
 	private DefaultTableModel tableModel;

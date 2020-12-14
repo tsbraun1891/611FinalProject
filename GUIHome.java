@@ -6,7 +6,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-
+/**
+ * This class represents the welcome page window.
+ * @author ling
+ *
+ */
 
 public class GUIHome {
 	private JFrame frame;

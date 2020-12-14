@@ -6,7 +6,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-
+/**
+ * This class represents the window that allows customer to take some amount money from ATM.
+ * @author ling
+ *
+ */
 public class GUICashOut {
 	private JFrame frame;
 	private JButton submitButton;
