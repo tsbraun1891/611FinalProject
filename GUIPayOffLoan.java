@@ -10,20 +10,23 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-public class GUITransferTo {
+public class GUIPayOffLoan {
 	private JFrame frame;
 	private JButton submitButton;
 	private JButton quitButton;
 	private JButton backButton;
 	private JLabel success;
+	private JLabel success2;
 	private JComboBox combo;
+	private JComboBox combo2;
 	private JTextField transferAmountText;
-	private JTextField recipientText;
+	private Customer customer;
 	
-	public GUITransferTo() {
-		frame  = new JFrame();
+	public GUIPayOffLoan() {
+		customer = null;
+		frame = new JFrame();	
 		
-		JLabel transferAmount = new JLabel("Transfer Amount");
+		JLabel transferAmount = new JLabel("Payoff Amount");
 		transferAmount.setBounds(250,200,160,25);
 		frame.add(transferAmount);
 		
@@ -32,10 +35,14 @@ public class GUITransferTo {
 		frame.add(transferAmountText);
 		
 		success  = new JLabel("");
-		success.setBounds(250,390,400,25);
+		success.setBounds(250,375,300,25);
 		frame.add(success);
 		
-		JLabel withdrawalFrom = new JLabel("Withdrawal From");
+		success2  = new JLabel("");
+		success2.setBounds(250,395,300,25);
+		frame.add(success2);
+		
+		JLabel withdrawalFrom = new JLabel("Pay From");
 		withdrawalFrom.setBounds(250,250,160,25);
 		frame.add(withdrawalFrom);
 		
@@ -46,26 +53,31 @@ public class GUITransferTo {
 		
 		combo = new JComboBox(accounts);
 		
-		
 		JScrollPane accountPane= new JScrollPane(combo);
 		accountPane.setBounds(400, 250,170, 45);
 		frame.add(accountPane);
 		
-		JLabel transferTo = new JLabel("Send Money To");
+		JLabel transferTo = new JLabel("Pay To");
 		transferTo.setBounds(250,300,160,25);
 		frame.add(transferTo);
 		
-		recipientText = new JTextField();
-		recipientText.setBounds(400,300,165,25);
-		frame.add(recipientText);
+		DefaultComboBoxModel loans = new DefaultComboBoxModel();
 		
-		JLabel hint = new JLabel("Please provide the username of the recipient");
-		hint.setBounds(250,320,300,25);
-		frame.add(hint);
+		if(Bank.getInstance().getCurrentUser() instanceof Customer) {
+			customer = (Customer) Bank.getInstance().getCurrentUser();
+			for(Loan loan: customer.getLoans()) {
+				loans.addElement(loan.toString());
+			}
+		}
 		
+		combo2 = new JComboBox(loans);
+		
+		JScrollPane accountPane2 = new JScrollPane(combo2);
+		accountPane2.setBounds(400,300,170,45);
+		frame.add(accountPane2);
 		
 		submitButton = new JButton("Submit");
-		submitButton.setBounds(250,370, 80, 25);
+		submitButton.setBounds(250,350, 80, 25);
 		addSubmitButtonFunction();
 		frame.add(submitButton);
 		
@@ -94,21 +106,35 @@ public class GUITransferTo {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				try {
+				try { 
 					double amount = Double.parseDouble(transferAmountText.getText());
-					User recipient = Bank.getInstance().getUserByUsername(recipientText.getText());
-		            if ((combo.getSelectedIndex() != -1) && amount > 0 && recipient != null) {                         
-		            	if(Bank.getInstance().transferMoney(Bank.getInstance().getCurrentUser().getAccounts().get(combo.getSelectedIndex()), recipient , amount))
-		            		success.setText("Transfer Success!");
-		            	else 
-		            		success.setText("No enough money in this account");
-		            } else if((combo.getSelectedIndex() == -1)) {
-		            	success.setText("You don't have an account yet. Please open a new account.");
+					Account sender = null;
+					Loan loan = null;
+					if ((combo.getSelectedIndex() != -1)) {//choose sender	
+						sender = Bank.getInstance().getCurrentUser().getAccounts().get(combo.getSelectedIndex());			
 					} else {
-		            	success.setText("Please provide valid info");
-		            }
+						success.setText("Choose an account");
+					}
+					
+					if ((combo2.getSelectedIndex() != -1)) {//choose receiver
+						loan = customer.getLoans().get(combo2.getSelectedIndex());
+						//loan.payOffLoanAmount(amount);
+					} else {
+						success.setText("Choose a loan");
+					}
+					
+					if(sender != null && loan != null) {
+						if(amount>0 && amount<sender.getBalance()) {
+							Bank.getInstance().transferMoney(sender, loan, amount);//TODO: payoffLoan.
+							success.setText("Success! Paid "+sender.getCurrencyType().getSymbol()+ amount+ " to "+ loan.toString());
+							success2.setText(loan.toString()+" current balance:  "+loan.getCurrencyType().getSymbol()+loan.getBalance());
+						}else {
+							success.setText("please provide valid amount.");
+						}
+					}
 				} catch(Exception exception) {
-					success.setText("Invalid Deposit Amount");
+					success.setText("provide valid info please");
+					exception.printStackTrace();
 				}
 			}
 			

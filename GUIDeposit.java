@@ -39,7 +39,6 @@ public class GUIDeposit {
 		frame.add(depositTo);
 		
 		DefaultComboBoxModel accounts = new DefaultComboBoxModel();
-		accounts.addElement("Your Wallet");
 		for(Account account: Bank.getInstance().getCurrentUser().getAccounts()) {
 			accounts.addElement(account.toString());
 		}	
@@ -84,19 +83,11 @@ public class GUIDeposit {
 				try {
 					double amount = Double.parseDouble(depositAmountText.getText());
 					if ((combo.getSelectedIndex() != -1)) {
-						if(combo.getSelectedIndex() != 0) {
-							Account chosen = Bank.getInstance().getCurrentUser().getAccounts().get(combo.getSelectedIndex()-1);
-							if(Bank.getInstance().depositToAccount(Bank.getInstance().getCurrentUser(), chosen, amount)) {
-								success.setText("Deposit Success!");
-							} else {
-								success.setText("Please enter a valid amount of money");
-							}
-						} else {//put it in wallet
-							if(Bank.getInstance().depositToAccount(Bank.getInstance().getCurrentUser(), null, amount)) {
-								success.setText("Deposit Success!");
-							} else {
-								success.setText("Please enter a valid amount of money");
-							}
+						Account chosen = Bank.getInstance().getCurrentUser().getAccounts().get(combo.getSelectedIndex());
+						if(Bank.getInstance().depositToAccount(Bank.getInstance().getCurrentUser(), chosen, amount)) {
+							success.setText("Deposit Success!");
+						} else {
+							success.setText("Please enter a valid amount of money");
 						}
 					} else {
 						success.setText("Choose an account/wallet");

@@ -22,6 +22,7 @@ public class GUIRegisterUserAccount {
 	private JTextField fNameText;
 	private JTextField lNameText;
 	private JTextField pswText;
+	private JTextField fundText;
 	private JRadioButton c1;
 	private JRadioButton c2;
 	private JRadioButton c3;
@@ -89,11 +90,19 @@ public class GUIRegisterUserAccount {
 		frame.add(c3);
 		
 		success  = new JLabel("");
-		success.setBounds(250,420,300,25);
+		success.setBounds(250,470,300,25);
 		frame.add(success);
 		
+		JLabel fundLabel = new JLabel("Fund");
+		fundLabel.setBounds(250,400,80,25);
+		frame.add(fundLabel);
+		
+		fundText = new JTextField();
+		fundText.setBounds(350,400,165,25);
+		frame.add(fundText);
+		
 		registerButton = new JButton("Register");
-		registerButton.setBounds(250,400, 80, 25);
+		registerButton.setBounds(250,450, 80, 25);
 		addRegisterButtonFunction();
 		frame.add(registerButton);	
 		
@@ -132,22 +141,30 @@ public class GUIRegisterUserAccount {
 						closeFrame();
 					}
 				});
-				
-				if(c1.isSelected()) {//TODO: link request loan
-					currencyType = Bank.getInstance().getCurrencyTypes().get(0);
-				} else if(c2.isSelected()) {
-					currencyType = Bank.getInstance().getCurrencyTypes().get(1);
-				} else if(c3.isSelected()) {
-					currencyType = Bank.getInstance().getCurrencyTypes().get(2);
-				} else {
-					success.setText("Please choose currency type.");
-				}
-				if(Bank.getInstance().registerNewUser(false, fNameText.getText(), lNameText.getText(), userText.getText(), pswText.getText(), 0, currencyType)) {//search database to see if unique username
-					success.setText("Success!");
-					timer.start();
-						
-				} else {
-					success.setText("username already exists.");
+				try {
+					double fundAmount = Double.parseDouble(fundText.getText());
+					if(c1.isSelected()) {//TODO: link request loan
+						currencyType = Bank.getInstance().getCurrencyTypes().get(0);
+					} else if(c2.isSelected()) {
+						currencyType = Bank.getInstance().getCurrencyTypes().get(1);
+					} else if(c3.isSelected()) {
+						currencyType = Bank.getInstance().getCurrencyTypes().get(2);
+					} else {
+						success.setText("Please choose currency type.");
+					}
+					if(fundAmount >= 0) {
+						if(Bank.getInstance().registerNewUser(false, fNameText.getText(), lNameText.getText(), userText.getText(), pswText.getText(), fundAmount, currencyType)) {//search database to see if unique username
+							success.setText("Success!");
+							timer.start();
+								
+						} else {
+							success.setText("username already exists.");
+						}
+					} else {
+						success.setText("please enter valid fund amount. can't be negative. ");
+					}
+				}catch(Exception ex) {
+					success.setText("please enter valid fund amount. can only be consisted with number.");
 				}
 			}
 			

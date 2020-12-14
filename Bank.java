@@ -462,9 +462,13 @@ public class Bank {
 
         for(Transaction t : transactions) {
             if(t.getSender().equals(user))
-                rhet.add(t);
+            	if(!rhet.contains(t)) {
+                	rhet.add(t);
+            	}
             else if(t.getReceiver().equals(user))
-                rhet.add(t);
+            	if(!rhet.contains(t)) {
+                	rhet.add(t);
+            	}
         }
 
         for(Account a : user.getAccounts()) {
@@ -509,6 +513,5 @@ public class Bank {
         	}
         }
         return trans;
-    }
-    
+    }  
 }
