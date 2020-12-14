@@ -116,7 +116,7 @@ public class GUIViewAcct {
 						Account chosen = Bank.getInstance().getCurrentUser().getAccounts().get(combo.getSelectedIndex()-1);
 						GUIViewTransactionHistory view = new GUIViewTransactionHistory(chosen);
 					} else {//show wallet's transaction history
-						//GUIViewTransactionHistory view = new GUIViewTransactionHistory(Bank.getInstance().getCurrentUser());
+						GUIViewTransactionHistory view = new GUIViewTransactionHistory(Bank.getInstance().getCurrentUser());
 					}
 				} else {
 					balance.setText("Choose an account/wallet");
