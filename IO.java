@@ -267,6 +267,8 @@ public class IO {
             headers.add("CurrencyDesc");
             headers.add("SenderUser");
             headers.add("ReceiverUser");
+            headers.add("SenderAccount");
+            headers.add("ReceiverAccount");
             headers.add("Date");
 
             linesToWrite.add(headers);
@@ -277,20 +279,27 @@ public class IO {
     
             xactAttributes.add(String.valueOf(xact.getID()));
 
+
             if(xact.isSenderUser())
                 xactAttributes.add(String.valueOf(((User) xact.getSender()).getUserId()));
-            else 
+            else if(xact.isSenderAccount())
                 xactAttributes.add(String.valueOf(((Account) xact.getSender()).getID()));
+            else
+                xactAttributes.add(String.valueOf(((Loan) xact.getSender()).getID()));
 
             if(xact.isReceiverUser())
                 xactAttributes.add(String.valueOf(((User) xact.getReceiver()).getUserId()));
-            else 
+            else if(xact.isReceiverAccount())
                 xactAttributes.add(String.valueOf(((Account) xact.getReceiver()).getID()));
+            else
+                xactAttributes.add(String.valueOf(((Loan) xact.getReceiver()).getID()));
 
             xactAttributes.add(String.valueOf(xact.getTransactionAmount()));
             xactAttributes.add(xact.getCurrencyType().getDesc());
             xactAttributes.add(String.valueOf(xact.isSenderUser()));
             xactAttributes.add(String.valueOf(xact.isReceiverUser()));
+            xactAttributes.add(String.valueOf(xact.isSenderAccount()));
+            xactAttributes.add(String.valueOf(xact.isReceiverAccount()));
             xactAttributes.add(xact.getDate());
     
             linesToWrite.add(xactAttributes);
@@ -476,34 +485,45 @@ public class IO {
                 xactCurrency = c;
             }
 
+
             BalanceHandler sender = null;
 
             if(Boolean.parseBoolean(attributes[5])) {
                 for(User u : this.bank.users) {
-                    if(u.getUserId() == Integer.parseInt(attributes[2]))
-                    sender = u;
+                    if(u.getUserId() == Integer.parseInt(attributes[1]))
+                        sender = u;
                 }
-            } else {
+            } else if(Boolean.parseBoolean(attributes[7])) {
                 for(Account a : this.bank.accounts) {
                     if(a.getID() == Integer.parseInt(attributes[1]))
                         sender = a;
                 }
-            }            
+            }  else {
+                for(Loan l : this.bank.loans) {
+                    if(l.getID() == Integer.parseInt(attributes[1]))
+                        sender = l;
+                }
+            }          
 
             BalanceHandler receiver = null;
             if(Boolean.parseBoolean(attributes[6])) {
                 for(User u : this.bank.users) {
                     if(u.getUserId() == Integer.parseInt(attributes[2]))
-                    receiver = u;
+                        receiver = u;
+                }
+            } else if(Boolean.parseBoolean(attributes[8])) {
+                for(Account a : this.bank.accounts) {
+                    if(a.getID() == Integer.parseInt(attributes[2]))
+                        receiver = a;
                 }
             } else {
-                for(Account a : this.bank.accounts) {
-                    if(a.getID() == Integer.parseInt(attributes[1]))
-                    receiver = a;
+                for(Loan l : this.bank.loans) {
+                    if(l.getID() == Integer.parseInt(attributes[2]))
+                        receiver = l;
                 }
             }
 
-            rhet.add(new Transaction(Integer.parseInt(attributes[0]), sender, receiver, Double.parseDouble(attributes[3]), xactCurrency, attributes[7]));
+            rhet.add(new Transaction(Integer.parseInt(attributes[0]), sender, receiver, Double.parseDouble(attributes[3]), xactCurrency, attributes[9]));
         }
 
         return rhet;

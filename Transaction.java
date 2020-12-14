@@ -15,7 +15,7 @@ public class Transaction {
 
     /* Since sender and receiver must be either accounts or users, these flags will let
         you know if they are a user or not */
-    private boolean senderUser, receiverUser;
+    private boolean senderUser, receiverUser, senderAccount, receiverAccount;
 
 	public Transaction(int id, BalanceHandler sender, BalanceHandler receiver, double amount, Currency currencyType) {
         this.sender = sender;
@@ -26,6 +26,8 @@ public class Transaction {
 
         senderUser = sender instanceof User;
         receiverUser = receiver instanceof User;
+        senderAccount = sender instanceof Account;
+        receiverAccount = receiver instanceof Account;
         
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -42,7 +44,9 @@ public class Transaction {
 
         senderUser = sender instanceof User;
         receiverUser = receiver instanceof User;
-        
+        senderAccount = sender instanceof Account;
+        receiverAccount = receiver instanceof Account;
+
         setDate(date);
     }
 	
@@ -68,20 +72,6 @@ public class Transaction {
     }
 
     /**
-     * @return if the receiver in this transaction was a User or not
-     */
-    public boolean isReceiverUser() {
-        return this.receiverUser;
-    }
-
-    /**
-     * @return if the sender in this transaction was a User or not
-     */
-    public boolean isSenderUser() {
-        return this.senderUser;
-    }
-
-    /**
      * Returns the type of currency that the transaction
      * was done in (i.e. that the amount is given in)
      */
@@ -93,18 +83,38 @@ public class Transaction {
         return this.transactionID;
     }
 
+    public boolean isSenderUser() {
+        return this.senderUser;
+    }
+
+    public boolean isReceiverUser() {
+        return this.receiverUser;
+    }
+
+    public boolean isSenderAccount() {
+        return this.senderAccount;
+    }
+
+    public boolean isReceiverAccount() {
+        return this.receiverAccount;
+    }
+
     /**
      * @return the User/Account ID of the sender
      */
     public int getSenderID() {
 
         /* BalanceHandlers are either users or accounts */
-        if(this.isSenderUser()) {
+        if(this.senderUser) {
             User temp = (User) this.getSender();
 
             return temp.getUserId();
-        } else {
+        } else if(this.senderAccount) {
             Account temp = (Account) this.getSender();
+
+            return temp.getID();
+        } else {
+            Loan temp = (Loan) this.getSender();
 
             return temp.getID();
         }
@@ -117,12 +127,16 @@ public class Transaction {
     public int getReceiverID() {
 
         /* BalanceHandlers are either users or accounts */
-        if(this.isReceiverUser()) {
+        if(this.receiverUser) {
             User temp = (User) this.getReceiver();
 
             return temp.getUserId();
-        } else {
+        } else if(this.receiverAccount) {
             Account temp = (Account) this.getReceiver();
+
+            return temp.getID();
+        } else {
+            Loan temp = (Loan) this.getReceiver();
 
             return temp.getID();
         }
