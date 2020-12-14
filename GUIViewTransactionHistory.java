@@ -39,7 +39,11 @@ public class GUIViewTransactionHistory {
         	tableModel.addRow(rowData);
         }
 	}
-	
+	/**
+	 * Admin checks up specific customer
+	 * @param user
+	 * @param ViewAccounts
+	 */
 	public GUIViewTransactionHistory(User user, boolean ViewAccounts) {
 		prepareUI();
 		ArrayList<Transaction> userHistory = new ArrayList<Transaction>();
@@ -75,6 +79,28 @@ public class GUIViewTransactionHistory {
 		}
 	}
 	
+	/**
+	 * 
+	 */
+	
+	public GUIViewTransactionHistory(boolean dailyReport) {
+		prepareUI();
+		ArrayList<Transaction> original = new ArrayList<Transaction>();
+		original = Bank.getInstance().getDailyReport();
+        
+        for(int i = 0; i<original.size();i++) {
+        	int id = original.get(i).getID();
+        	int senderId = original.get(i).getSenderID();
+        	int receiverId = original.get(i).getReceiverID();
+        	double amount = original.get(i).getTransactionAmount();
+        	String currencyDesc = original.get(i).getCurrencyType().getDesc();
+        	boolean senderUser = original.get(i).isSenderUser();
+        	boolean receiverUser = original.get(i).isReceiverUser();
+        	String date = original.get(i).getDate();
+        	Object[] rowData = {id, senderId, receiverId, amount, currencyDesc, senderUser, receiverUser, date};
+        	tableModel.addRow(rowData);
+        }
+	}
 	
 	public void prepareUI() {
 		JPanel panel = new JPanel(null);

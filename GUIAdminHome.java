@@ -84,8 +84,7 @@ public class GUIAdminHome {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				GUIDailyReport report = new GUIDailyReport();
-				closeFrame();
+				GUIViewTransactionHistory h = new GUIViewTransactionHistory(true);
 			}		
 		});
 	}
