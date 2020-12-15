@@ -26,6 +26,7 @@ public class GUIRequestLoan {
 	private JLabel success;
 	private	ButtonGroup currencyGroup;
 	private JTextField loanAmountText;
+	private JTextField collatoralText;
 	private Currency currencyType;
 	
 	public GUIRequestLoan() {
@@ -57,11 +58,20 @@ public class GUIRequestLoan {
 		frame.add(c3);
 		
 		success  = new JLabel("");
-		success.setBounds(250,350,300,25);
+		success.setBounds(250,370,300,25);
 		frame.add(success);
 		
+		JLabel collatoral = new JLabel("Collatoral");
+		collatoral.setBounds(250,300,160,25);
+		frame.add(collatoral);
+		
+		collatoralText = new JTextField();
+		collatoralText.setBounds(400,300,160,25);
+		frame.add(collatoralText);
+		
+		
 		submitButton = new JButton("Submit");
-		submitButton.setBounds(250,300, 80, 25);
+		submitButton.setBounds(250,350, 80, 25);
 		addSubmitButtonFunction();
 		frame.add(submitButton);
 		
@@ -132,24 +142,23 @@ public class GUIRequestLoan {
 						customer = (Customer) user;
 					}
 					double loanAmount = Double.parseDouble(loanAmountText.getText());
-					
-					if(c1.isSelected()) {//TODO: link request loan
-						currencyType = Bank.getInstance().getCurrencyTypes().get(0);
-						Bank.getInstance().requestLoan(customer, currencyType, loanAmount);
-						success.setText("Submit Loan Request Successful!");
-						//timer.start();
-					} else if(c2.isSelected()) {
-						currencyType = Bank.getInstance().getCurrencyTypes().get(1);
-						Bank.getInstance().requestLoan(customer, currencyType, loanAmount);
-						success.setText("Submit Loan Request Successful!");
-						//timer.start();
-					} else if(c3.isSelected()) {
-						currencyType = Bank.getInstance().getCurrencyTypes().get(2);
-						Bank.getInstance().requestLoan(customer, currencyType, loanAmount);
-						success.setText("Submit Loan Request Successful!");
-						//timer.start();
+					if(!collatoralText.getText().isEmpty()) {
+						if(c1.isSelected()) {//TODO: link request loan
+							currencyType = Bank.getInstance().getCurrencyTypes().get(0);		
+						} if(c2.isSelected()) {
+							currencyType = Bank.getInstance().getCurrencyTypes().get(1);
+						} if(c3.isSelected()) {
+							currencyType = Bank.getInstance().getCurrencyTypes().get(2);
+						} 
+						
+						if(currencyType != null) {
+							Bank.getInstance().requestLoan(customer, currencyType, loanAmount, collatoralText.getText());
+							success.setText("Submit Loan Request Successful!");
+						} else {
+							success.setText("You have to choose a currency type.");
+						}
 					} else {
-						success.setText("Please choose currency type.");
+						success.setText("You have to put a collatoral to request a loan.");
 					}
 				} catch(Exception exception) {
 					success.setText("Invalid Loan Amount");

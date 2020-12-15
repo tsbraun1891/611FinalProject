@@ -171,7 +171,7 @@ public class GUIViewTransactionHistory {
         frame1.pack();
 		frame1.setVisible(true);
         
-        String[] headerDesc = {"Owner", "Loaner", "CurrencyDesc", "Balance", "IntRate","Approved","ID"};
+        String[] headerDesc = {"Owner", "Loaner", "CurrencyDesc", "Balance", "IntRate","Approved","ID","Collatoral"};
         tableModel1.setColumnIdentifiers(headerDesc);
         JTable table1 = new JTable(tableModel1);
         table1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -196,7 +196,8 @@ public class GUIViewTransactionHistory {
         		approved = 1;
         	}
         	int Id = loans.get(i).getID();
-        	Object[] rowData = {owner, loaner, currencyDesc, balance, feeRate, approved,Id};
+        	String collatoral = loans.get(i).getCollateral();
+        	Object[] rowData = {owner, loaner, currencyDesc, balance, feeRate, approved,Id,collatoral};
         	tableModel1.addRow(rowData);
         }
         setColWidth(table1.getColumnModel()); 

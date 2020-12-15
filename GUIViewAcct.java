@@ -108,7 +108,8 @@ public class GUIViewAcct {
 					}
 					String s1 = bh.getCurrencyType().getSymbol();
 					String s = String.valueOf(bh.getBalance());
-					balance.setText(s1+s);
+					String s2 = String.valueOf(bh.getCurrencyType().getDesc());
+					balance.setText(s1+s+"  "+s2);
 				} else {
 					balance.setText("Choose an account/wallet");
 				}

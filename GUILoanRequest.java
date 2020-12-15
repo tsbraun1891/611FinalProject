@@ -21,8 +21,17 @@ public class GUILoanRequest {
 	private JButton backButton;
 	private JComboBox combo;
 	private JLabel success;
+	private JLabel loanAmount;
+	private JLabel collatoral;
+	
 	public GUILoanRequest() {
 		frame = new JFrame();
+		
+		JLabel wallet = new JLabel("");
+		Admin admin = Bank.getInstance().getAdmin();
+		wallet.setText("Admin's balance: "+ admin.getBalance()+admin.getCurrencyType().getDesc());
+		wallet.setBounds(250,150,400,25);
+		frame.add(wallet);
 		
 		JLabel chooseLoan = new JLabel("Pick a loan request");
 		chooseLoan.setBounds(250,200,160,25);
@@ -31,7 +40,7 @@ public class GUILoanRequest {
 		DefaultComboBoxModel loans = new DefaultComboBoxModel();
 		
 		for(Loan loan: Bank.getInstance().getAdmin().getRequestedLoans()) {
-			loans.addElement(loan.toString());
+			loans.addElement(loan);
 		}
 		combo = new JComboBox(loans);
 		JScrollPane loanPane= new JScrollPane(combo);
@@ -39,16 +48,26 @@ public class GUILoanRequest {
 		frame.add(loanPane);
 		
 		success  = new JLabel("");
-		success.setBounds(230,330,300,25);
+		success.setBounds(250,380,400,25);
 		frame.add(success);
+		
+		loanAmount  = new JLabel("");
+		loanAmount.setBounds(250,250,300,25);
+		frame.add(loanAmount);
+		
+		collatoral  = new JLabel("");
+		collatoral.setBounds(250,300,300,25);
+		frame.add(collatoral);
+		
+		checkLoanSelected();
 	
 		approveButton = new JButton("Approve");
-		approveButton.setBounds(230, 300, 160, 25);		
+		approveButton.setBounds(230, 350, 160, 25);		
 		addApproveButtonFunction();
 		frame.add(approveButton);
 	
 		denyButton = new JButton("Deny");
-		denyButton.setBounds(430, 300, 160, 25);		
+		denyButton.setBounds(430, 350, 160, 25);		
 		addDenyButtonFunction();
 		frame.add(denyButton);
 		
@@ -70,6 +89,16 @@ public class GUILoanRequest {
 		frame.setVisible(true);
 	}
 	
+	private void checkLoanSelected() {
+		// TODO Auto-generated method stub
+		if(combo.getSelectedIndex() != -1) {
+			Loan l = (Loan) combo.getSelectedItem();
+			loanAmount.setText("requested amount: "+l.getBalance()+l.getCurrencyType().getDesc());
+			collatoral.setText("collatoral: "+ l.getCollateral());
+		}
+		
+	}
+
 	private void addDenyButtonFunction() {
 		// TODO Auto-generated method stub
 		denyButton.addActionListener(new ActionListener() {
