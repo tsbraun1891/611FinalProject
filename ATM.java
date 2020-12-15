@@ -28,7 +28,7 @@ public abstract class ATM {
 	public abstract boolean withdrawFromAccount(User user, Account account, double amount);
 	public abstract boolean depositToAccount(User user, Account account, double amount);
 	public abstract boolean transferMoney(BalanceHandler sender, BalanceHandler receiver, double amount);
-	public abstract void requestLoan(Customer owner, Currency currencyType, double amount);
+	public abstract void requestLoan(Customer owner, Currency currencyType, double amount, String collateral);
 	public abstract ArrayList<Transaction> getTransactionsForAccount(Account account);
 	public abstract ArrayList<Transaction> getTransactionsForLoan(Loan loan);
 	public abstract ArrayList<Transaction> getDailyReport();

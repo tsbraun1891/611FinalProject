@@ -5,6 +5,7 @@ public class Loan extends BalanceHandler {
 	private boolean approved, denied;
 	private int loanID;
 	private Bank bank;
+	private String collateral;
 
 	/**
      * Create a new loan account
@@ -14,7 +15,7 @@ public class Loan extends BalanceHandler {
      * @param balance - the current amount of that currency on this loan
 	 * @param interestRate - the rate of interest that this account can generate
      */
-	public Loan(int loanID, User owner, User loaner, Currency currency, double balance, double interestRate, Bank b) {
+	public Loan(int loanID, User owner, User loaner, Currency currency, double balance, double interestRate, Bank b, String collateral) {
 		super(balance, currency);
 
 		this.owner = owner;
@@ -24,10 +25,11 @@ public class Loan extends BalanceHandler {
 		this.denied = false;
 		this.loanID = loanID;
 		this.bank = b;
+		this.collateral = collateral;
 	}
 
 	/* Same as the other constructor except you can specify whether a loan is approved already or not */
-	public Loan(int loanID, User owner, User loaner, Currency currency, double balance, double interestRate, Bank b, boolean approved) {
+	public Loan(int loanID, User owner, User loaner, Currency currency, double balance, double interestRate, Bank b, String collateral, boolean approved) {
 		super(balance, currency);
 
 		this.owner = owner;
@@ -37,6 +39,7 @@ public class Loan extends BalanceHandler {
 		this.denied = false;
 		this.loanID = loanID;
 		this.bank = b;
+		this.collateral = collateral;
 	}
 
 	public User getOwner() {
@@ -57,6 +60,14 @@ public class Loan extends BalanceHandler {
 	
 	public User getLoaner() {
         return loaner;
+	}
+
+	public String getCollateral() {
+		return this.collateral;
+	}
+
+	public void setCollateral(String newCollat) {
+		this.collateral = newCollat;
 	}
 	
 	public double getInterestRate() {

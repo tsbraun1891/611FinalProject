@@ -1,1 +1,4 @@
 ID,SenderID,ReceiverID,TransactionAmount,CurrencyDesc,SenderUser,ReceiverUser,SenderAccount,ReceiverAccount,Date
+48675,9636,11683,1000.0,USD,true,false,false,true,2020-12-14
+350748,9636,11683,1000.0,USD,true,false,false,true,2020-12-14
+625982,9636,163759,1000.0,USD,true,false,false,true,2020-12-14

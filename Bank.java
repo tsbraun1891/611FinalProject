@@ -406,7 +406,7 @@ public class Bank extends ATM{
     }
 
 
-    public void requestLoan(Customer owner, Currency currencyType, double amount) {
+    public void requestLoan(Customer owner, Currency currencyType, double amount, String collateral) {
         int newID = (int) (Math.random() * 1000000);
 
         for(Loan l : loans) {
@@ -415,7 +415,7 @@ public class Bank extends ATM{
             }
         }
 
-        Loan newLoan = new Loan(newID, owner, admin, currencyType, amount, this.standardLoanInterest, this);
+        Loan newLoan = new Loan(newID, owner, admin, currencyType, amount, this.standardLoanInterest, this, collateral);
 
         owner.addNewLoan(newLoan);
         loans.add(newLoan);

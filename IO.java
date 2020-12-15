@@ -221,6 +221,7 @@ public class IO {
             headers.add("IntRate");
             headers.add("Approved");
             headers.add("ID");
+            headers.add("Collateral");
 
             linesToWrite.add(headers);
         }
@@ -239,6 +240,7 @@ public class IO {
                 loanAttributes.add("0");
             }
             loanAttributes.add(String.valueOf(loan.getID()));
+            loanAttributes.add(loan.getCollateral());
     
             linesToWrite.add(loanAttributes);
         }
@@ -459,7 +461,7 @@ public class IO {
                 approved = true;
             }
 
-            rhet.add(new Loan(Integer.parseInt(attributes[6]), owner, loaner, loanCurrency, Double.parseDouble(attributes[3]), Double.parseDouble(attributes[4]), this.bank, approved));
+            rhet.add(new Loan(Integer.parseInt(attributes[6]), owner, loaner, loanCurrency, Double.parseDouble(attributes[3]), Double.parseDouble(attributes[4]), this.bank, attributes[7], approved));
         }
 
         return rhet;
