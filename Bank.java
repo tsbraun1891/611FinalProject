@@ -354,7 +354,9 @@ public class Bank extends ATM{
     	}
         
         if(amount <= user.getBalance()) {
+            /* Puts in the money and takes the fee from the deposit */
             account.addToBalance(amount, user.getCurrencyType());
+            account.newFeeTransaction(amount);
             user.subtractFromBalance(amount);
         } else {
             return false;
