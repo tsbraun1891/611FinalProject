@@ -443,8 +443,6 @@ public class Bank extends ATM{
                 l.passOneMonth();
         }
 
-        this.transactions = new ArrayList<>();
-
         this.saveData();
     }
 

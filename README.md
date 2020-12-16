@@ -16,6 +16,9 @@ COMPILATION:
 
 EXECUTION:
     After compilation, in the same folder run the command "java Main"
+    If you are looking to use the default admin account, the login credentials are:
+    Username - msmith
+    PW - smithword
 
 Main.java:
     This class serves only as a starting point to launch
