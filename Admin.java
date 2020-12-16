@@ -1,9 +1,12 @@
+/**
+ * Admin is an extension of the User class. The admin is an
+ * elavated user that has the ability to see other users' 
+ * information as well as approving or denying loans.
+ */
+
 import java.util.ArrayList;
 
 public class Admin extends User {
-	/**
-	 * represents Admin and is a subclass of User class
-	 */
 	private ArrayList<Loan> requestedLoans;
 	private Bank bank;
 	

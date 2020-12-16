@@ -1,7 +1,13 @@
+/**
+ * The Currency class represents the different types of currencies
+ * that can be used at a bank. It holds information for each currency
+ * type like name, description, symbol, and the exchange rate to 
+ * US Dollars. It handles converting an amount of money from a different
+ * type to this currency type.
+ * @author Tanner Braun
+ */
+
 public class Currency {
-	/**
-	 * the class represents all currencies 
-	 */
     protected String name, desc, symbol;
     protected double exchangeRate;
 

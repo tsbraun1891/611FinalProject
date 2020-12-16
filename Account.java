@@ -1,3 +1,12 @@
+/**
+ * The Account class is an abstract class that represents an account
+ * in a banking system. Accounts are a place to store money that can
+ * be deposited to or withdrawn from by their owner, and handle any
+ * fees that are taken due to certain actions. Since Accounts have a 
+ * balance, they extend the BalanceHandler class to help with the basic
+ * functions of adding and removing funds.
+ * @author Tanner Braun
+ */
 
 public abstract class Account extends BalanceHandler {
 	/**

@@ -1,3 +1,13 @@
+/**
+ * BalanceHandler is an abstract class that represents any
+ * entity that holds/stores an amount of money. BalanceHandler
+ * handles making changes to the balance, transferring a balance,
+ * and the different currency conversions based off of interactions
+ * with objects that have other currencies.
+ * 
+ * @author Tanner Braun
+ */
+
 public abstract class BalanceHandler {
 	/**
 	 * the class handles all actions with balance

@@ -1,9 +1,13 @@
+/**
+ * The Transaction class is a record of a transaction made
+ * between two classes that implement BalanceHandler. This 
+ * could be a deposit from a user to an account, a user 
+ * paying off a loan, a transfer between accounts, etc.
+ * @author Tanner Braun
+ */
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
-/**
- * The transaction class keeps track of information about recent transactions
- */
 
 public class Transaction {
 

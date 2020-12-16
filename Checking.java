@@ -1,7 +1,12 @@
+/**
+ * The Checking class is an extension of the Account class. Checking
+ * accounts are generally more specialized for transferring money
+ * between you and another user, but also incur a fee for all of
+ * their transactions.
+ * @author Tanner Braun
+ */
+
 public class Checking extends Account {
-	/**
-	 * the class represents checking account 
-	 */
     
     /**
      * Create a new account

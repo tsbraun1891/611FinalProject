@@ -1,3 +1,10 @@
+/**
+ * The IO class handles reading and writing important 
+ * bank information to csv files such as info on accounts,
+ * users, loans, and daily transactions.
+ * @author Tanner Braun
+ */
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;

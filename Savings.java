@@ -1,7 +1,13 @@
+/**
+ * The Savings class is an extension of the Account class. Savings
+ * accounts can accrue interest if there is over a specified amount
+ * of currency inside of them. This happens once every month and
+ * interest is gained at a specified rate that is chosen when
+ * the account is created.
+ * @author Tanner Braun 
+ */
+
 public class Savings extends Account {
-	/**
-	 * the class represent Savings account
-	 */
     private double threshold, rate;
     
     /**

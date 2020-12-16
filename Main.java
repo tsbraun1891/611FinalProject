@@ -1,3 +1,7 @@
+/**
+ * This class serves only as a starting point to launch
+ * the GUI and functionality for the banking program.
+ */
 
 public class Main {
 

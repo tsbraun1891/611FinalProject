@@ -1,7 +1,14 @@
+/**
+ * The Loan class keeps track of an amount of money owed to an
+ * individual (usually a bank admin). Unlike an Account, when money
+ * is put into a loan, it decreases the balance of the loan and is
+ * sent to the person who is owed money. The Loan class is also an
+ * extension of BalanceHandler since it keeps track of the money
+ * that is still due to the loaner.
+ * @author Tanner Braun
+ */
+
 public class Loan extends BalanceHandler {
-	/**
-	 * the class represents loans 
-	 */
 	protected User owner;
 	protected User loaner;
 	private double rate;

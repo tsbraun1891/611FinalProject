@@ -1,11 +1,16 @@
+/**
+ * The Bank class is a concrete implementation of the ATM class. This
+ * class provides functionality for most of the expected functions of
+ * a Bank/ATM such as creating new User profiles/accounts, requesting loans
+ * interacting with your accounts, and so on.
+ * @author Tanner Braun
+ */
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 public class Bank extends ATM{
-	/**
-	* the class represent bank, subclass of ATM
-	*/
     IO bankIO;
     public ArrayList<Currency> currencies;
     public ArrayList<User> users;
@@ -113,7 +118,7 @@ public class Bank extends ATM{
         ArrayList<Currency> rhet = new ArrayList<>();
 
         rhet.add(new Currency("US Dollar", "USD", "$", 1.00));
-        rhet.add(new Currency("Euro", "EUR", "€", 0.83));
+        rhet.add(new Currency("Euro", "EUR", "ï¿½", 0.83));
         rhet.add(new Currency("Yen", "YEN", "Â¥", 104.01));
 
         return rhet;
