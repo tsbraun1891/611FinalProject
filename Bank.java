@@ -113,7 +113,7 @@ public class Bank extends ATM{
         ArrayList<Currency> rhet = new ArrayList<>();
 
         rhet.add(new Currency("US Dollar", "USD", "$", 1.00));
-        rhet.add(new Currency("Euro", "EUR", "€", 0.83));
+        rhet.add(new Currency("Euro", "EUR", "�", 0.83));
         rhet.add(new Currency("Yen", "YEN", "¥", 104.01));
 
         return rhet;
