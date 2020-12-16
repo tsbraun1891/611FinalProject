@@ -10,7 +10,9 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 /**
- * This class represents the new customerregister window.
+ * 
+ * This class represents window that allows the customer to sign up for new user account. It will ask the customer for unique username, password, first name, last name, initial currency type, and initial fund.
+ * Currently, the program only supports customer account registration.
  * @author ling
  *
  */

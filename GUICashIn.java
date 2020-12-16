@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 /**
- * This class represents the window that asks the customer to insert cash.
+ * This class represents the window that asks the customer to insert cash. After successfully inserted cash, the money will go to customer's wallet (balance).
  * @author ling
  *
  */

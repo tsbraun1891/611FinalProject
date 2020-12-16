@@ -10,7 +10,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 /**
- * This class represents the window that allow customer to open new account: saving/checking
+ * This class represents the window that allows customer to open new account: saving/checking, 
+ * and choose the initial currency type that the account will be in.
  * @author ling
  *
  */

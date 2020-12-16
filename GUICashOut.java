@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 /**
  * This class represents the window that allows customer to take some amount money from ATM.
+ * After successfully cashed out, the money will be subtracted from customer's wallet(balance).
  * @author ling
  *
  */

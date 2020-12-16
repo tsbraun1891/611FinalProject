@@ -7,7 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 /**
- * This class represents the two login options: CustomerLogin, AdminLogin.
+ * This class represents the window that let user picks userType. It gives two login options: CustomerLogin, AdminLogin.
  * @author ling
  *
  */

@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 /**
  * This class represents the window that let the Admin check up on specific customer given username.
+ * If username is valid, two Jtables will prompt: 1. Jtable for customer's accounts detail, 2. Jtable for customer's loans detail.
  * @author ling
  *
  */
