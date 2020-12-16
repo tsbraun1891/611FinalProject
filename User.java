@@ -1,7 +1,9 @@
 import java.util.ArrayList;
 
 public abstract class User extends BalanceHandler {
-
+/**
+* class represents all users, super class of Customer and Admin class
+*/
 	protected int userId;
 	protected String firstName;
 	protected String lastName;

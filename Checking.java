@@ -1,4 +1,7 @@
 public class Checking extends Account {
+	/**
+	 * the class represents checking account 
+	 */
     
     /**
      * Create a new account

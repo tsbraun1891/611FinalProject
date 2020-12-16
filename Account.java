@@ -1,5 +1,8 @@
 
 public abstract class Account extends BalanceHandler {
+	/**
+	 * the class represents all accounts, and is a superclass of Checking and Savings class
+	 */
     protected User owner;
     protected boolean isOpen;
     protected double fee;

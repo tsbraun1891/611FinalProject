@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 
 public class Customer extends User{
+	/**
+	 * represents all customers and is a subclass of User class
+	 */
 	private ArrayList<Loan> loans;
 
 	public Customer(int userId,String firstName, String lastName, String userName, String password, double balance, Currency currency) {

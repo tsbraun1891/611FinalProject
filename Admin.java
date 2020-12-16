@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 
 public class Admin extends User {
+	/**
+	 * represents Admin and is a subclass of User class
+	 */
 	private ArrayList<Loan> requestedLoans;
 	private Bank bank;
 	

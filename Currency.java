@@ -1,4 +1,7 @@
 public class Currency {
+	/**
+	 * the class represents all currencies 
+	 */
     protected String name, desc, symbol;
     protected double exchangeRate;
 

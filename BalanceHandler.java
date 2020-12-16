@@ -1,4 +1,7 @@
 public abstract class BalanceHandler {
+	/**
+	 * the class handles all actions with balance
+	 */
     protected Currency currency;
     protected double balance;
 

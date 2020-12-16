@@ -3,6 +3,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class Bank extends ATM{
+	/**
+	* the class represent bank, subclass of ATM
+	*/
     IO bankIO;
     public ArrayList<Currency> currencies;
     public ArrayList<User> users;

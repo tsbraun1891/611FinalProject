@@ -1,4 +1,7 @@
 public class Savings extends Account {
+	/**
+	 * the class represent Savings account
+	 */
     private double threshold, rate;
     
     /**

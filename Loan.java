@@ -1,4 +1,7 @@
 public class Loan extends BalanceHandler {
+	/**
+	 * the class represents loans 
+	 */
 	protected User owner;
 	protected User loaner;
 	private double rate;
