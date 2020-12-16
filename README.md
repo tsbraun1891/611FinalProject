@@ -7,6 +7,98 @@ Name: Xinyi Zhao
 Email: zxy1307@bu.edu
 BUID: U76496954
 
+Name: Tanner Braun
+Email: tsbraun@bu.edu
+BUID: U65930557
+
+COMPILATION:
+    To compile this program, navigate to the source folder and run the command "javac *.java"
+
+EXECUTION:
+    After compilation, in the same folder run the command "java Main"
+
+Main.java:
+    This class serves only as a starting point to launch
+    the GUI and functionality for the banking program.
+
+Account.java:
+    The Account class is an abstract class that represents an account
+    in a banking system. Accounts are a place to store money that can
+    be deposited to or withdrawn from by their owner, and handle any
+    fees that are taken due to certain actions. Since Accounts have a 
+    balance, they extend the BalanceHandler class to help with the basic
+    functions of adding and removing funds.
+
+AccountType.java:
+    An enum that helps keep track of the different types of accounts.
+
+Admin.java: 
+    Admin is an extension of the User class. The admin is an
+    elavated user that has the ability to see other users' 
+    information as well as approving or denying loans.
+
+ATM.java: Abstract ATM class, Bank.java extends it. It shows the basic functions of an ATM. The main purpose of this class is for future extension.
+
+BalanceHandler.java:
+    BalanceHandler is an abstract class that represents any
+    entity that holds/stores an amount of money. BalanceHandler
+    handles making changes to the balance, transferring a balance,
+    and the different currency conversions based off of interactions
+    with objects that have other currencies.
+
+Bank.java: 
+    The Bank class is a concrete implementation of the ATM class. This
+    class provides functionality for most of the expected functions of
+    a Bank/ATM such as creating new User profiles/accounts, requesting loans
+    interacting with your accounts, and so on.
+
+Checking.java:
+    The Checking class is an extension of the Account class. Checking
+    accounts are generally more specialized for transferring money
+    between you and another user, but also incur a fee for all of
+    their transactions.
+
+Currency.java:
+    The Currency class represents the different types of currencies
+    that can be used at a bank. It holds information for each currency
+    type like name, description, symbol, and the exchange rate to 
+    US Dollars. It handles converting an amount of money from a different
+    type to this currency type.
+
+IO.java:
+    The IO class handles reading and writing important 
+    bank information to csv files such as info on accounts,
+    users, loans, and daily transactions.
+
+Loan.java:
+    The Loan class keeps track of an amount of money owed to an
+    individual (usually a bank admin). Unlike an Account, when money
+    is put into a loan, it decreases the balance of the loan and is
+    sent to the person who is owed money. The Loan class is also an
+    extension of BalanceHandler since it keeps track of the money
+    that is still due to the loaner.
+
+Savings.java:
+    The Savings class is an extension of the Account class. Savings
+    accounts can accrue interest if there is over a specified amount
+    of currency inside of them. This happens once every month and
+    interest is gained at a specified rate that is chosen when
+    the account is created.
+
+Transaction.java:
+    The Transaction class is a record of a transaction made
+    between two classes that implement BalanceHandler. This 
+    could be a deposit from a user to an account, a user 
+    paying off a loan, a transfer between accounts, etc.
+
+Customer.java: The class represents all customers, and also is a subclass of User class. It has interaction with loan.
+
+User.java: Abstract class, and the class represents all users, which is super class of Customer and Admin, and also extends BalanceHandler.
+
+UserType.java: The class is a enum class, which represents user types
+
+------GUI------
+
 The GUI design for this program is straight forward. Basically, one GUI class contains one JFrame, and each JFrame represents one window that user will see each time. Each GUI class has a background picture and a back button that transfer user back to previous page, and a quit button that will transfer to GUIQuit which prints out a "goodbye" message and calls Bank.save to make sure unsaved data is not lost.
 
 GUIHome.java: This class represents the welcome page window. Click start button will transfer user to "chooseUserType" page.
@@ -54,17 +146,3 @@ GUICheckCustomer.java: This class represents the window that let the Admin check
 GUILoanRequest.java: This class represents the window that admin to deal with loan requests. It will show the amount of fund that the admin has, and when admin chooses a specific loan request, its requested amount, currency type, and the collateral will be shown. Admin can approve or deny the loan request depending on these info.
 
 
-
-User.java: Abstract class, and the class represents all users, which is super class of Customer and Admin, and also extends BalanceHandler.
-
-UserType.java: The class is a enum class, which represents user types
-
-Customer.java: The class represents all customers, and also is a subclass of User class. It has interaction with loan.
-
-Admin.java: The class represents admin, and also is a subclass of User class. It also has interaction with loan.
-
-ATM.java: Abstract ATM class, Bank.java extends it. It shows the basic functions of an ATM. The main purpose of this class is for future extension.
-
-Bank.java: The class represents bank, and has basic functions of bank, which interactes with accounts, users, transactions, currency, and IO. It also extends ATM class.
-
-BalanceHandler.java: Abstract class, and the class handles all actions with balance, also is a super class of User, Account, and Loan class
