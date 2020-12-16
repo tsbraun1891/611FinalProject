@@ -10,7 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 /**
- * This class represents the window that allows customer to pay off loan.
+ * This class represents the window that allows customer to pay off loan. 
+ * Customer can choose from their wallet or any account to pay off a valid amount to an existing open loan.
  * @author ling
  *
  */

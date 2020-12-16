@@ -11,6 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 /**
  * This class represents the window that allows customer to transfer between accounts. 
+ * Customer can choose to transfer from their wallet or any account to their other account or loan.
  * @author ling
  *
  */

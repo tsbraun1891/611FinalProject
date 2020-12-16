@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 /**
- * This class represents the window that allows both user type: customer, admin to log in.
+ * This class represents the window that allows both userTypes: customer, admin to log in.
  * @author ling
  *
  */

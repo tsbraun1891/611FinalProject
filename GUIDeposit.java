@@ -11,7 +11,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 /**
- * This class represents the window that allows customer to deposit from ATM to a specific balance handler.
+ * This class represents the window that allows customer to deposit from ATM to a specific account. 
+ * If successfully deposit, the money will be subtracted from customer's wallet(balance) to their chosen account.
  * @author ling
  *
  */

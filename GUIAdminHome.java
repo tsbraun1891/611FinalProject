@@ -7,7 +7,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 /**
- * This class represents the Admin Home Page window.
+ * This class represents the Admin Home Page window. 
+ * Admin can choose to get a daily report/ check up on a specific customer/ deal with loan request/ 
+ * or press advance one month button(to predict interest gains for saving accounts/loans).
  * @author ling
  *
  */

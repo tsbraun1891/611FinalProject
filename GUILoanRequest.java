@@ -9,7 +9,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 /**
- * This class represents the window that allows customer to request loan.
+ * This class represents the window that admin to deal with loan requests. 
+ * It will show the amount of fund that the admin has, and when admin chooses a specific loan request, its requested amount, currency type, 
+ * and the collateral will be shown. Admin can approve or deny the loan request depending on these info.
+ * 
  * @author ling
  *
  */

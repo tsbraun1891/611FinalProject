@@ -20,6 +20,10 @@ public class GUIViewTransactionHistory {
 	private JTable table;
 	private JFrame frame;
 	
+	/**
+	 * It shows the transaction history of the given BalanceHandler.
+	 * @param bh
+	 */
 	public GUIViewTransactionHistory(BalanceHandler bh) {
 		prepareUI();
 		ArrayList<Transaction> original = new ArrayList<Transaction>();
@@ -49,7 +53,7 @@ public class GUIViewTransactionHistory {
         setColWidth(table.getColumnModel());
 	}
 	/**
-	 * Admin checks up on specific customer given username. 
+	 * Admin checks up on specific customer given username. It will show the customer's accounts detail and loans detail.
 	 * @param user
 	 * @param ViewAccounts
 	 */
@@ -59,9 +63,8 @@ public class GUIViewTransactionHistory {
 	}
 	
 	/**
-	 * This builds a daily report.
+	 * This builds a daily report. It shows all the transactions happened today.
 	 */
-	
 	public GUIViewTransactionHistory(boolean dailyReport) {
 		prepareUI();
 		ArrayList<Transaction> original = new ArrayList<Transaction>();
@@ -104,6 +107,10 @@ public class GUIViewTransactionHistory {
         panel.add(transactionScroll, BorderLayout.CENTER);
 	}
 	
+	/**
+	 * It sets the column width of the given TableColumnModel
+	 * @param model
+	 */
 	public void setColWidth(TableColumnModel model) {
 		for(int i = 0; i<model.getColumnCount();i++) {
 			model.getColumn(i).setPreferredWidth(100);
@@ -171,7 +178,7 @@ public class GUIViewTransactionHistory {
         frame1.pack();
 		frame1.setVisible(true);
         
-        String[] headerDesc = {"Owner", "Loaner", "CurrencyDesc", "Balance", "IntRate","Approved","ID","Collatoral"};
+        String[] headerDesc = {"Owner", "Loaner", "CurrencyDesc", "Balance", "IntRate","Approved","ID","Collateral"};
         tableModel1.setColumnIdentifiers(headerDesc);
         JTable table1 = new JTable(tableModel1);
         table1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);

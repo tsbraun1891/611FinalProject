@@ -10,7 +10,9 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 /**
- * This class represents the window that allows customer to request loan.
+ * This class represents the window that allows customer to request loan. 
+ * After successfully submitted, the loan request will wait for Admin to approve/deny.
+ * If approved, the loan will be shown in View Acccount Home page and customer will be able to choose this loan and perform given actions.
  * @author ling
  *
  */

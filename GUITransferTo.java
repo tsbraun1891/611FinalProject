@@ -10,7 +10,9 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 /**
- * This class reprensents the window that allows customer to send money to other customers.
+ * This class represents the window that allows customer to send money to other customers. 
+ * Customer will send money from a specific account and enter recipient's username. 
+ * If successfully transferred money to the recipient, the moeny will goes to recipient's wallet(balance).
  * @author ling
  *
  */

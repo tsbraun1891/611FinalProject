@@ -6,7 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 /**
- * This class represents the Customer Home Page window.
+ * This class represents the Customer Home Page window. Each customer can view account/deposit/withdrawal/transfer/request loan/pay off loan/open new account/cash in/cash out.
  * @author ling
  *
  */

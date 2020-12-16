@@ -10,8 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 /**
- * This class represents the window that allows customer to withdraw money from account.
- * @author ling
+ * This class represents the window that allows customer to withdraw money from account. 
+ * If successfully deposit, the money will be subtracted from customer's chosen account to their wallet(balance). 
  *
  */
 public class GUIWithdrawal {

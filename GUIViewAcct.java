@@ -9,7 +9,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 /**
- * This class represents the window that allows customer to view accounts in details. Customer can view balance, view transaction history, and convert currency type for the account.
+ * This class represents the window that allows customer to view accounts in details. 
+ * Customer can choose a Balancehandler object(their existing wallet, accounts, loans), 
+ * and view its balance, view its transaction history, and convert its currency type.
  * @author ling
  *
  */

@@ -6,7 +6,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 /**
- * This class represents the window that allows customer to change currency type for a specific balance handler.
+ * This class represents the window that allows customer to change currency type for a specific balance handler. 
+ * Our bank support three currencies: USD, EURO, YEN
  * @author ling
  *
  */
